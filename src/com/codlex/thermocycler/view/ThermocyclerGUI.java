@@ -69,18 +69,27 @@ public class ThermocyclerGUI extends Application {
 			Scene scene = new Scene(this.rootLayout);
 			this.primaryStage.setScene(scene);
 			this.primaryStage.show();
-
+			
+			
 			TestController controller = loader.getController();
 			controller.setModel(this.thermocycler);
 			controller.bind();
+			
+			setScene(ThermocyclerScene.FillInBaths);
 
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
+	
+	
+	private void setScene(ThermocyclerScene scene) {
+		this.rootLayout.getChildren().set(0, scene.load(this.thermocycler));
+	}
 
 	@Override
 	public void start(Stage primaryStage) {
+		
 		this.thermocycler = new Thermocycler();
 		ThermocyclerWorker.start(thermocycler);
 		this.primaryStage = primaryStage;

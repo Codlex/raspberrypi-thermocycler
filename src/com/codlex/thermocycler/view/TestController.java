@@ -10,12 +10,15 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleButton;
+import javafx.scene.layout.Pane;
 import javafx.util.converter.NumberStringConverter;
 import lombok.extern.log4j.Log4j;
 
 @Log4j
 public class TestController {
-
+	@FXML
+	private Pane mainPane;
+	
 	@FXML
 	private Slider hotBathTemperature1Slider;
 
@@ -85,5 +88,9 @@ public class TestController {
 	private void start() {
 		log.debug("start clicked");
 		this.thermocycler.start();
+	}
+
+	public void showPane(Pane pane) {
+		this.mainPane = pane;
 	}
 }

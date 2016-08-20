@@ -81,4 +81,8 @@ public abstract class Bath {
 		logStatus();
 	}
 
+	public LevelSensor getLevelSensor() {
+		return this.level;
+	}
+
 }

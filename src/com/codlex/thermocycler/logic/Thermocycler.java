@@ -24,7 +24,10 @@ public class Thermocycler {
 	private StateLogic stateLogic;
 	private Translator translator;
 
+	@Getter
 	Bath coldBath;
+	
+	@Getter
 	Bath hotBath;
 
 	@Getter
