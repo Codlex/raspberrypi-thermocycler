@@ -29,80 +29,36 @@
  *
  * Copyright (C) Marcus Hirt, 2013
  */
-package to_rewrite;
+package com.codlex.thermocycler.hardware;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
 
 /**
- * DS18B20 type temperature sensor.
+ * A simple interface for a sensor.
  *
  * @author Marcus Hirt
  */
-public class DallasSensorDS18B20 implements Sensor {
-	private static File deriveValueFile(File sensorFile) {
-		return new File(sensorFile, "w1_slave");
-	}
-	private final File sensorFile;
+public interface Sensor {
+	/**
+	 * Cleans up any resources associated with this sensor.
+	 */
+	void dispose();
 
-	private final File valueFile;
+	/**
+	 * @return the identity of the sensor. The format of the ID depends on the
+	 *         kind of sensor. For example, Dallas protocol sensors will use
+	 *         their unique device ID. 2302 devices will have two sensors per
+	 *         device, the id consisting of the kind of sensor and the gpio-port
+	 *         used.
+	 */
+	String getID();
 
-	public DallasSensorDS18B20(File sensorFile) {
-		this.sensorFile = sensorFile;
-		this.valueFile = deriveValueFile(sensorFile);
-	}
-
-	@Override
-	public void dispose() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public String getID() {
-		return this.sensorFile.getName();
-	}
-
-	@Override
-	public PhysicalQuantity getPhysicalQuantity() {
-		return PhysicalQuantity.Temperature;
-	}
-
-	@Override
-	public String getUnitString() {
-		return "\u00B0C";
-	}
-
-	@Override
-	public Number getValue() throws IOException {
-		try (BufferedReader reader = new BufferedReader(
-				new FileReader(this.valueFile))) {
-			String tmp = reader.readLine();
-			int index = -1;
-			while (tmp != null) {
-				index = tmp.indexOf("t=");
-				if (index >= 0) {
-					break;
-				}
-				tmp = reader.readLine();
-			}
-			if (index < 0) {
-				throw new IOException("Could not read sensor " + getID());
-			}
-			return Integer.parseInt(tmp.substring(index + 2)) / 1000f;
-		}
-	}
-
-	@Override
-	public String toString() {
-		try {
-			return String.format("Sensor ID: %s, Temperature: %2.3fC", getID(),
-					getValue());
-		} catch (IOException e) {
-			return String.format("Sensor ID: %s - could not read temperature!C",
-					getID());
-		}
-	}
+	/**
+	 * The value of the sensor.
+	 *
+	 * @return the value of the sensor.
+	 * @throws IOException
+	 *             if there was a problem accessing the sensor.
+	 */
+	Number getValue() throws IOException;
 }

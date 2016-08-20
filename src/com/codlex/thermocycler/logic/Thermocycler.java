@@ -3,6 +3,7 @@ package com.codlex.thermocycler.logic;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import com.codlex.thermocycler.logic.bath.Bath;
+import com.codlex.thermocycler.logic.bath.BathFactory;
 
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -34,10 +35,10 @@ public class Thermocycler {
 	public AtomicBoolean isStarted = new AtomicBoolean(false);
 
 	public Thermocycler() {
-		// this.stateLogic = new StateLogic(this);
-		// this.coldBath = BathFactory.createCold();
-		// this.hotBath = BathFactory.createHot();
-		// this.translator = new Translator();
+		 this.stateLogic = new StateLogic(this);
+		 this.coldBath = BathFactory.createCold();
+		 this.hotBath = BathFactory.createHot();
+		 this.translator = new Translator();
 	}
 
 	void back() {

@@ -1,10 +1,13 @@
 package com.codlex.thermocycler.logic;
 
+import com.codlex.thermocycler.hardware.HardwareProvider;
+import com.codlex.thermocycler.hardware.Switch;
+
 public class Translator {
 
-	Switch power = new Switch(Settings.TranslatorPowerPin, false);
-	Switch toCold = new Switch(Settings.TranslatorToColdDirection);
-	Switch pulse = new Switch(Settings.TranslatorPulsePin);
+	Switch power = HardwareProvider.get().getSwitch(Settings.TranslatorPowerPin, false);
+	Switch toCold = HardwareProvider.get().getSwitch(Settings.TranslatorToColdDirection);
+	Switch pulse = HardwareProvider.get().getSwitch(Settings.TranslatorPulsePin);
 
 	State currentState = State.NotReady;
 

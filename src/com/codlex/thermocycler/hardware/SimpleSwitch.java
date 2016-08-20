@@ -1,4 +1,4 @@
-package com.codlex.thermocycler.logic;
+package com.codlex.thermocycler.hardware;
 
 import com.pi4j.io.gpio.GpioController;
 import com.pi4j.io.gpio.GpioFactory;
@@ -6,7 +6,7 @@ import com.pi4j.io.gpio.GpioPinDigitalOutput;
 import com.pi4j.io.gpio.Pin;
 import com.pi4j.io.gpio.PinState;
 
-public class Switch {
+public class SimpleSwitch implements Switch {
 
 	private enum SwitchState {
 		On, Off
@@ -20,11 +20,11 @@ public class Switch {
 	private PinState onCurrent;
 	private PinState offCurrent;
 
-	public Switch(Pin pinNumber) {
+	SimpleSwitch(Pin pinNumber) {
 		this(pinNumber, true);
 	};
 
-	public Switch(Pin pinNumber, boolean inverse) {
+	public SimpleSwitch(Pin pinNumber, boolean inverse) {
 		final GpioController gpio = GpioFactory.getInstance();
 
 		if (inverse) {
@@ -39,19 +39,10 @@ public class Switch {
 				getClass().getSimpleName(), this.offCurrent);
 	};
 
-	protected void off() {
-
-	}
-
-	protected void on() {
-
-	}
-
 	public void turnOff() {
 		if (this.state != SwitchState.Off) {
 			this.state = SwitchState.Off;
 			this.pin.setState(this.offCurrent);
-			off();
 		}
 	}
 
@@ -59,7 +50,6 @@ public class Switch {
 		if (this.state != SwitchState.On) {
 			this.state = SwitchState.On;
 			this.pin.setState(this.onCurrent);
-			on();
 		}
 	}
 }

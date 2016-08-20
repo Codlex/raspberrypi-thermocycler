@@ -29,50 +29,59 @@
  *
  * Copyright (C) Marcus Hirt, 2013
  */
-package to_rewrite;
+package com.codlex.thermocycler.hardware;
 
+import java.io.File;
 import java.io.IOException;
+import java.util.HashSet;
+import java.util.Optional;
+import java.util.Set;
+
+import lombok.Getter;
+import lombok.extern.log4j.Log4j;
 
 /**
- * A simple interface for a sensor.
+ * Main API entry point. Usage: {@link Sensors#getSensors()}.
  *
  * @author Marcus Hirt
  */
-public interface Sensor {
-	/**
-	 * Cleans up any resources associated with this sensor.
-	 */
-	void dispose();
+@Log4j
+class Sensors {
+	private static void addDallasSensors(Set<Sensor> sensors)
+			throws IOException {
+		File sensorFolder = new File("/sys/bus/w1/devices");
+		if (!sensorFolder.exists()) {
+			System.err.println(
+					"Modules w1-gpio do not seem to be enabled. If you want to use DS18[B|S]20 sensors, please enable them.");
+			return;
+		}
+		if (sensorFolder.list().length == 0) {
+			System.err.println(
+					"The w1-gpio module seem to be set up, but no DS18[B|S]20 devices were found. If no such devices are connected, this is fine. Otherwise please check to see that w1-therm is loaded, that you have added dtoverlay=w1-gpio to your /boot/config.txt, and that the devices are properly connected.");
+			return;
+		}
+		for (File f : sensorFolder.listFiles()) {
+			if (f.getName().startsWith("w1_bus_master")) {
+				continue;
+			}
+			DallasSensorDS18B20 sensor = new DallasSensorDS18B20(f);
+			sensors.add(sensor);
+		}
+	}
 
-	/**
-	 * @return the identity of the sensor. The format of the ID depends on the
-	 *         kind of sensor. For example, Dallas protocol sensors will use
-	 *         their unique device ID. 2302 devices will have two sensors per
-	 *         device, the id consisting of the kind of sensor and the gpio-port
-	 *         used.
-	 */
-	String getID();
+	public static Optional<Sensor> getSensorById(final String id) {
+		try {
+			return getSensors().stream()
+					.filter((sensor) -> id.equals(sensor.getID())).findFirst();
+		} catch (IOException e) {
+			log.error("Sensor not found", e);
+			return Optional.empty();
+		}
+	}
 
-	/**
-	 * @return the kind of physical quantity the value represents, for example
-	 *         Temperature.
-	 *
-	 * @see PhysicalQuantity
-	 */
-	PhysicalQuantity getPhysicalQuantity();
-
-	/**
-	 * @return the unit string post-fix to use when rendering the value, for
-	 *         example %.
-	 */
-	String getUnitString();
-
-	/**
-	 * The value of the sensor.
-	 *
-	 * @return the value of the sensor.
-	 * @throws IOException
-	 *             if there was a problem accessing the sensor.
-	 */
-	Number getValue() throws IOException;
+	public static Set<Sensor> getSensors() throws IOException {
+		Set<Sensor> sensors = new HashSet<Sensor>();
+		addDallasSensors(sensors);
+		return sensors;
+	}
 }

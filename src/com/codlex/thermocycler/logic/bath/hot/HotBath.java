@@ -1,7 +1,9 @@
 package com.codlex.thermocycler.logic.bath.hot;
 
+import com.codlex.thermocycler.hardware.HardwareProvider;
+import com.codlex.thermocycler.hardware.SimpleSwitch;
+import com.codlex.thermocycler.hardware.Switch;
 import com.codlex.thermocycler.logic.Settings;
-import com.codlex.thermocycler.logic.Switch;
 import com.codlex.thermocycler.logic.bath.Bath;
 
 import lombok.extern.log4j.Log4j;
@@ -21,8 +23,7 @@ public class HotBath extends Bath {
 
 		this.temperature = 30;
 		this.time = 10;
-		this.circulationWaterPump = new Switch(
-				Settings.HotBathCirculationWaterPump);
+		this.circulationWaterPump = HardwareProvider.get().getSwitch(Settings.HotBathCirculationWaterPump);
 		this.circulationWaterPump.turnOn();
 	}
 

@@ -1,4 +1,6 @@
-package to_rewrite;
+package com.codlex.thermocycler.hardware;
+
+import java.io.IOException;
 
 /**
  * Class to monitor distance measured by an HC-SR04 distance sensor on a
@@ -17,6 +19,7 @@ import com.pi4j.io.gpio.GpioPinDigitalOutput;
 import com.pi4j.io.gpio.Pin;
 import com.pi4j.io.gpio.RaspiPin;
 
+import javafx.util.Pair;
 import lombok.extern.log4j.Log4j;
 
 /**
@@ -25,7 +28,7 @@ import lombok.extern.log4j.Log4j;
  * @author Rutger Claes <rutger.claes@cs.kuleuven.be>
  */
 @Log4j
-public class DistanceMonitor {
+public class DistanceMonitorImpl implements Sensor {
 
 	/**
 	 * Exception thrown when timeout occurs
@@ -56,7 +59,7 @@ public class DistanceMonitor {
 	public static void main(String[] args) {
 		Pin echoPin = RaspiPin.GPIO_00; // PI4J custom numbering (pin 11)
 		Pin trigPin = RaspiPin.GPIO_07; // PI4J custom numbering (pin 7)
-		DistanceMonitor monitor = new DistanceMonitor(echoPin, trigPin);
+		DistanceMonitorImpl monitor = new DistanceMonitorImpl(echoPin, trigPin);
 
 		while (true) {
 			try {
@@ -78,7 +81,7 @@ public class DistanceMonitor {
 
 	private final GpioPinDigitalOutput trigPin;
 
-	public DistanceMonitor(Pin echoPin, Pin trigPin) {
+	DistanceMonitorImpl(Pin echoPin, Pin trigPin) {
 		this.echoPin = gpio.provisionDigitalInputPin(echoPin);
 		this.trigPin = gpio.provisionDigitalOutputPin(trigPin);
 		this.trigPin.low();
@@ -100,7 +103,7 @@ public class DistanceMonitor {
 
 	/**
 	 * @return the duration of the signal in micro seconds
-	 * @throws DistanceMonitor.TimeoutException
+	 * @throws DistanceMonitorImpl.TimeoutException
 	 *             if no low appears in time
 	 */
 	private long measureSignal() throws TimeoutException {
@@ -135,7 +138,7 @@ public class DistanceMonitor {
 	/**
 	 * Wait for a high on the echo pin
 	 *
-	 * @throws DistanceMonitor.TimeoutException
+	 * @throws DistanceMonitorImpl.TimeoutException
 	 *             if no high appears in time
 	 */
 	private void waitForSignal() throws TimeoutException {
@@ -147,6 +150,27 @@ public class DistanceMonitor {
 
 		if (countdown <= 0) {
 			throw new TimeoutException("Timeout waiting for signal start");
+		}
+	}
+
+	@Override
+	public void dispose() {
+		// do nothing for now
+	}
+
+	@Override
+	public String getID() {
+		// TODO: this is dummy implementations
+		return new Pair(this.echoPin.getPin(), this.trigPin.getPin()).toString();
+	}
+
+	@Override
+	public Number getValue() throws IOException {
+		try {
+			return measureDistance();
+		} catch (TimeoutException e) {
+			log.debug(e);
+			return -1;
 		}
 	}
 

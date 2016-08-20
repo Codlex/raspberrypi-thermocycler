@@ -2,7 +2,10 @@ package com.codlex.thermocycler.view;
 
 import java.io.IOException;
 
+import org.apache.log4j.BasicConfigurator;
+
 import com.codlex.thermocycler.logic.Thermocycler;
+import com.codlex.thermocycler.logic.ThermocyclerWorker;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -13,6 +16,7 @@ import javafx.stage.Stage;
 public class ThermocyclerGUI extends Application {
 
 	public static void main(String[] args) {
+		BasicConfigurator.configure();
 		launch(new String[0]);
 	}
 
@@ -76,7 +80,7 @@ public class ThermocyclerGUI extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 		this.thermocycler = new Thermocycler();
-		// ThermocyclerWorker.start(thermocycler);
+		ThermocyclerWorker.start(thermocycler);
 		this.primaryStage = primaryStage;
 		this.primaryStage.setTitle("Thermocycler");
 		// this.primaryStage.setFullScreen(true);

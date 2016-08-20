@@ -2,9 +2,10 @@ package com.codlex.thermocycler.logic.bath.sensors;
 
 import java.io.IOException;
 
+import com.codlex.thermocycler.hardware.HardwareProvider;
+import com.codlex.thermocycler.hardware.Sensor;
+
 import lombok.extern.log4j.Log4j;
-import to_rewrite.Sensor;
-import to_rewrite.Sensors;
 
 @Log4j
 public class TemperatureSensor {
@@ -12,7 +13,7 @@ public class TemperatureSensor {
 	private final Sensor sensor;
 
 	public TemperatureSensor(String sensorAddress) {
-		this.sensor = Sensors.getSensorById(sensorAddress).get();
+		this.sensor = HardwareProvider.get().getTemperatureSensor(sensorAddress);
 	}
 
 	public float getTemperature() {
