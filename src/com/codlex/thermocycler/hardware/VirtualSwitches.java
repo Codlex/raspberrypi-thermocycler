@@ -15,20 +15,20 @@ public class VirtualSwitches {
 	public static final VirtualSwitches get() {
 		return INSTANCE;
 	}
-	private final BooleanProperty codlBathCooler = new SimpleBooleanProperty();
-	private final BooleanProperty coldBathWaterPump = new SimpleBooleanProperty();
-	private final BooleanProperty hotBathCirculationWaterPump = new SimpleBooleanProperty();
-	private final BooleanProperty hotBathHeater = new SimpleBooleanProperty();
-	private final BooleanProperty hotBathWaterPump = new SimpleBooleanProperty();
-	private final BooleanProperty translatorPower = new SimpleBooleanProperty();
-	private final BooleanProperty translatorPulse = new SimpleBooleanProperty();
+	public final BooleanProperty coldBathCooler = new SimpleBooleanProperty();
+	public final BooleanProperty coldBathWaterPump = new SimpleBooleanProperty();
+	public final BooleanProperty hotBathCirculationWaterPump = new SimpleBooleanProperty();
+	public final BooleanProperty hotBathHeater = new SimpleBooleanProperty();
+	public final BooleanProperty hotBathWaterPump = new SimpleBooleanProperty();
+	public final BooleanProperty translatorPower = new SimpleBooleanProperty();
+	public final BooleanProperty translatorPulse = new SimpleBooleanProperty();
 
 	private final BooleanProperty translatorToCold = new SimpleBooleanProperty();
 
 	private final Map<Pin, Switch> switches = new HashMap<>();
 
 	private VirtualSwitches() {
-		addSwitch(Settings.ColdBathCoolerPin, this.codlBathCooler);
+		addSwitch(Settings.ColdBathCoolerPin, this.coldBathCooler);
 		addSwitch(Settings.ColdBathWaterPump, this.coldBathWaterPump);
 		addSwitch(Settings.HotBathCirculationWaterPump,
 				this.hotBathCirculationWaterPump);

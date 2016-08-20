@@ -11,6 +11,8 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 public class ThermocyclerGUI extends Application {
@@ -22,7 +24,7 @@ public class ThermocyclerGUI extends Application {
 
 	private Stage primaryStage;
 
-	private AnchorPane rootLayout;
+	private Pane rootLayout;
 
 	private Thermocycler thermocycler;
 
@@ -60,8 +62,8 @@ public class ThermocyclerGUI extends Application {
 			// Load root layout from fxml file.
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(
-					ThermocyclerGUI.class.getResource("TestScene.fxml"));
-			this.rootLayout = (AnchorPane) loader.load();
+					ThermocyclerGUI.class.getResource("RootScene.fxml"));
+			this.rootLayout = loader.load();
 
 			// Show the scene containing the root layout.
 			Scene scene = new Scene(this.rootLayout);

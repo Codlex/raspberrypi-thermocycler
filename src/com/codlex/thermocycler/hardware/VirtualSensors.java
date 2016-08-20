@@ -18,18 +18,19 @@ public class VirtualSensors {
 	public static VirtualSensors get() {
 		return INSTANCE;
 	}
-	private FloatProperty coldBathTemperature1 = new SimpleFloatProperty(20);
-	private FloatProperty coldBathTemperature2 = new SimpleFloatProperty(20);
-	private FloatProperty coldBathTemperatureAntifriz = new SimpleFloatProperty(
+	
+	public FloatProperty coldBathTemperature1 = new SimpleFloatProperty(20);
+	public FloatProperty coldBathTemperature2 = new SimpleFloatProperty(20);
+	public FloatProperty coldBathTemperatureAntifriz = new SimpleFloatProperty(
 			20);
 
-	private FloatProperty coldBathDistance = new SimpleFloatProperty(3);
-	private FloatProperty hotBathTemperature1 = new SimpleFloatProperty(20);
-	private FloatProperty hotBathTemperature2 = new SimpleFloatProperty(20);
-	private FloatProperty hotBathTemperatureSafety = new SimpleFloatProperty(
+	public FloatProperty coldBathDistance = new SimpleFloatProperty(3);
+	public FloatProperty hotBathTemperature1 = new SimpleFloatProperty(20);
+	public FloatProperty hotBathTemperature2 = new SimpleFloatProperty(20);
+	public FloatProperty hotBathTemperatureSafety = new SimpleFloatProperty(
 			20);
 
-	private FloatProperty hotBathDistance = new SimpleFloatProperty(3);
+	public FloatProperty hotBathDistance = new SimpleFloatProperty(3);
 
 	private final Map<String, Sensor> temperatureSensors = new HashMap<>();
 
