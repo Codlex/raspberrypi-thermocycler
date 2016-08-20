@@ -1,0 +1,46 @@
+package com.codlex.thermocycler.logic.bath.hot;
+
+import com.codlex.thermocycler.logic.Settings;
+import com.codlex.thermocycler.logic.Switch;
+import com.codlex.thermocycler.logic.bath.Bath;
+
+import lombok.extern.log4j.Log4j;
+
+@Log4j
+public class HotBath extends Bath {
+
+	Heater heater;
+	Switch circulationWaterPump;
+
+	public HotBath() {
+		super(Settings.HotBathTemperatureSensor1,
+				Settings.HotBathTemperatureSensor2,
+				Settings.HotBathLevelEchoPin, Settings.HotBathLevelTriggerPin,
+				Settings.HotBathWaterPump);
+		this.heater = new Heater(Settings.HotBathHeaterPin);
+
+		this.temperature = 30;
+		this.time = 10;
+		this.circulationWaterPump = new Switch(
+				Settings.HotBathCirculationWaterPump);
+		this.circulationWaterPump.turnOn();
+	}
+
+	@Override
+	public void keepTemperature() {
+		// TOOD: check this
+		if (getCurrentTemperature() < this.temperature) {
+			this.heater.turnOn();
+		} else {
+			this.heater.turnOff();
+		}
+	}
+
+	@Override
+	public void logStatus() {
+		log.debug("HotBathStatus(temp1="
+				+ this.temperatureSensor1.getTemperature() + ", temp2="
+				+ this.temperatureSensor2.getTemperature() + ", level="
+				+ this.level.getPercentageFilled() + ")");
+	}
+}
