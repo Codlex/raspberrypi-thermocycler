@@ -6,6 +6,7 @@ import com.codlex.thermocycler.hardware.HardwareProvider;
 import com.codlex.thermocycler.hardware.Sensor;
 import com.pi4j.io.gpio.Pin;
 
+import javafx.application.Platform;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleDoubleProperty;
@@ -38,8 +39,10 @@ public class LevelSensor {
 		float filledCM = this.emptyDistance - distanceFromWater;
 		int integerValue = (int) ((filledCM / this.emptyDistance) * 100);
 		
-		this.property.set(integerValue);
-		this.doubleProperty.set(integerValue / 100.0);
+		Platform.runLater(() -> {
+			this.property.set(integerValue);
+			this.doubleProperty.set(integerValue / 100.0);
+		});
 		
 		return property.get();
 	}

@@ -56,6 +56,12 @@ public class TestController {
 	private ToggleButton coldBathCooler;
 
 	private Thermocycler thermocycler;
+	
+	@FXML
+	private Slider hotBathLevelSlider;
+	
+	@FXML
+	private Slider coldBathLevelSlider;
 
 	@FXML
 	private TextField cycles;
@@ -64,11 +70,14 @@ public class TestController {
 		bind(VirtualSensors.get().hotBathTemperature1, this.hotBathTemperature1Slider, this.hotBathTemperature1Field);
 		bind(VirtualSensors.get().hotBathTemperature2, this.hotBathTemperature2Slider, this.hotBathTemperature2Field);
 		bind(VirtualSwitches.get().hotBathHeater, this.hotBathHeater);
-		
+		VirtualSensors.get().hotBathDistance.bindBidirectional(this.hotBathLevelSlider.valueProperty());
+
 		bind(VirtualSensors.get().coldBathTemperature1, this.coldBathTemperature1Slider, this.coldBathTemperature1Field);
 		bind(VirtualSensors.get().coldBathTemperature2, this.coldBathTemperature2Slider, this.coldBathTemperature2Field);
 		bind(VirtualSensors.get().coldBathTemperatureAntifriz, this.coldBathTemperatureAntifrizSlider, this.coldBathTemperatureAntifrizField);
 		bind(VirtualSwitches.get().coldBathCooler, this.coldBathCooler);
+		VirtualSensors.get().coldBathDistance.bindBidirectional(this.coldBathLevelSlider.valueProperty());
+
 	}
 
 	private void bind(BooleanProperty sensor, ToggleButton button) {

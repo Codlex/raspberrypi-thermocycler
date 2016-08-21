@@ -7,7 +7,6 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.GridPane?>
 
-
 <HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.codlex.thermocycler.view.TestController">
    <children>
       <Pane fx:id="mainPane" prefHeight="400.0" prefWidth="430.0">
@@ -56,6 +55,7 @@
                </children>
             </HBox>
             <ToggleButton fx:id="hotBathHeater" mnemonicParsing="false" text="Heater" />
+            <Slider fx:id="hotBathLevelSlider" blockIncrement="1.0" max="25.0" showTickLabels="true" showTickMarks="true" value="1.0" />
             <Separator prefWidth="200.0" />
             <Label text="ColdBath">
                <font>
@@ -111,6 +111,7 @@
                </children>
             </HBox>
             <ToggleButton fx:id="coldBathCooler" mnemonicParsing="false" text="Cooler" />
+            <Slider fx:id="coldBathLevelSlider" blockIncrement="1.0" max="25.0" showTickLabels="true" showTickMarks="true" value="1.0" />
          </children>
       </VBox>
    </children>
