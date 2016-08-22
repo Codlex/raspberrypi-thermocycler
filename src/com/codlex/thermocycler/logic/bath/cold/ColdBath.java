@@ -21,8 +21,8 @@ public class ColdBath extends Bath {
 		this.antifrizTemperature = new TemperatureSensor(
 				Settings.ColdBathTemperatureSensorAntifriz);
 
-		this.temperature = 30;
-		this.time = 9;
+		this.temperature.set(30);
+		this.time.set(9);
 	}
 
 	@Override
@@ -36,7 +36,7 @@ public class ColdBath extends Bath {
 		// (wanted_temperature - epsOn)
 		float epsOn = 1;
 		boolean turnOn = this.antifrizTemperature
-				.getTemperature() > this.temperature - epsOn;
+				.getTemperature() > this.temperature.get() - epsOn;
 
 		if (turnOn) {
 			this.cooler.turnOn();
@@ -46,7 +46,7 @@ public class ColdBath extends Bath {
 		// OR antifriz temperature goes below (wanted_temperature - epsOff)
 		float epsOff = 4;
 		boolean turnOff = this.antifrizTemperature
-				.getTemperature() < this.temperature - epsOff;
+				.getTemperature() < this.temperature.get() - epsOff;
 
 		if (turnOff) {
 			this.cooler.turnOff();

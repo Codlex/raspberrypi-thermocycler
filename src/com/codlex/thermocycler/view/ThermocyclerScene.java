@@ -10,8 +10,14 @@ import lombok.extern.log4j.Log4j;
 
 @Log4j
 public enum ThermocyclerScene {
-	FillInBaths;
-	
+	FillInBaths, 
+	FillRefillTanks, 
+	PutSpecimen,
+	HotBathConfiguration,
+	ColdBathConfiguration,
+//	CyclesConfiguration,
+//	CycingInProgress
+	;
 	
 	private final FXMLLoader loader;
 	
@@ -21,17 +27,41 @@ public enum ThermocyclerScene {
 	}
 	
 	
+	public ThermocyclerScene previousScene() {
+		if (!hasPreviousScene()) {
+			throw new RuntimeException(name() + " doesn't have previous scene!");
+		}
+		
+		return values()[ordinal() - 1];
+	}
+	
+	private boolean hasPreviousScene() {
+		return ordinal() != 0;
+	}
+
+	public ThermocyclerScene nextScene() {
+		if (!hasNextScene()) {
+			throw new RuntimeException(name() + " doesn't have next scene!");
+		}
+		return values()[ordinal() + 1];
+	}
+	
+	public boolean hasNextScene() {
+		return ordinal() !=  values().length - 1;
+	}
+	
 	@SuppressWarnings("unchecked")
 	public <T> T getController() {
 		return (T) this.loader.getController();
 	}
 	
-	public Pane load(Thermocycler thermocycler) {
+	public Pane load(Thermocycler thermocycler, ThermocyclerGUI gui) {
 		
 		try {
 			Pane pane = this.loader.load();
 			ThermocyclerController controller = this.loader.getController();
 			controller.setModel(thermocycler);
+			controller.setGui(gui);
 			return pane;
 		} catch (IOException e) {
 			log.debug(e);

@@ -6,6 +6,7 @@ import com.codlex.thermocycler.logic.bath.sensors.TemperatureSensor;
 import com.pi4j.io.gpio.Pin;
 
 import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.Property;
 import javafx.beans.property.SimpleIntegerProperty;
 import lombok.extern.log4j.Log4j;
 
@@ -16,12 +17,11 @@ public abstract class Bath {
 
 	protected TemperatureSensor temperatureSensor2;
 
-	protected IntegerProperty temp = new SimpleIntegerProperty();
+	private WaterPump pump;
 
-	WaterPump pump;
-	protected int temperature = 0;
+	protected IntegerProperty temperature = new SimpleIntegerProperty();
 
-	public long time = 0;
+	public IntegerProperty time = new SimpleIntegerProperty();
 
 	protected LevelSensor level;
 
@@ -50,14 +50,13 @@ public abstract class Bath {
 	}
 
 	public boolean isTemperatureOK() {
-		return true;
-		// float minTemperature = this.temperature -
-		// Settings.TemperatureEpsilon;
-		// float maxTemperature = this.temperature +
-		// Settings.TemperatureEpsilon;
-		// float currentTemperature = getCurrentTemperature();
-		// return minTemperature <= currentTemperature
-		// && currentTemperature <= maxTemperature;
+		float minTemperature = this.temperature.get()
+				- Settings.TemperatureEpsilon;
+		float maxTemperature = this.temperature.get()
+				+ Settings.TemperatureEpsilon;
+		float currentTemperature = getCurrentTemperature();
+		return minTemperature <= currentTemperature
+				&& currentTemperature <= maxTemperature;
 	}
 
 	public void keepLevel() {
@@ -83,6 +82,14 @@ public abstract class Bath {
 
 	public LevelSensor getLevelSensor() {
 		return this.level;
+	}
+
+	public IntegerProperty getTemperatureProperty() {
+		return this.temperature;
+	}
+
+	public IntegerProperty getTimeProperty() {
+		return this.time;
 	}
 
 }

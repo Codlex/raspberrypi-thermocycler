@@ -74,9 +74,9 @@ public class StateLogic {
 	long getTargetImmersionTime() {
 		// ASSERT state in (ColdBath, HotBath)
 		if (this.currentState == State.ColdBath) {
-			return TimeUnit.SECONDS.toMillis(this.thermocycler.coldBath.time);
+			return TimeUnit.SECONDS.toMillis(this.thermocycler.coldBath.time.get());
 		} else { // this.currentState == HotBath
-			return TimeUnit.SECONDS.toMillis(this.thermocycler.hotBath.time);
+			return TimeUnit.SECONDS.toMillis(this.thermocycler.hotBath.time.get());
 		}
 	}
 

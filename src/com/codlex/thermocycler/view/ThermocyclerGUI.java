@@ -10,8 +10,6 @@ import com.codlex.thermocycler.logic.ThermocyclerWorker;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
@@ -27,6 +25,8 @@ public class ThermocyclerGUI extends Application {
 	private Pane rootLayout;
 
 	private Thermocycler thermocycler;
+
+	private ThermocyclerScene currentScene;
 
 	/**
 	 * Returns the main stage.
@@ -84,7 +84,13 @@ public class ThermocyclerGUI extends Application {
 	
 	
 	private void setScene(ThermocyclerScene scene) {
-		this.rootLayout.getChildren().set(0, scene.load(this.thermocycler));
+		this.currentScene = scene;
+		Pane pane = scene.load(this.thermocycler, this);
+		this.rootLayout.getChildren().set(0, pane);
+	}
+	
+	public void nextScene() {
+		setScene(this.currentScene.nextScene());
 	}
 
 	@Override
@@ -98,6 +104,10 @@ public class ThermocyclerGUI extends Application {
 		initRootLayout();
 
 		// showPersonOverview();
+	}
+
+	public void previousScene() {
+		setScene(this.currentScene.previousScene());
 	}
 
 }

@@ -21,8 +21,8 @@ public class HotBath extends Bath {
 				Settings.HotBathWaterPump);
 		this.heater = new Heater(Settings.HotBathHeaterPin);
 
-		this.temperature = 30;
-		this.time = 10;
+		this.temperature.set(30);
+		this.time.set(10);
 		this.circulationWaterPump = HardwareProvider.get().getSwitch(Settings.HotBathCirculationWaterPump);
 		this.circulationWaterPump.turnOn();
 	}
@@ -30,7 +30,7 @@ public class HotBath extends Bath {
 	@Override
 	public void keepTemperature() {
 		// TOOD: check this
-		if (getCurrentTemperature() < this.temperature) {
+		if (getCurrentTemperature() < this.temperature.get()) {
 			this.heater.turnOn();
 		} else {
 			this.heater.turnOff();
