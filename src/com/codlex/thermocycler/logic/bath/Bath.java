@@ -5,9 +5,13 @@ import com.codlex.thermocycler.logic.bath.sensors.LevelSensor;
 import com.codlex.thermocycler.logic.bath.sensors.TemperatureSensor;
 import com.pi4j.io.gpio.Pin;
 
+import javafx.application.Platform;
+import javafx.beans.property.FloatProperty;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.Property;
+import javafx.beans.property.SimpleFloatProperty;
 import javafx.beans.property.SimpleIntegerProperty;
+import lombok.Getter;
 import lombok.extern.log4j.Log4j;
 
 @Log4j
@@ -25,6 +29,9 @@ public abstract class Bath {
 
 	protected LevelSensor level;
 
+	@Getter
+	private FloatProperty currentTemperatureProperty = new SimpleFloatProperty();
+	
 	public Bath(String temperatureSensorIndex1, String temperatureSensorIndex2,
 			Pin levelEchoPin, Pin levelTriggerPin, Pin waterPumpPin) {
 		this.temperatureSensor1 = new TemperatureSensor(
@@ -36,11 +43,19 @@ public abstract class Bath {
 		this.pump = new WaterPump(waterPumpPin);
 	}
 
-	protected float getCurrentTemperature() {
+	public synchronized float getCurrentTemperature() {
 		float sum = this.temperatureSensor1.getTemperature();
 		sum += this.temperatureSensor2.getTemperature();
-		return sum / 2;
+		float averageTemp = sum / 2;
+		
+		Platform.runLater(() -> {
+			System.out.println("UPDATED!" + averageTemp);
+			this.currentTemperatureProperty.setValue(averageTemp);
+		});
+		
+		return averageTemp;
 	}
+	
 	public boolean isLevelOK() {
 		int minimumLevel = Settings.BathMinimumLevel - Settings.LevelEpsilon;
 		return this.level.getPercentageFilled() > minimumLevel;
@@ -75,6 +90,8 @@ public abstract class Bath {
 	public abstract void logStatus();
 
 	public void update(long deltaT) {
+		//TODO: fix this, this is to initialize values
+		getCurrentTemperature();
 		keepTemperature();
 		keepLevel();
 		logStatus();

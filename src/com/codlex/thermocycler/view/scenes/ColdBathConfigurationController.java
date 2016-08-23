@@ -9,9 +9,5 @@ public class ColdBathConfigurationController extends AbstractBathController {
 		return this.thermocycler.getColdBath();
 	}
 	
-	
-	@Override
-	protected void onNextClick() {
-		this.thermocycler.start();
-	}
+
 }

@@ -10,10 +10,10 @@ public abstract class ThermocyclerController {
 	protected ThermocyclerGUI gui;
 	
 	@FXML
-	private Button nextButton;
+	protected Button nextButton;
 	
 	@FXML
-	private Button backButton;
+	protected Button backButton;
 	
 	public final void setModel(Thermocycler thermocycler) {
 		this.thermocycler = thermocycler;
@@ -27,7 +27,6 @@ public abstract class ThermocyclerController {
 	
 	@FXML
 	protected void onNextClick() {
-		System.out.println("NEXT CLICKED");
 		this.gui.nextScene();
 	}
 	

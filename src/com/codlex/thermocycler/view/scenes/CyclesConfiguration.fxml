@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.codlex.thermocycler.view.scenes.CyclesConfiguration">
+   <children>
+      <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="80.0" text="Number of cycles" textAlignment="CENTER" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <font>
+            <Font size="36.0" />
+         </font>
+      </Label>
+      <Pane prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="80.0">
+         <children>
+            <VBox alignment="CENTER" prefHeight="270.0" prefWidth="600.0">
+               <children>
+                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <VBox prefHeight="180.0" prefWidth="70.0">
+                           <children>
+                              <Button fx:id="increment100000" mnemonicParsing="false" text="▲">
+                                 <font>
+                                    <Font size="36.0" />
+                                 </font>
+                              </Button>
+                              <Label fx:id="digit100000" alignment="CENTER" contentDisplay="CENTER" prefHeight="44.0" prefWidth="70.0" text="0" textAlignment="CENTER">
+                                 <font>
+                                    <Font size="64.0" />
+                                 </font>
+                                 <opaqueInsets>
+                                    <Insets bottom="-10.0" />
+                                 </opaqueInsets>
+                              </Label>
+                              <Button fx:id="decrement100000" mnemonicParsing="false" text="▼">
+                                 <font>
+                                    <Font size="36.0" />
+                                 </font>
+                              </Button>
+                           </children>
+                        </VBox>
+                        <VBox prefHeight="180.0" prefWidth="70.0">
+                           <children>
+                              <Button fx:id="increment10000" mnemonicParsing="false" text="▲">
+                                 <font>
+                                    <Font size="36.0" />
+                                 </font>
+                              </Button>
+                              <Label fx:id="digit10000" alignment="CENTER" contentDisplay="CENTER" prefHeight="44.0" prefWidth="70.0" text="0" textAlignment="CENTER">
+                                 <font>
+                                    <Font size="64.0" />
+                                 </font>
+                                 <opaqueInsets>
+                                    <Insets bottom="-10.0" />
+                                 </opaqueInsets>
+                              </Label>
+                              <Button fx:id="decrement10000" mnemonicParsing="false" text="▼">
+                                 <font>
+                                    <Font size="36.0" />
+                                 </font>
+                              </Button>
+                           </children>
+                        </VBox>
+                        <VBox prefHeight="180.0" prefWidth="70.0">
+                           <children>
+                              <Button fx:id="increment1000" mnemonicParsing="false" text="▲">
+                                 <font>
+                                    <Font size="36.0" />
+                                 </font>
+                              </Button>
+                              <Label fx:id="digit1000" alignment="CENTER" contentDisplay="CENTER" prefHeight="44.0" prefWidth="70.0" text="0" textAlignment="CENTER">
+                                 <font>
+                                    <Font size="64.0" />
+                                 </font>
+                                 <opaqueInsets>
+                                    <Insets bottom="-10.0" />
+                                 </opaqueInsets>
+                              </Label>
+                              <Button fx:id="decrement1000" mnemonicParsing="false" text="▼">
+                                 <font>
+                                    <Font size="36.0" />
+                                 </font>
+                              </Button>
+                           </children>
+                        </VBox>
+                        <VBox prefHeight="180.0" prefWidth="70.0">
+                           <children>
+                              <Button fx:id="increment100" mnemonicParsing="false" text="▲">
+                                 <font>
+                                    <Font size="36.0" />
+                                 </font>
+                              </Button>
+                              <Label fx:id="digit100" alignment="CENTER" contentDisplay="CENTER" prefHeight="44.0" prefWidth="70.0" text="0" textAlignment="CENTER">
+                                 <font>
+                                    <Font size="64.0" />
+                                 </font>
+                                 <opaqueInsets>
+                                    <Insets bottom="-10.0" />
+                                 </opaqueInsets>
+                              </Label>
+                              <Button fx:id="decrement100" mnemonicParsing="false" text="▼">
+                                 <font>
+                                    <Font size="36.0" />
+                                 </font>
+                              </Button>
+                           </children>
+                        </VBox>
+                        <VBox prefHeight="180.0" prefWidth="70.0">
+                           <children>
+                              <Button fx:id="increment10" mnemonicParsing="false" text="▲">
+                                 <font>
+                                    <Font size="36.0" />
+                                 </font>
+                              </Button>
+                              <Label fx:id="digit10" alignment="CENTER" contentDisplay="CENTER" prefHeight="44.0" prefWidth="70.0" text="0" textAlignment="CENTER">
+                                 <font>
+                                    <Font size="64.0" />
+                                 </font>
+                                 <opaqueInsets>
+                                    <Insets bottom="-10.0" />
+                                 </opaqueInsets>
+                              </Label>
+                              <Button fx:id="decrement10" mnemonicParsing="false" text="▼">
+                                 <font>
+                                    <Font size="36.0" />
+                                 </font>
+                              </Button>
+                           </children>
+                        </VBox>
+                        <VBox prefHeight="180.0" prefWidth="70.0">
+                           <children>
+                              <Button fx:id="increment1" mnemonicParsing="false" text="▲">
+                                 <font>
+                                    <Font size="36.0" />
+                                 </font>
+                              </Button>
+                              <Label fx:id="digit1" alignment="CENTER" contentDisplay="CENTER" prefHeight="44.0" prefWidth="70.0" text="0" textAlignment="CENTER">
+                                 <font>
+                                    <Font size="64.0" />
+                                 </font>
+                                 <opaqueInsets>
+                                    <Insets bottom="-10.0" />
+                                 </opaqueInsets>
+                              </Label>
+                              <Button fx:id="decrement1" mnemonicParsing="false" text="▼">
+                                 <font>
+                                    <Font size="36.0" />
+                                 </font>
+                              </Button>
+                           </children>
+                        </VBox>
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+         </children>
+      </Pane>
+      <Button fx:id="nextButton" disable="true" mnemonicParsing="false" onMouseClicked="#onNextClick" prefHeight="50.0" text="Next" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Button>
+   </children>
+</AnchorPane>

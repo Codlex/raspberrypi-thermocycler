@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.codlex.thermocycler.view.scenes.ThermocyclerOverviewController">
+   <children>
+      <Label fx:id="title" text="Thermocycler overview" textAlignment="CENTER">
+         <font>
+            <Font size="36.0" />
+         </font>
+         <VBox.margin>
+            <Insets bottom="20.0" left="50.0" right="50.0" top="20.0" />
+         </VBox.margin>
+      </Label>
+      <Separator prefWidth="200.0" />
+      <HBox alignment="CENTER" spacing="50.0">
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+         <children>
+            <VBox alignment="CENTER" style="-fx-fill-width: true;">
+               <children>
+                  <Label text="Hot Bath" textAlignment="CENTER">
+                     <font>
+                        <Font size="36.0" />
+                     </font>
+                  </Label>
+                  <Label text="Temperature" textAlignment="CENTER">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="hotBathTemperature" text="100" textAlignment="CENTER">
+                     <font>
+                        <Font size="36.0" />
+                     </font>
+                  </Label>
+                  <Label text="Immersion time" textAlignment="CENTER">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="hotBathTime" text="10:00" textAlignment="CENTER">
+                     <font>
+                        <Font size="36.0" />
+                     </font>
+                  </Label>
+               </children>
+               <padding>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </padding>
+            </VBox>
+            <VBox alignment="CENTER" style="-fx-fill-width: true;">
+               <children>
+                  <Label text="Cold Bath" textAlignment="CENTER">
+                     <font>
+                        <Font size="36.0" />
+                     </font>
+                  </Label>
+                  <Label text="Temperature" textAlignment="CENTER">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="coldBathTemperature" text="100" textAlignment="CENTER">
+                     <font>
+                        <Font size="36.0" />
+                     </font>
+                  </Label>
+                  <Label text="Immersion time" textAlignment="CENTER">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="coldBathTime" text="10:00" textAlignment="CENTER">
+                     <font>
+                        <Font size="36.0" />
+                     </font>
+                  </Label>
+               </children>
+               <padding>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </padding>
+            </VBox>
+         </children>
+      </HBox>
+      <Label text="Number of cycles:" textAlignment="CENTER">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
+      <Label fx:id="cycles" text="100" textAlignment="CENTER">
+         <font>
+            <Font size="36.0" />
+         </font>
+      </Label>
+      <Button fx:id="nextButton" disable="true" mnemonicParsing="false" onMouseClicked="#onNextClick" prefHeight="44.0" prefWidth="600.0" text="START">
+         <VBox.margin>
+            <Insets />
+         </VBox.margin>
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Button>
+   </children>
+</VBox>

@@ -15,7 +15,8 @@ public enum ThermocyclerScene {
 	PutSpecimen,
 	HotBathConfiguration,
 	ColdBathConfiguration,
-//	CyclesConfiguration,
+	CyclesConfiguration,
+	ThermocyclerOverview,
 //	CycingInProgress
 	;
 	

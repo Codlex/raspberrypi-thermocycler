@@ -75,7 +75,7 @@ public class ThermocyclerGUI extends Application {
 			controller.setModel(this.thermocycler);
 			controller.bind();
 			
-			setScene(ThermocyclerScene.FillInBaths);
+			setScene(ThermocyclerScene.CyclesConfiguration);
 
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -86,6 +86,10 @@ public class ThermocyclerGUI extends Application {
 	private void setScene(ThermocyclerScene scene) {
 		this.currentScene = scene;
 		Pane pane = scene.load(this.thermocycler, this);
+		if (pane == null) {
+			throw new RuntimeException(scene.name() + " couldn't be loaded!");
+		}
+		
 		this.rootLayout.getChildren().set(0, pane);
 	}
 	
