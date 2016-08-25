@@ -10,6 +10,7 @@ import com.codlex.thermocycler.logic.ThermocyclerWorker;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
@@ -37,23 +38,6 @@ public class ThermocyclerGUI extends Application {
 		return this.primaryStage;
 	}
 
-	// /**
-	// * Shows the person overview inside the root layout.
-	// */
-	// public void showPersonOverview() {
-	// try {
-	// // Load person overview.
-	// FXMLLoader loader = new FXMLLoader();
-	// loader.setLocation(MainApp.class.getResource("view/PersonOverview.fxml"));
-	// AnchorPane personOverview = (AnchorPane) loader.load();
-	//
-	// // Set person overview into the center of root layout.
-	// rootLayout.setCenter(personOverview);
-	// } catch (IOException e) {
-	// e.printStackTrace();
-	// }
-	// }
-
 	/**
 	 * Initializes the root layout.
 	 */
@@ -67,6 +51,7 @@ public class ThermocyclerGUI extends Application {
 
 			// Show the scene containing the root layout.
 			Scene scene = new Scene(this.rootLayout);
+			this.primaryStage.setFullScreen(true);
 			this.primaryStage.setScene(scene);
 			this.primaryStage.show();
 			
@@ -75,7 +60,7 @@ public class ThermocyclerGUI extends Application {
 			controller.setModel(this.thermocycler);
 			controller.bind();
 			
-			setScene(ThermocyclerScene.CyclesConfiguration);
+			setScene(ThermocyclerScene.FillInBaths);
 
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -91,6 +76,11 @@ public class ThermocyclerGUI extends Application {
 		}
 		
 		this.rootLayout.getChildren().set(0, pane);
+		
+		AnchorPane.setTopAnchor(pane,0.0);
+		AnchorPane.setBottomAnchor(pane,0.0);
+		AnchorPane.setLeftAnchor(pane,0.0);
+		AnchorPane.setRightAnchor(pane, 300.0);
 	}
 	
 	public void nextScene() {

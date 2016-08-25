@@ -6,7 +6,7 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.codlex.thermocycler.view.scenes.FillInBathsController">
+<VBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.codlex.thermocycler.view.scenes.FillInBathsController">
    <children>
       <Label text="Fill in baths" textAlignment="CENTER">
          <font>
@@ -21,7 +21,7 @@
          <children>
             <VBox alignment="TOP_CENTER">
                <children>
-                  <Label text="Cold Bath">
+                  <Label text="Cold Basth">
                      <font>
                         <Font size="24.0" />
                      </font>

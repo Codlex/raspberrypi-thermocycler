@@ -29,7 +29,7 @@ public class ThermocyclerOverviewController extends ThermocyclerController {
 
 	private boolean isWarmup;
 	
-	private static final String temperatureSensorFormat = "%.2f°C / %s";
+	private static final String temperatureSensorFormat = "%.0f°C / %s";
 
 	private static final String temperatureFormat = "%d°C";
 	
