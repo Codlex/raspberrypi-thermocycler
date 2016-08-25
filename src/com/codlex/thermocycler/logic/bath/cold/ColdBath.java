@@ -21,7 +21,7 @@ public class ColdBath extends Bath {
 		this.antifrizTemperature = new TemperatureSensor(
 				Settings.ColdBathTemperatureSensorAntifriz);
 
-		this.temperature.set(30);
+		this.temperature.set(20);
 		this.time.set(9);
 	}
 

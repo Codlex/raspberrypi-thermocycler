@@ -2,28 +2,22 @@ package com.codlex.thermocycler.logic;
 
 import java.util.concurrent.TimeUnit;
 
+import javafx.application.Platform;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
+import lombok.Getter;
 import lombok.extern.log4j.Log4j;
 
 @Log4j
 public class StateLogic {
 
-	static String StateToString(State state) {
-		switch (state) {
-			case NotReady :
-				return "NotReady";
-			case HotBath :
-				return "HotBath";
-			case ColdBath :
-				return "ColdBath";
-			case Finished :
-				return "Finished";
-			default :
-				return "StateNameNotFound!";
-		}
-	}
+	
 	Thermocycler thermocycler;
-	State currentState = State.NotReady;
+	State currentState = State.NotStarted;
 	long time = 0;
+	
+	@Getter
+	ObjectProperty<State> stateProperty = new SimpleObjectProperty<>(this.currentState);
 
 	long immersionStart = 0;
 
@@ -35,15 +29,20 @@ public class StateLogic {
 		this.thermocycler = thermocycler;
 	}
 
-	long calculateImmersionTime() {
+	public long calculateImmersionTime() {
 		return this.time - this.immersionStart;
 	}
 
-	void changeState(State state) {
+	void changeState(final State state) {
 		log.debug("STATE_CHANGE [" + this.currentState.toString() + "] . ["
 				+ state.toString() + "]");
 
 		this.currentState = state;
+		
+		Platform.runLater(()->{
+			this.stateProperty.set(state);
+		});
+		
 		switch (state) {
 			case HotBath :
 				this.hotBathImmersionCount++;
@@ -71,6 +70,7 @@ public class StateLogic {
 	State getCurrentState() {
 		return this.currentState;
 	}
+	
 	long getTargetImmersionTime() {
 		// ASSERT state in (ColdBath, HotBath)
 		if (this.currentState == State.ColdBath) {
@@ -118,6 +118,9 @@ public class StateLogic {
 		this.time += delta;
 
 		switch (this.currentState) {
+			case NotStarted:
+				processNotStarted();
+				break;
 			case NotReady :
 				processNotReady();
 				break;
@@ -127,8 +130,22 @@ public class StateLogic {
 			case ColdBath :
 				processCycling();
 				break;
+			case Finished :
+				break;
+			default :
+				log.error("Unknown state.");
+				break;
 
 		}
 	}
 
+	private void processNotStarted() {
+		if (this.thermocycler.isStarted.get()) {
+			changeState(State.NotReady);
+		}
+	}
+	
+	public int getCurrenCycle() {
+		return (int) this.hotBathImmersionCount - 1;
+	}
 }

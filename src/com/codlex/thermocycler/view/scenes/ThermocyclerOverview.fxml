@@ -24,7 +24,7 @@
          <children>
             <VBox alignment="CENTER" style="-fx-fill-width: true;">
                <children>
-                  <Label text="Hot Bath" textAlignment="CENTER">
+                  <Label fx:id="hotBathTitle" text="Hot Bath" textAlignment="CENTER">
                      <font>
                         <Font size="36.0" />
                      </font>
@@ -56,7 +56,7 @@
             </VBox>
             <VBox alignment="CENTER" style="-fx-fill-width: true;">
                <children>
-                  <Label text="Cold Bath" textAlignment="CENTER">
+                  <Label fx:id="coldBathTitle" text="Cold Bath" textAlignment="CENTER">
                      <font>
                         <Font size="36.0" />
                      </font>

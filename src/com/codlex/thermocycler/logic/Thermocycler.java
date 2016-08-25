@@ -1,5 +1,6 @@
 package com.codlex.thermocycler.logic;
 
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import com.codlex.thermocycler.logic.bath.Bath;
@@ -21,9 +22,12 @@ public class Thermocycler {
 	static int CYCLES = 5;
 	static int START = 6;
 	static int STARTED = 7;
+	
+	@Getter
 	private StateLogic stateLogic;
 	private Translator translator;
-
+	
+	
 	@Getter
 	Bath coldBath;
 	
@@ -139,5 +143,9 @@ public class Thermocycler {
 			this.hotBath.logStatus();
 			this.coldBath.logStatus();
 		}
+	}
+	
+	public int getTimeLeft() {
+		 return (int) TimeUnit.MILLISECONDS.toSeconds(this.stateLogic.getTargetImmersionTime() - this.stateLogic.calculateImmersionTime());
 	}
 }

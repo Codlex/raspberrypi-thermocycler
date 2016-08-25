@@ -49,7 +49,6 @@ public abstract class Bath {
 		float averageTemp = sum / 2;
 		
 		Platform.runLater(() -> {
-			System.out.println("UPDATED!" + averageTemp);
 			this.currentTemperatureProperty.setValue(averageTemp);
 		});
 		

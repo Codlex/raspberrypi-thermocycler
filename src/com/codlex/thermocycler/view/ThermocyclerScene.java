@@ -57,7 +57,6 @@ public enum ThermocyclerScene {
 	}
 	
 	public Pane load(Thermocycler thermocycler, ThermocyclerGUI gui) {
-		
 		try {
 			Pane pane = this.loader.load();
 			ThermocyclerController controller = this.loader.getController();
