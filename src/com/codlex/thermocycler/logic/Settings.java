@@ -5,6 +5,9 @@ import com.pi4j.io.gpio.RaspiPin;
 
 public class Settings {
 	
+	public static int DistanceRefreshSeconds = 10;
+	public static int TemperatureRefreshSeconds = 1;
+	
 	/**
 	 * Bath.
 	 */

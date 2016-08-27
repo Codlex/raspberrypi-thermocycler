@@ -28,7 +28,7 @@ public class HardwareProvider {
 		}
 	}
 	
-	public Sensor getTemperatureSensor(String sensorId) {
+	public Sensor<Float> getTemperatureSensor(String sensorId) {
 		if (PRODUCTION) {
 			return Sensors.getSensorById(sensorId).get();
 		} else {
@@ -36,7 +36,7 @@ public class HardwareProvider {
 		}
 	}
 	
-	public Sensor getDistanceSensorForPins(Pin echo, Pin trigger) {
+	public Sensor<Float> getDistanceSensorForPins(Pin echo, Pin trigger) {
 		if (PRODUCTION) {
 			return new DistanceMonitorImpl(echo, trigger);
 		} else {

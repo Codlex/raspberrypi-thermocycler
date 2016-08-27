@@ -151,6 +151,7 @@ public class ThermocyclerOverviewController extends ThermocyclerController {
 				break;
 			case Finished:
 				this.gui.nextScene();
+				this.thermocycler.getTranslator().errect();
 				break;
 		}
 		

@@ -1,6 +1,9 @@
 package com.codlex.thermocycler.hardware;
 
 import java.io.IOException;
+import java.time.Duration;
+
+import com.codlex.thermocycler.logic.Settings;
 
 /**
  * Class to monitor distance measured by an HC-SR04 distance sensor on a
@@ -22,13 +25,8 @@ import com.pi4j.io.gpio.RaspiPin;
 import javafx.util.Pair;
 import lombok.extern.log4j.Log4j;
 
-/**
- * DistanceMonitor class to monitor distance measured by sensor
- *
- * @author Rutger Claes <rutger.claes@cs.kuleuven.be>
- */
 @Log4j
-public class DistanceMonitorImpl implements Sensor {
+public class DistanceMonitorImpl extends RefreshedSensor<Float> {
 
 	/**
 	 * Exception thrown when timeout occurs
@@ -56,43 +54,20 @@ public class DistanceMonitorImpl implements Sensor {
 	private final static int TIMEOUT = 2100;
 
 	private final static GpioController gpio = GpioFactory.getInstance();
-	public static void main(String[] args) {
-		Pin echoPin = RaspiPin.GPIO_00; // PI4J custom numbering (pin 11)
-		Pin trigPin = RaspiPin.GPIO_07; // PI4J custom numbering (pin 7)
-		DistanceMonitorImpl monitor = new DistanceMonitorImpl(echoPin, trigPin);
-
-		while (true) {
-			try {
-				System.out.printf("%1$d,%2$.3f%n", System.currentTimeMillis(),
-						monitor.measureDistance());
-			} catch (TimeoutException e) {
-				System.err.println(e);
-			}
-
-			try {
-				Thread.sleep(WAIT_DURATION_IN_MILLIS);
-			} catch (InterruptedException ex) {
-				System.err.println("Interrupt during trigger");
-			}
-		}
-	}
 
 	private final GpioPinDigitalInput echoPin;
 
 	private final GpioPinDigitalOutput trigPin;
 
 	DistanceMonitorImpl(Pin echoPin, Pin trigPin) {
+		super(Duration.ofSeconds(Settings.DistanceRefreshSeconds));
 		this.echoPin = gpio.provisionDigitalInputPin(echoPin);
 		this.trigPin = gpio.provisionDigitalOutputPin(trigPin);
 		this.trigPin.low();
 	}
 
-	/*
-	 * This method returns the distance measured by the sensor in cm
-	 *
-	 * @throws TimeoutException if a timeout occurs
-	 */
-	public float measureDistance() throws TimeoutException {
+	@Override
+	public Float recalculateValue() throws TimeoutException {
 		this.triggerSensor();
 		this.waitForSignal();
 		long duration = this.measureSignal();
@@ -154,24 +129,9 @@ public class DistanceMonitorImpl implements Sensor {
 	}
 
 	@Override
-	public void dispose() {
-		// do nothing for now
-	}
-
-	@Override
 	public String getID() {
 		// TODO: this is dummy implementations
 		return new Pair(this.echoPin.getPin(), this.trigPin.getPin()).toString();
-	}
-
-	@Override
-	public Number getValue() throws IOException {
-		try {
-			return measureDistance();
-		} catch (TimeoutException e) {
-			log.debug(e);
-			return -1;
-		}
 	}
 
 }

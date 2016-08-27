@@ -60,7 +60,7 @@ public class ThermocyclerGUI extends Application {
 			controller.setModel(this.thermocycler);
 			controller.bind();
 			
-			setScene(ThermocyclerScene.ColdBathConfiguration);
+			setScene(ThermocyclerScene.values()[0]);
 
 		} catch (IOException e) {
 			e.printStackTrace();

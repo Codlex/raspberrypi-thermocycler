@@ -17,8 +17,7 @@ public enum ThermocyclerScene {
 	ColdBathConfiguration,
 	CyclesConfiguration,
 	ThermocyclerOverview,
-//	CycingInProgress
-	;
+	Shutdown;
 	
 	private final FXMLLoader loader;
 	

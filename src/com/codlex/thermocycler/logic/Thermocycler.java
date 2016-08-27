@@ -23,10 +23,11 @@ public class Thermocycler {
 	@Getter
 	private StateLogic stateLogic;
 
+	@Getter
 	private Translator translator;
 
 	@Getter
-	final IntegerProperty cycles = new SimpleIntegerProperty(100);
+	final IntegerProperty cycles = new SimpleIntegerProperty(1);
 
 	private int start = 0;
 
@@ -66,7 +67,7 @@ public class Thermocycler {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		this.translator.erect();
+		this.translator.errect();
 	}
 
 	void logStatus() {
@@ -109,5 +110,9 @@ public class Thermocycler {
 			this.hotBath.logStatus();
 			this.coldBath.logStatus();
 		}
+	}
+
+	public void lowerTranslator() {
+		
 	}
 }

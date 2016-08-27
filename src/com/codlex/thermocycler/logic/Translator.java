@@ -28,7 +28,7 @@ public class Translator {
 		}
 	}
 
-	void erect() {
+	public void errect() {
 		// assume that state is HotBath
 		this.power.turnOn();
 		this.toCold.turnOn();

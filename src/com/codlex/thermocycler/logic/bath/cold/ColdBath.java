@@ -22,7 +22,7 @@ public class ColdBath extends Bath {
 				Settings.ColdBathTemperatureSensorAntifriz);
 
 		this.temperature.set(20);
-		this.time.set(9);
+		this.time.set(1);
 	}
 
 	@Override

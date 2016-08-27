@@ -22,7 +22,7 @@ public class HotBath extends Bath {
 		this.heater = new Heater(Settings.HotBathHeaterPin);
 
 		this.temperature.set(20);
-		this.time.set(10);
+		this.time.set(1);
 		this.circulationWaterPump = HardwareProvider.get().getSwitch(Settings.HotBathCirculationWaterPump);
 		this.circulationWaterPump.turnOn();
 	}

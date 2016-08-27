@@ -32,9 +32,9 @@ public class VirtualSensors {
 
 	public FloatProperty hotBathDistance = new SimpleFloatProperty(3);
 
-	private final Map<String, Sensor> temperatureSensors = new HashMap<>();
+	private final Map<String, Sensor<Float>> temperatureSensors = new HashMap<>();
 
-	private final Map<Pair<Pin, Pin>, Sensor> distanceMonitors = new HashMap<>();
+	private final Map<Pair<Pin, Pin>, Sensor<Float>> distanceMonitors = new HashMap<>();
 
 	private VirtualSensors() {
 
@@ -62,11 +62,7 @@ public class VirtualSensors {
 	private void addDistanceMonitor(Pin echo, Pin trigger,
 			FloatProperty distance) {
 		final Pair<Pin, Pin> id = new Pair<>(echo, trigger);
-		this.distanceMonitors.put(id, new Sensor() {
-			@Override
-			public void dispose() {
-				// do nothing on virtual sensor
-			}
+		this.distanceMonitors.put(id, new Sensor<Float>() {
 
 			@Override
 			public String getID() {
@@ -74,7 +70,7 @@ public class VirtualSensors {
 			}
 
 			@Override
-			public Number getValue() throws IOException {
+			public Float getValue() {
 				return distance.get();
 			}
 		});
@@ -83,12 +79,7 @@ public class VirtualSensors {
 	private void addTemperatureSensor(final String id,
 			final FloatProperty property) {
 
-		this.temperatureSensors.put(id, new Sensor() {
-
-			@Override
-			public void dispose() {
-				// do nothing for virtual sensor
-			}
+		this.temperatureSensors.put(id, new Sensor<Float>() {
 
 			@Override
 			public String getID() {
@@ -96,18 +87,18 @@ public class VirtualSensors {
 			}
 
 			@Override
-			public Number getValue() throws IOException {
+			public Float getValue() {
 				return property.get();
 			}
 		});
 
 	}
 
-	public Sensor getDistanceSensor(Pin echo, Pin trigger) {
+	public Sensor<Float> getDistanceSensor(Pin echo, Pin trigger) {
 		return this.distanceMonitors.get(new Pair<Pin, Pin>(echo, trigger));
 	}
 
-	public Sensor getTemperatureSensorById(String id) {
+	public Sensor<Float> getTemperatureSensorById(String id) {
 		return this.temperatureSensors.get(id);
 	}
 
