@@ -74,9 +74,9 @@ public class StateLogic {
 	long getTargetImmersionTime() {
 		// ASSERT state in (ColdBath, HotBath)
 		if (this.currentState == State.ColdBath) {
-			return TimeUnit.SECONDS.toMillis(this.thermocycler.coldBath.time.get());
+			return TimeUnit.SECONDS.toMillis(this.thermocycler.getColdBath().time.get());
 		} else { // this.currentState == HotBath
-			return TimeUnit.SECONDS.toMillis(this.thermocycler.hotBath.time.get());
+			return TimeUnit.SECONDS.toMillis(this.thermocycler.getHotBath().time.get());
 		}
 	}
 
@@ -104,8 +104,8 @@ public class StateLogic {
 	}
 
 	void processNotReady() {
-		boolean hotBathReady = this.thermocycler.hotBath.isReady();
-		boolean coldBathReady = this.thermocycler.coldBath.isReady();
+		boolean hotBathReady = this.thermocycler.getHotBath().isReady();
+		boolean coldBathReady = this.thermocycler.getColdBath().isReady();
 		if (hotBathReady && coldBathReady) {
 			this.immersionStart = this.time;
 			changeState(State.HotBath);

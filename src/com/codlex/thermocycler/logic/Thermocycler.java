@@ -14,68 +14,35 @@ import lombok.extern.log4j.Log4j;
 @Log4j
 public class Thermocycler {
 
-	static int COLD_TEMPERATURE = 1;
-	static int COLD_TIME = 2;
+	@Getter
+	private Bath hotBath;
 
-	static int HOT_TEMPERATURE = 3;
-	static int HOT_TIME = 4;
-	static int CYCLES = 5;
-	static int START = 6;
-	static int STARTED = 7;
-	
+	@Getter
+	private Bath coldBath;
+
 	@Getter
 	private StateLogic stateLogic;
+
 	private Translator translator;
-	
-	
-	@Getter
-	Bath coldBath;
-	
-	@Getter
-	Bath hotBath;
 
 	@Getter
 	final IntegerProperty cycles = new SimpleIntegerProperty(100);
 
-	int start = 0;
+	private int start = 0;
 
 	public AtomicBoolean isStarted = new AtomicBoolean(false);
 
 	public Thermocycler() {
-		 this.stateLogic = new StateLogic(this);
-		 this.coldBath = BathFactory.createCold();
-		 this.hotBath = BathFactory.createHot();
-		 this.translator = new Translator();
+		this.stateLogic = new StateLogic(this);
+		this.coldBath = BathFactory.createCold();
+		this.hotBath = BathFactory.createHot();
+		this.translator = new Translator();
 	}
 
-	void back() {
-		if (this.isStarted.get()) {
-			log.error("Thermocycler started, can't go back now.");
-			return;
-		}
-
-		// TODO: implement
-		log.debug("back");
-	}
-
-	void confirm() {
-		if (this.isStarted.get()) {
-			log.error("Thermocycler started, can't go confirm now.");
-			return;
-		}
-		// TODO: implement
-	}
-
-	void deleteDigit() {
-		// TODO: implement
-	}
-
-	void enterDigit(int digit) {
-		// TODO: implement
-	}
-
-	void exit() {
-		log.debug("exit");
+	public int getTimeLeft() {
+		return (int) TimeUnit.MILLISECONDS
+				.toSeconds(this.stateLogic.getTargetImmersionTime()
+						- this.stateLogic.calculateImmersionTime());
 	}
 
 	void init() {
@@ -121,7 +88,6 @@ public class Thermocycler {
 	}
 
 	void update(long deltaT) {
-
 		if (this.isStarted.get()) {
 			log.debug("############################## CYCLE(hot="
 					+ this.stateLogic.hotBathImmersionCount + ", cold="
@@ -143,9 +109,5 @@ public class Thermocycler {
 			this.hotBath.logStatus();
 			this.coldBath.logStatus();
 		}
-	}
-	
-	public int getTimeLeft() {
-		 return (int) TimeUnit.MILLISECONDS.toSeconds(this.stateLogic.getTargetImmersionTime() - this.stateLogic.calculateImmersionTime());
 	}
 }
