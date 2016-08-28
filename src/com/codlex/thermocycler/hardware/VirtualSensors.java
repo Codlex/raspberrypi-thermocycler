@@ -1,8 +1,10 @@
 package com.codlex.thermocycler.hardware;
 
 import java.io.IOException;
+import java.time.Duration;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ThreadLocalRandom;
 
 import com.codlex.thermocycler.logic.Settings;
 import com.pi4j.io.gpio.Pin;
@@ -62,7 +64,7 @@ public class VirtualSensors {
 	private void addDistanceMonitor(Pin echo, Pin trigger,
 			FloatProperty distance) {
 		final Pair<Pin, Pin> id = new Pair<>(echo, trigger);
-		this.distanceMonitors.put(id, new Sensor<Float>() {
+		this.distanceMonitors.put(id, new RefreshedSensor<Float>(Duration.ofSeconds(Settings.DistanceRefreshSeconds)) {
 
 			@Override
 			public String getID() {
@@ -70,16 +72,19 @@ public class VirtualSensors {
 			}
 
 			@Override
-			public Float getValue() {
+			protected Float recalculateValue() throws Exception {
+				// simulate duration of measuring
+				Thread.sleep(ThreadLocalRandom.current().nextLong(1500));
 				return distance.get();
 			}
+			
 		});
 	}
 
 	private void addTemperatureSensor(final String id,
 			final FloatProperty property) {
 
-		this.temperatureSensors.put(id, new Sensor<Float>() {
+		this.temperatureSensors.put(id, new RefreshedSensor<Float>(Duration.ofSeconds(Settings.TemperatureRefreshSeconds)) {
 
 			@Override
 			public String getID() {
@@ -87,7 +92,9 @@ public class VirtualSensors {
 			}
 
 			@Override
-			public Float getValue() {
+			protected Float recalculateValue() throws Exception {
+				// simulate duration of measuring
+				Thread.sleep(ThreadLocalRandom.current().nextLong(1500));
 				return property.get();
 			}
 		});

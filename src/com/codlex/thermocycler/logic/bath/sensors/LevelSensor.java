@@ -23,6 +23,7 @@ public class LevelSensor {
 	public LevelSensor(Pin echoPin, Pin triggerPin, int emptyDistance) {
 		this.distanceMonitor = HardwareProvider.get()
 				.getDistanceSensorForPins(echoPin, triggerPin);
+		this.distanceMonitor.startMeasuring();
 		this.emptyDistance = emptyDistance;
 	}
 

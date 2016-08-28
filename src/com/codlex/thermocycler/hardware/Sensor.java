@@ -7,4 +7,6 @@ public interface Sensor<Value extends Number> {
 	String getID();
 	
 	Value getValue();
+	
+	void startMeasuring();
 }
