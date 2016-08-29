@@ -10,6 +10,7 @@ import lombok.extern.log4j.Log4j;
 
 @Log4j
 public enum ThermocyclerScene {
+	MockSensors,
 	FillInBaths, 
 	FillRefillTanks, 
 	PutSpecimen,
@@ -20,10 +21,18 @@ public enum ThermocyclerScene {
 	Shutdown;
 	
 	private final FXMLLoader loader;
+	private Pane pane;
+	private ThermocyclerController controller;
 	
 	private ThermocyclerScene() {
 		this.loader = new FXMLLoader();
 		this.loader.setLocation(ThermocyclerScene.class.getResource("scenes/" + name() + ".fxml"));
+		try {
+			this.pane = this.loader.load();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		this.controller = this.loader.getController();
 	}
 	
 	
@@ -51,20 +60,13 @@ public enum ThermocyclerScene {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public <T> T getController() {
+	public <T extends ThermocyclerController> T getController() {
 		return (T) this.loader.getController();
 	}
 	
 	public Pane load(Thermocycler thermocycler, ThermocyclerGUI gui) {
-		try {
-			Pane pane = this.loader.load();
-			ThermocyclerController controller = this.loader.getController();
-			controller.setModel(thermocycler);
-			controller.setGui(gui);
-			return pane;
-		} catch (IOException e) {
-			log.debug(e);
-			return null;
-		}
+		this.controller.setGui(gui);
+		this.controller.setModel(thermocycler);
+		return this.pane;
 	}
 }

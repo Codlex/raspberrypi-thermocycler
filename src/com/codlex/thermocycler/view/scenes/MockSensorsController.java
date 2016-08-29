@@ -1,8 +1,8 @@
-package com.codlex.thermocycler.view;
+package com.codlex.thermocycler.view.scenes;
 
 import com.codlex.thermocycler.hardware.VirtualSensors;
 import com.codlex.thermocycler.hardware.VirtualSwitches;
-import com.codlex.thermocycler.logic.Thermocycler;
+import com.codlex.thermocycler.view.ThermocyclerController;
 
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.FloatProperty;
@@ -10,14 +10,9 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleButton;
-import javafx.scene.layout.Pane;
 import javafx.util.converter.NumberStringConverter;
-import lombok.extern.log4j.Log4j;
 
-@Log4j
-public class TestController {
-	@FXML
-	private Pane mainPane;
+public class MockSensorsController extends ThermocyclerController {
 	
 	@FXML
 	private Slider hotBathTemperature1Slider;
@@ -54,8 +49,6 @@ public class TestController {
 
 	@FXML
 	private ToggleButton coldBathCooler;
-
-	private Thermocycler thermocycler;
 	
 	@FXML
 	private Slider hotBathLevelSlider;
@@ -66,6 +59,12 @@ public class TestController {
 	@FXML
 	private TextField cycles;
 
+	
+	@Override
+	protected void onModelInitialized() {
+		bind();
+	}
+	
 	public void bind() {		
 		bind(VirtualSensors.get().hotBathTemperature1, this.hotBathTemperature1Slider, this.hotBathTemperature1Field);
 		bind(VirtualSensors.get().hotBathTemperature2, this.hotBathTemperature2Slider, this.hotBathTemperature2Field);
@@ -88,18 +87,5 @@ public class TestController {
 		slider.valueProperty().bindBidirectional(sensor);
 		field.textProperty().bindBidirectional(sensor, new NumberStringConverter());
 	}
-
-	public void setModel(Thermocycler thermocycler) {
-		this.thermocycler = thermocycler;
-	}
-
-	@FXML
-	private void start() {
-		log.debug("start clicked");
-		this.thermocycler.start();
-	}
-
-	public void showPane(Pane pane) {
-		this.mainPane = pane;
-	}
+	
 }

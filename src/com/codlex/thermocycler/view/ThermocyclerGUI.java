@@ -10,9 +10,10 @@ import com.codlex.thermocycler.logic.ThermocyclerWorker;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import lombok.Getter;
 
 public class ThermocyclerGUI extends Application {
 
@@ -23,11 +24,14 @@ public class ThermocyclerGUI extends Application {
 
 	private Stage primaryStage;
 
-	private Pane rootLayout;
+	private BorderPane rootLayout;
 
 	private Thermocycler thermocycler;
 
-	private ThermocyclerScene currentScene;
+	@Getter
+	private ThermocyclerScene currentScene = ThermocyclerScene.FillInBaths;
+
+	private ThermocyclerController controller;
 
 	/**
 	 * Returns the main stage.
@@ -54,13 +58,15 @@ public class ThermocyclerGUI extends Application {
 			this.primaryStage.setFullScreen(true);
 			this.primaryStage.setScene(scene);
 			this.primaryStage.show();
+
 			
+			this.controller = loader.getController();
+			this.controller.setGui(this);
+			this.controller.setModel(this.thermocycler);
 			
-			TestController controller = loader.getController();
-			controller.setModel(this.thermocycler);
-			controller.bind();
-			
-			setScene(ThermocyclerScene.values()[0]);
+			setScene(ThermocyclerScene.FillInBaths);
+			this.rootLayout.setRight(ThermocyclerScene.MockSensors.load(this.thermocycler, this));
+
 
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -74,13 +80,7 @@ public class ThermocyclerGUI extends Application {
 		if (pane == null) {
 			throw new RuntimeException(scene.name() + " couldn't be loaded!");
 		}
-		
-		this.rootLayout.getChildren().set(0, pane);
-		
-		AnchorPane.setTopAnchor(pane,0.0);
-		AnchorPane.setBottomAnchor(pane,0.0);
-		AnchorPane.setLeftAnchor(pane,0.0);
-		AnchorPane.setRightAnchor(pane, 300.0);
+		this.rootLayout.setCenter(pane);
 	}
 	
 	public void nextScene() {
@@ -102,6 +102,11 @@ public class ThermocyclerGUI extends Application {
 
 	public void previousScene() {
 		setScene(this.currentScene.previousScene());
+	}
+
+	public void updateUI() {
+		this.controller.onUpdateUI();
+		
 	}
 
 }

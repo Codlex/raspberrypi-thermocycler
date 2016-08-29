@@ -1,6 +1,5 @@
 package com.codlex.thermocycler.hardware;
 
-import java.io.IOException;
 import java.time.Duration;
 
 import com.codlex.thermocycler.logic.Settings;
@@ -20,7 +19,6 @@ import com.pi4j.io.gpio.GpioFactory;
 import com.pi4j.io.gpio.GpioPinDigitalInput;
 import com.pi4j.io.gpio.GpioPinDigitalOutput;
 import com.pi4j.io.gpio.Pin;
-import com.pi4j.io.gpio.RaspiPin;
 
 import javafx.util.Pair;
 import lombok.extern.log4j.Log4j;
@@ -67,13 +65,10 @@ public class DistanceMonitorImpl extends RefreshedSensor<Float> {
 	}
 
 	@Override
-	public Float recalculateValue() throws TimeoutException {
-		this.triggerSensor();
-		this.waitForSignal();
-		long duration = this.measureSignal();
-		float seconds = (float) (1e-6 * duration);
-		float meters = (float) ((seconds * SOUND_SPEED) / 2.0);
-		return meters * 100;
+	public String getID() {
+		// TODO: this is dummy implementations
+		return new Pair(this.echoPin.getPin(), this.trigPin.getPin())
+				.toString();
 	}
 
 	/**
@@ -94,6 +89,16 @@ public class DistanceMonitorImpl extends RefreshedSensor<Float> {
 		}
 
 		return (long) Math.ceil((end - start) / 1000.0); // Return micro seconds
+	}
+
+	@Override
+	public Float recalculateValue() throws TimeoutException {
+		this.triggerSensor();
+		this.waitForSignal();
+		long duration = this.measureSignal();
+		float seconds = (float) (1e-6 * duration);
+		float meters = (float) ((seconds * SOUND_SPEED) / 2.0);
+		return meters * 100;
 	}
 
 	/**
@@ -126,12 +131,6 @@ public class DistanceMonitorImpl extends RefreshedSensor<Float> {
 		if (countdown <= 0) {
 			throw new TimeoutException("Timeout waiting for signal start");
 		}
-	}
-
-	@Override
-	public String getID() {
-		// TODO: this is dummy implementations
-		return new Pair(this.echoPin.getPin(), this.trigPin.getPin()).toString();
 	}
 
 }

@@ -12,8 +12,8 @@ public class ShutdownController extends ThermocyclerController {
 	private Label message;
 	
 	@Override
-	protected void onModelInitialized() {
-		this.nextButton.setText("Shutdown");
+	protected String getNextLabel() {
+		return "Shutdown";
 	}
 	
 	@Override

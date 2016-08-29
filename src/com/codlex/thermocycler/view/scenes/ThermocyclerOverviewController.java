@@ -3,6 +3,7 @@ package com.codlex.thermocycler.view.scenes;
 import com.codlex.thermocycler.logic.State;
 import com.codlex.thermocycler.logic.bath.Bath;
 import com.codlex.thermocycler.view.ThermocyclerController;
+import com.codlex.thermocycler.view.ThermocyclerScene;
 
 import javafx.animation.PauseTransition;
 import javafx.animation.Timeline;
@@ -112,16 +113,36 @@ public class ThermocyclerOverviewController extends ThermocyclerController {
 				break;
 			case Finished:
 				this.title.setText("Cycling completed click finish.");
-				this.nextButton.setText("Finish");
-				this.nextButton.setVisible(true);
 				break;
 		}
 		
 	}
 	
-	private void onNotReadyUpdateUI(Bath coldBath, Bath hotBath) {
-		this.nextButton.setVisible(false);
-		
+	@Override
+	protected String getNextLabel() {
+		switch (this.currentState) {
+			case NotStarted:
+				return "Start";
+			case Finished:
+				return "Finish";
+			default:
+				return super.getNextLabel();
+		}
+	}
+	
+	@Override
+	protected boolean validation() {
+		switch (this.currentState) {
+			case NotStarted:
+				return true;
+			case Finished:
+				return true;
+			default:
+				return false;
+		}
+	}
+	
+	private void onNotReadyUpdateUI(Bath coldBath, Bath hotBath) {		
 		StringProperty coldBathTemperatureProperty = this.coldBathTemperature.textProperty();
 		float currentColdBathTemperature = this.thermocycler.getColdBath().getCurrentTemperatureProperty().get();
 		coldBathTemperatureProperty.set(String.format(temperatureSensorFormat, currentColdBathTemperature, coldBathTemperatureProperty.get()));
