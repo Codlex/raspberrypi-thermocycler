@@ -4,6 +4,7 @@ import com.codlex.thermocycler.logic.State;
 import com.codlex.thermocycler.logic.bath.Bath;
 import com.codlex.thermocycler.view.ThermocyclerController;
 import com.codlex.thermocycler.view.ThermocyclerScene;
+import com.google.common.collect.ImmutableSet;
 
 import javafx.animation.PauseTransition;
 import javafx.animation.Timeline;
@@ -114,6 +115,10 @@ public class ThermocyclerOverviewController extends ThermocyclerController {
 			case Finished:
 				this.title.setText("Cycling completed click finish.");
 				break;
+			case UnexpectedShutdown:
+				this.title.setText("Thermocycler shutdown unepectedly do you wish to continue?");
+				this.cycles.setText(this.thermocycler.getStateLogic().getCurrenCycle() + " / " + this.cycles.getText());
+				break;
 		}
 		
 	}
@@ -121,6 +126,8 @@ public class ThermocyclerOverviewController extends ThermocyclerController {
 	@Override
 	protected String getNextLabel() {
 		switch (this.currentState) {
+			case UnexpectedShutdown:
+				return "Continue";
 			case NotStarted:
 				return "Start";
 			case Finished:
@@ -137,9 +144,17 @@ public class ThermocyclerOverviewController extends ThermocyclerController {
 				return true;
 			case Finished:
 				return true;
+			case UnexpectedShutdown:
+				return true;
 			default:
 				return false;
 		}
+	}
+	
+	@Override
+	protected boolean backValidation() {
+		return this.currentState == State.NotStarted
+				|| this.currentState == State.UnexpectedShutdown;
 	}
 	
 	private void onNotReadyUpdateUI(Bath coldBath, Bath hotBath) {		
@@ -174,9 +189,31 @@ public class ThermocyclerOverviewController extends ThermocyclerController {
 				this.gui.nextScene();
 				this.thermocycler.getTranslator().errect();
 				break;
+			case UnexpectedShutdown:
+				this.thermocycler.start();
+				break;
 		}
 		
 		updateUI();
+	}
+	
+	@Override
+	protected void onBackClick() {
+		if (this.currentState == State.UnexpectedShutdown) {
+			this.thermocycler.reset();
+			this.gui.setScene(ThermocyclerScene.FillInBaths);
+		} else {
+			super.onBackClick();
+		}
+	}
+	
+	@Override
+	protected String getBackLabel() {
+		if (this.currentState == State.UnexpectedShutdown) {
+			return "Start over";
+		} else {
+			return super.getBackLabel();
+		}
 	}
 	
 	private void everySeconds() {

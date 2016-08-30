@@ -59,6 +59,7 @@ public abstract class Bath {
 		int minimumLevel = Settings.BathMinimumLevel - Settings.LevelEpsilon;
 		return this.level.getPercentageFilled() > minimumLevel;
 	}
+	
 	public boolean isReady() {
 		return isTemperatureOK() && isLevelOK();
 	}
@@ -106,6 +107,14 @@ public abstract class Bath {
 
 	public IntegerProperty getTimeProperty() {
 		return this.time;
+	}
+
+	public void reset() {
+		Platform.runLater(()->{
+			this.temperature.set(20);
+			this.time.set(10);
+		});
+		
 	}
 
 }

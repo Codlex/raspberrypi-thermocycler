@@ -1,11 +1,14 @@
 package com.codlex.thermocycler.logic;
 
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import com.codlex.thermocycler.logic.bath.Bath;
 import com.codlex.thermocycler.logic.bath.BathFactory;
+import com.google.common.collect.ImmutableSet;
 
+import javafx.application.Platform;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import lombok.Getter;
@@ -27,17 +30,24 @@ public class Thermocycler {
 	private Translator translator;
 
 	@Getter
-	final IntegerProperty cycles = new SimpleIntegerProperty(1);
-
-	private int start = 0;
+	final IntegerProperty cycles = new SimpleIntegerProperty();
 
 	public AtomicBoolean isStarted = new AtomicBoolean(false);
+
+	@Getter
+	private ThermocyclerPersister persister = new ThermocyclerPersister();
 
 	public Thermocycler() {
 		this.stateLogic = new StateLogic(this);
 		this.coldBath = BathFactory.createCold();
 		this.hotBath = BathFactory.createHot();
 		this.translator = new Translator();
+		
+		if (!this.persister.lastFinishedSuccessfully()) {
+			this.persister.load(this);
+		} else {
+			reset();
+		}
 	}
 
 	public int getTimeLeft() {
@@ -80,8 +90,15 @@ public class Thermocycler {
 		// this.coldBath.logStatus();
 	}
 
-	void reset() {
-		// TODO: reset everything for next cycling
+	public void reset() {
+		Platform.runLater(()->{
+			this.cycles.set(1);
+		});
+		this.stateLogic.reset();
+		this.coldBath.reset();
+		this.hotBath.reset();
+		
+		this.persister.delete();
 	}
 
 	public void start() {
@@ -114,5 +131,27 @@ public class Thermocycler {
 
 	public void lowerTranslator() {
 		
+	}
+
+	public boolean lastFinishedSuccessfully() {
+		return this.persister.lastFinishedSuccessfully();
+	}
+	
+	public void onStateChange(State state) {
+		Set<State> saveStates = ImmutableSet.of(State.NotReady, State.HotBath, State.ColdBath);
+		if (saveStates.contains(state)) {
+			this.persister.save(this);
+		} 
+		
+		Set<State> deleteStates = ImmutableSet.of(State.Finished);
+		if (deleteStates.contains(state)){
+			this.persister.delete();
+		}
+		
+	}
+
+	public void setCurrentCycle(int lastCycle) {
+		this.stateLogic.coldBathImmersionCount = lastCycle;
+		this.stateLogic.hotBathImmersionCount = lastCycle;
 	}
 }

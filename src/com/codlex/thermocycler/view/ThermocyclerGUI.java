@@ -55,7 +55,7 @@ public class ThermocyclerGUI extends Application {
 
 			// Show the scene containing the root layout.
 			Scene scene = new Scene(this.rootLayout);
-			this.primaryStage.setFullScreen(true);
+			// this.primaryStage.setFullScreen(true);
 			this.primaryStage.setScene(scene);
 			this.primaryStage.show();
 
@@ -64,8 +64,16 @@ public class ThermocyclerGUI extends Application {
 			this.controller.setGui(this);
 			this.controller.setModel(this.thermocycler);
 			
-			setScene(ThermocyclerScene.FillInBaths);
+
+			if (this.thermocycler.lastFinishedSuccessfully()){
+				setScene(ThermocyclerScene.FillInBaths);
+			} else {
+				setScene(ThermocyclerScene.ThermocyclerOverview);
+			}
+			
 			this.rootLayout.setRight(ThermocyclerScene.MockSensors.load(this.thermocycler, this));
+
+			
 
 
 		} catch (IOException e) {
@@ -74,7 +82,7 @@ public class ThermocyclerGUI extends Application {
 	}
 	
 	
-	private void setScene(ThermocyclerScene scene) {
+	public void setScene(ThermocyclerScene scene) {
 		this.currentScene = scene;
 		Pane pane = scene.load(this.thermocycler, this);
 		if (pane == null) {
@@ -89,15 +97,11 @@ public class ThermocyclerGUI extends Application {
 
 	@Override
 	public void start(Stage primaryStage) {
-		
 		this.thermocycler = new Thermocycler();
 		ThermocyclerWorker.start(thermocycler);
 		this.primaryStage = primaryStage;
 		this.primaryStage.setTitle("Thermocycler");
-		// this.primaryStage.setFullScreen(true);
 		initRootLayout();
-
-		// showPersonOverview();
 	}
 
 	public void previousScene() {

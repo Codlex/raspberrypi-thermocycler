@@ -133,4 +133,9 @@ public class DistanceMonitorImpl extends RefreshedSensor<Float> {
 		}
 	}
 
+	@Override
+	protected Float getDefaultValue() {
+		return 0.0f;
+	}
+
 }

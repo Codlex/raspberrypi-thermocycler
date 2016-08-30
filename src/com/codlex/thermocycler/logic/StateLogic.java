@@ -15,18 +15,22 @@ public class StateLogic {
 	Thermocycler thermocycler;
 	State currentState = State.NotStarted;
 	long time = 0;
+	long immersionStart = 0;
+	long hotBathImmersionCount = 0;
+	long coldBathImmersionCount = 0;
 	
 	@Getter
 	ObjectProperty<State> stateProperty = new SimpleObjectProperty<>(this.currentState);
 
-	long immersionStart = 0;
 
-	long hotBathImmersionCount = 0;
-
-	long coldBathImmersionCount = 0;
 
 	StateLogic(Thermocycler thermocycler) {
 		this.thermocycler = thermocycler;
+		if (!this.thermocycler.getPersister().lastFinishedSuccessfully()) {
+			changeState(State.UnexpectedShutdown);
+		} else {
+			reset();
+		}
 	}
 
 	public long calculateImmersionTime() {
@@ -37,6 +41,7 @@ public class StateLogic {
 		log.debug("STATE_CHANGE [" + this.currentState.toString() + "] . ["
 				+ state.toString() + "]");
 
+		this.thermocycler.onStateChange(state);
 		this.currentState = state;
 		
 		Platform.runLater(()->{
@@ -49,7 +54,7 @@ public class StateLogic {
 				break;
 			case ColdBath :
 				this.coldBathImmersionCount++;
-				break;
+				break;				
 			// do nothing for the rest
 			default :
 				log.error("EXPECTED HOT OR COLD BATH ONLY");
@@ -132,6 +137,9 @@ public class StateLogic {
 				break;
 			case Finished :
 				break;
+			case UnexpectedShutdown:
+				processNotStarted();
+				break;
 			default :
 				log.error("Unknown state.");
 				break;
@@ -146,6 +154,14 @@ public class StateLogic {
 	}
 	
 	public int getCurrenCycle() {
-		return (int) this.hotBathImmersionCount - 1;
+		return (int) this.hotBathImmersionCount;
+	}
+
+	public void reset() {
+		this.time = 0;
+		this.immersionStart = 0;
+		changeState(State.NotStarted);
+		this.hotBathImmersionCount = 0;
+		this.coldBathImmersionCount = 0;
 	}
 }

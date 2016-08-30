@@ -78,6 +78,11 @@ public class VirtualSensors {
 				return distance.get();
 			}
 			
+			@Override
+			protected Float getDefaultValue() {
+				return 0f;
+			}
+			
 		});
 	}
 
@@ -96,6 +101,11 @@ public class VirtualSensors {
 				// simulate duration of measuring
 				Thread.sleep(ThreadLocalRandom.current().nextLong(1500));
 				return property.get();
+			}
+
+			@Override
+			protected Float getDefaultValue() {
+				return 20f;
 			}
 		});
 

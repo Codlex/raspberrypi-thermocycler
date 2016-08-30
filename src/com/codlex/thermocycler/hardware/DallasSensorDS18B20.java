@@ -58,4 +58,9 @@ public class DallasSensorDS18B20 extends RefreshedSensor<Float> {
 			return Integer.parseInt(tmp.substring(index + 2)) / 1000f;
 		}
 	}
+
+	@Override
+	protected Float getDefaultValue() {
+		return 20.0f;
+	}
 }
