@@ -64,7 +64,7 @@ public class VirtualSensors {
 	private void addDistanceMonitor(Pin echo, Pin trigger,
 			FloatProperty distance) {
 		final Pair<Pin, Pin> id = new Pair<>(echo, trigger);
-		this.distanceMonitors.put(id, new RefreshedSensor<Float>(Duration.ofSeconds(Settings.DistanceRefreshSeconds)) {
+		this.distanceMonitors.put(id, new RefreshedSensor<Float>(Duration.ofMillis(Settings.DistanceRefreshMillis)) {
 
 			@Override
 			public String getID() {
@@ -74,7 +74,7 @@ public class VirtualSensors {
 			@Override
 			protected Float recalculateValue() throws Exception {
 				// simulate duration of measuring
-				Thread.sleep(ThreadLocalRandom.current().nextLong(1500));
+				// Thread.sleep(ThreadLocalRandom.current().nextLong(1500));
 				return distance.get();
 			}
 			
@@ -89,7 +89,7 @@ public class VirtualSensors {
 	private void addTemperatureSensor(final String id,
 			final FloatProperty property) {
 
-		this.temperatureSensors.put(id, new RefreshedSensor<Float>(Duration.ofSeconds(Settings.TemperatureRefreshSeconds)) {
+		this.temperatureSensors.put(id, new RefreshedSensor<Float>(Duration.ofMillis(Settings.TemperatureRefreshMillis)) {
 
 			@Override
 			public String getID() {
@@ -99,7 +99,7 @@ public class VirtualSensors {
 			@Override
 			protected Float recalculateValue() throws Exception {
 				// simulate duration of measuring
-				Thread.sleep(ThreadLocalRandom.current().nextLong(1500));
+				// Thread.sleep(ThreadLocalRandom.current().nextLong(1500));
 				return property.get();
 			}
 

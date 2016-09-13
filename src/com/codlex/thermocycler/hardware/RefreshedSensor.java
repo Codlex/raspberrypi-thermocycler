@@ -45,9 +45,12 @@ abstract class RefreshedSensor<Value extends Number> implements Sensor<Value> {
 		try {
 			Stopwatch stopwatch = Stopwatch.createStarted();
 			this.valueContainer.set(recalculateValue());
-			log.debug(getClass().getSimpleName() + " took "
-					+ stopwatch.elapsed(TimeUnit.MILLISECONDS)
-					+ " to measure value.");
+			final int capForLog = 1000;
+			if (stopwatch.elapsed(TimeUnit.MILLISECONDS) > capForLog) {
+				log.warn(getClass().getSimpleName() + " took "
+						+ stopwatch.elapsed(TimeUnit.MILLISECONDS)
+						+ " to measure value.");
+			}
 
 		} catch (Exception e) {
 			log.error(getClass().getSimpleName() + " failed to recalculate value: ",

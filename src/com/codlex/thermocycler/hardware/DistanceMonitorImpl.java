@@ -59,7 +59,7 @@ public class DistanceMonitorImpl extends RefreshedSensor<Float> {
 	private final GpioPinDigitalOutput trigPin;
 
 	DistanceMonitorImpl(Pin echoPin, Pin trigPin) {
-		super(Duration.ofSeconds(Settings.DistanceRefreshSeconds));
+		super(Duration.ofMillis(Settings.DistanceRefreshMillis));
 		this.echoPin = gpio.provisionDigitalInputPin(echoPin);
 		this.trigPin = gpio.provisionDigitalOutputPin(trigPin);
 		this.trigPin.low();

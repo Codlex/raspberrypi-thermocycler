@@ -22,7 +22,7 @@ public class DallasSensorDS18B20 extends RefreshedSensor<Float> {
 	private final File valueFile;
 
 	DallasSensorDS18B20(File sensorFile) {
-		super(Duration.ofSeconds(Settings.TemperatureRefreshSeconds));
+		super(Duration.ofMillis(Settings.TemperatureRefreshMillis));
 		this.sensorFile = sensorFile;
 		this.valueFile = deriveValueFile(sensorFile);
 	}

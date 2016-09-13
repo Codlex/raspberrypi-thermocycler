@@ -29,11 +29,12 @@ public class ThermocyclerWorker implements Runnable {
 			this.thermocycler.update(deltaT);
 
 			if (deltaT > 100) {
-				log.debug("Processing done in " + deltaT + " ms");
+				// TODO: fix this it measures whole 500 ms
+				log.debug("Processing done in " + (deltaT  - 500) + " ms");
 			}
 
 			try {
-				Thread.sleep(1000);
+				Thread.sleep(500);
 			} catch (InterruptedException e) {
 				log.error(e);
 			}

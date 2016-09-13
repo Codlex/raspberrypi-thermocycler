@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import org.apache.log4j.BasicConfigurator;
 
+import com.codlex.thermocycler.logic.Settings;
 import com.codlex.thermocycler.logic.Thermocycler;
 import com.codlex.thermocycler.logic.ThermocyclerWorker;
 
@@ -55,7 +56,7 @@ public class ThermocyclerGUI extends Application {
 
 			// Show the scene containing the root layout.
 			Scene scene = new Scene(this.rootLayout);
-			this.primaryStage.setFullScreen(true);
+			this.primaryStage.setFullScreen(Settings.FullScreen);
 			this.primaryStage.setScene(scene);
 			this.primaryStage.show();
 

@@ -5,8 +5,12 @@ import com.pi4j.io.gpio.RaspiPin;
 
 public class Settings {
 	
-	public static int DistanceRefreshSeconds = 10;
-	public static int TemperatureRefreshSeconds = 1;
+	public static final boolean Production = true;
+	public static final boolean FullScreen = true;
+	public static final long TranslationTimeMillis = 1500;
+	
+	public static int DistanceRefreshMillis = 1000;
+	public static int TemperatureRefreshMillis = 1000;
 	
 	/**
 	 * Bath.

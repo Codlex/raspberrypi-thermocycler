@@ -34,7 +34,7 @@ public class StateLogic {
 	}
 
 	public long calculateImmersionTime() {
-		return this.time - this.immersionStart;
+		return Math.max(this.time - this.immersionStart - Settings.TranslationTimeMillis, 0);
 	}
 
 	void changeState(final State state) {
