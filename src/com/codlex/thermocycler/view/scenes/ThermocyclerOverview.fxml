@@ -98,5 +98,10 @@
             <Font size="36.0" />
          </font>
       </Label>
+      <Label fx:id="estimateTime" text="Finishes at:" textAlignment="CENTER">
+         <font>
+            <Font size="36.0" />
+         </font>
+      </Label>
    </children>
 </VBox>

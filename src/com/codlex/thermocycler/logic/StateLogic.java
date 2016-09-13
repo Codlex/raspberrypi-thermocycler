@@ -166,4 +166,16 @@ public class StateLogic {
 		this.hotBathImmersionCount = 0;
 		this.coldBathImmersionCount = 0;
 	}
+
+	public long getFullTimeLeftMillis() {
+		int hotCyclesLeft = (int) (this.thermocycler.cycles.get() - this.hotBathImmersionCount);
+		long hotTimeLeft = TimeUnit.SECONDS.toMillis(hotCyclesLeft * this.thermocycler.getHotBath().time.get());
+		
+		int coldCyclesLeft =  (int) (this.thermocycler.cycles.get() - this.coldBathImmersionCount);
+		long coldTimeLeft = TimeUnit.SECONDS.toMillis(coldCyclesLeft * this.thermocycler.getColdBath().time.get());
+		
+		long translatingTime = 2 * (hotCyclesLeft * Settings.TranslationTimeMillis);
+		
+		return hotTimeLeft + coldTimeLeft + translatingTime - this.calculateImmersionTime();
+	}
 }

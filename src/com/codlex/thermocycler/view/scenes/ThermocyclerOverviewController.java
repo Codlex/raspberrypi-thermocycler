@@ -42,6 +42,8 @@ public class ThermocyclerOverviewController extends ThermocyclerController {
 	@FXML
 	private Label cycles;
 
+	@FXML
+	private Label estimateTime;
 	
 	private static final String temperatureSensorFormat = "%.0f°C / %s";
 
@@ -91,6 +93,9 @@ public class ThermocyclerOverviewController extends ThermocyclerController {
 		this.cycles.textProperty().set(Integer.toString(this.thermocycler.getCycles().get()));
 		int minutes = this.thermocycler.getTimeLeft() / 60;
 		int seconds = this.thermocycler.getTimeLeft() % 60;
+		
+		this.estimateTime.textProperty().set(this.thermocycler.getFinishTime().toString());
+		
 		switch (this.currentState) {
 			case NotStarted:
 				this.title.setText("Thermocycler overview");

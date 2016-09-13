@@ -5,7 +5,7 @@ import com.pi4j.io.gpio.RaspiPin;
 
 public class Settings {
 	
-	public static final boolean Production = true;
+	public static final boolean Production = false;
 	public static final boolean FullScreen = true;
 	public static final long TranslationTimeMillis = 1500;
 	

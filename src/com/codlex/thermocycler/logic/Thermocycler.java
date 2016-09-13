@@ -1,5 +1,6 @@
 package com.codlex.thermocycler.logic;
 
+import java.util.Date;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -151,5 +152,9 @@ public class Thermocycler {
 	public void setCurrentCycle(int lastCycle) {
 		this.stateLogic.coldBathImmersionCount = lastCycle;
 		this.stateLogic.hotBathImmersionCount = lastCycle;
+	}
+
+	public Date getFinishTime() {
+		return new Date(System.currentTimeMillis() + this.stateLogic.getFullTimeLeftMillis());
 	}
 }
