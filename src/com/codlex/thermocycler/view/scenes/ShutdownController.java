@@ -10,6 +10,7 @@ public class ShutdownController extends ThermocyclerController {
 	
 	@FXML
 	private Label message;
+	private boolean alreadyClicked;
 	
 	@Override
 	protected String getNextLabel() {
@@ -18,8 +19,26 @@ public class ShutdownController extends ThermocyclerController {
 	
 	@Override
 	protected void onNextClick() {
+		if (this.alreadyClicked) {
+			System.exit(0);
+		}
 		this.thermocycler.lowerTranslator();
 		this.message.setText("You may now shutdown Thermocycler.");
-		System.exit(0);
+		this.alreadyClicked = true;
+	}
+	
+	@Override
+	protected boolean backValidation() {
+		return false;
+	}
+
+	@Override
+	protected boolean validation() {
+		return false;
+	}
+	
+	@Override
+	protected String getBackLabel() {
+		return "";
 	}
 }

@@ -28,10 +28,13 @@ public class Translator {
 		}
 	}
 
-	public void errect() {
-		// assume that state is HotBath
+	public void errect(State from) {
 		this.power.turnOn();
-		this.toCold.turnOn();
+		if (State.HotBath.equals(from)) {
+			this.toCold.turnOn();
+		} else {
+			this.toCold.turnOff();
+		}
 		this.pulse.turnOn();
 		try {
 			Thread.sleep(750);

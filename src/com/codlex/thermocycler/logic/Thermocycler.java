@@ -77,7 +77,7 @@ public class Thermocycler {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		this.translator.errect();
+		this.translator.errect(State.HotBath);
 	}
 
 	void logStatus() {
@@ -116,6 +116,7 @@ public class Thermocycler {
 			this.translator.update(this.stateLogic.getCurrentState());
 
 			if (this.stateLogic.getCurrentState() == State.Finished) {
+				this.translator.errect(State.ColdBath);
 				this.isStarted.set(false);
 				log.debug(
 						"############################## CYCLING_FINISHED ##############################");
@@ -127,7 +128,7 @@ public class Thermocycler {
 	}
 
 	public void lowerTranslator() {
-		
+		this.translator.goToHot();
 	}
 
 	public boolean lastFinishedSuccessfully() {
