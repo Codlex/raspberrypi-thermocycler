@@ -11,8 +11,8 @@ import lombok.extern.log4j.Log4j;
 @Log4j
 public class HotBath extends Bath {
 
-	Heater heater;
-	Switch circulationWaterPump;
+	private Heater heater;
+	private Switch circulationWaterPump;
 
 	public HotBath() {
 		super(Settings.HotBathTemperatureSensor1,

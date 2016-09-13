@@ -16,6 +16,6 @@ public class TemperatureSensor {
 	}
 
 	public float getTemperature() {
-		return this.sensor.getValue().floatValue();
+		return this.sensor.getValue();
 	}
 }

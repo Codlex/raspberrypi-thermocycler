@@ -9,8 +9,8 @@ import lombok.extern.log4j.Log4j;
 @Log4j
 public class ColdBath extends Bath {
 
-	Cooler cooler;
-	TemperatureSensor antifrizTemperature;
+	private Cooler cooler;
+	private TemperatureSensor antifrizTemperature;
 
 	public ColdBath() {
 		super(Settings.ColdBathTemperatureSensor1,

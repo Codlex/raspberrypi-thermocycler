@@ -81,13 +81,12 @@ public class Thermocycler {
 	}
 
 	void logStatus() {
-		// log.debug("ThermocyclerStatus(state=%s, immersion=%lu ms,
-		// targetImmersion=%lu ms)",
-		// StateToString(this.stateLogic.getCurrentState()),
-		// this.stateLogic.calculateImmersionTime(),
-		// this.stateLogic.getTargetImmersionTime());
-		// this.hotBath.logStatus();
-		// this.coldBath.logStatus();
+//		 log.debug("ThermocyclerStatus(state=%s, immersion=%lu ms, targetImmersion=%lu ms)",
+//		 StateToString(this.stateLogic.getCurrentState()),
+//		 this.stateLogic.calculateImmersionTime(),
+//		 this.stateLogic.getTargetImmersionTime());
+		 this.hotBath.logStatus();
+		 this.coldBath.logStatus();
 	}
 
 	public void reset() {
@@ -105,7 +104,7 @@ public class Thermocycler {
 		this.isStarted.set(true);
 	}
 
-	void update(long deltaT) {
+	public void update(long deltaT) {
 		if (this.isStarted.get()) {
 			log.debug("############################## CYCLE(hot="
 					+ this.stateLogic.hotBathImmersionCount + ", cold="
@@ -115,7 +114,6 @@ public class Thermocycler {
 			this.hotBath.update(deltaT);
 			this.coldBath.update(deltaT);
 			this.translator.update(this.stateLogic.getCurrentState());
-			logStatus();
 
 			if (this.stateLogic.getCurrentState() == State.Finished) {
 				this.isStarted.set(false);
@@ -123,10 +121,10 @@ public class Thermocycler {
 						"############################## CYCLING_FINISHED ##############################");
 				reset();
 			}
-		} else {
-			this.hotBath.logStatus();
-			this.coldBath.logStatus();
 		}
+		
+		logStatus();
+
 	}
 
 	public void lowerTranslator() {

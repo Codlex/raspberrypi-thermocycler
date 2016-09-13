@@ -21,6 +21,7 @@ import com.pi4j.io.gpio.GpioPinDigitalOutput;
 import com.pi4j.io.gpio.Pin;
 
 import javafx.util.Pair;
+import lombok.core.Main;
 import lombok.extern.log4j.Log4j;
 
 @Log4j
@@ -123,7 +124,6 @@ public class DistanceMonitorImpl extends RefreshedSensor<Float> {
 	 */
 	private void waitForSignal() throws TimeoutException {
 		int countdown = TIMEOUT;
-
 		while (this.echoPin.isLow() && countdown > 0) {
 			countdown--;
 		}
