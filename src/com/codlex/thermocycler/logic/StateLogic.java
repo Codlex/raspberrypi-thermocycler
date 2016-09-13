@@ -54,8 +54,10 @@ public class StateLogic {
 				break;
 			case ColdBath :
 				this.coldBathImmersionCount++;
-				break;				
-			// do nothing for the rest
+				break;
+			case Finished:
+				break;
+				
 			default :
 				log.error("EXPECTED HOT OR COLD BATH ONLY");
 		}
@@ -135,7 +137,7 @@ public class StateLogic {
 			case ColdBath :
 				processCycling();
 				break;
-			case Finished :
+			case Finished:
 				break;
 			case UnexpectedShutdown:
 				processNotStarted();

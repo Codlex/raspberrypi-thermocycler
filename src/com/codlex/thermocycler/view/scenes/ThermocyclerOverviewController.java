@@ -93,6 +93,7 @@ public class ThermocyclerOverviewController extends ThermocyclerController {
 		int seconds = this.thermocycler.getTimeLeft() % 60;
 		switch (this.currentState) {
 			case NotStarted:
+				this.title.setText("Thermocycler overview");
 				break;
 			case NotReady:
 				this.title.setText("Thermocycler is warming up...");

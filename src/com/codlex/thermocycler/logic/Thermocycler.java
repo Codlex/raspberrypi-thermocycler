@@ -119,7 +119,6 @@ public class Thermocycler {
 				this.isStarted.set(false);
 				log.debug(
 						"############################## CYCLING_FINISHED ##############################");
-				reset();
 			}
 		}
 		

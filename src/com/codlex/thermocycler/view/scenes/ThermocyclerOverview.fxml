@@ -98,13 +98,5 @@
             <Font size="36.0" />
          </font>
       </Label>
-      <Button fx:id="nextButton" disable="true" mnemonicParsing="false" onMouseClicked="#onNextClick" prefHeight="44.0" prefWidth="600.0" text="START">
-         <VBox.margin>
-            <Insets />
-         </VBox.margin>
-         <font>
-            <Font size="24.0" />
-         </font>
-      </Button>
    </children>
 </VBox>

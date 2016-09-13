@@ -55,7 +55,7 @@ public class ThermocyclerGUI extends Application {
 
 			// Show the scene containing the root layout.
 			Scene scene = new Scene(this.rootLayout);
-			// this.primaryStage.setFullScreen(true);
+			this.primaryStage.setFullScreen(true);
 			this.primaryStage.setScene(scene);
 			this.primaryStage.show();
 
