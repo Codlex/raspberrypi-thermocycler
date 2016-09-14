@@ -46,6 +46,22 @@
             <Label contentDisplay="CENTER" text="C" />
          </children>
       </HBox>
+      <Label text="Temperature Safety">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <HBox alignment="CENTER" prefHeight="40.0" prefWidth="200.0">
+         <children>
+            <Slider fx:id="hotBathTemperature3Slider" blockIncrement="1.0" max="150.0" min="-10.0" showTickLabels="true" showTickMarks="true" value="20.0" />
+            <TextField fx:id="hotBathTemperature3Field" prefColumnCount="3" text="20">
+               <HBox.margin>
+                  <Insets />
+               </HBox.margin>
+            </TextField>
+            <Label contentDisplay="CENTER" text="C" />
+         </children>
+      </HBox>
       <ToggleButton fx:id="hotBathHeater" mnemonicParsing="false" text="Heater" />
       <Slider fx:id="hotBathLevelSlider" blockIncrement="1.0" max="25.0" showTickLabels="true" showTickMarks="true" value="1.0" />
       <Separator prefWidth="200.0" />

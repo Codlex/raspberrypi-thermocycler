@@ -109,4 +109,8 @@ public abstract class Bath {
 		logStatus();
 	}
 
+	public boolean performSafetyChecks() {
+		// default bath doesn't have any security checks
+		return true;
+	}
 }

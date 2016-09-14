@@ -28,6 +28,8 @@ public class Settings {
 	public static Pin HotBathHeaterPin = RaspiPin.GPIO_29;
 	public static Pin HotBathWaterPump = RaspiPin.GPIO_27;
 	public static Pin HotBathCirculationWaterPump = RaspiPin.GPIO_25;
+	
+	public static final float HotBathSafetyTemperatureMax = 120;
 
 	// indices for one wire
 

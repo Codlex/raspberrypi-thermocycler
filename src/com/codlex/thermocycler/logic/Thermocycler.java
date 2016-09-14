@@ -157,4 +157,18 @@ public class Thermocycler {
 	public Date getFinishTime() {
 		return new Date(System.currentTimeMillis() + this.stateLogic.getFullTimeLeftMillis());
 	}
+
+	public void performSafetyChecks() {
+		boolean success = this.hotBath.performSafetyChecks();
+		success &= this.coldBath.performSafetyChecks();
+		
+		if (!success) {
+			log.error("Thermocycler safety check failed, shutting down.");
+			shutdown();
+		}
+	}
+
+	private void shutdown() {
+		System.exit(1);
+	}
 }

@@ -25,6 +25,15 @@ public class MockSensorsController extends ThermocyclerController {
 
 	@FXML
 	private TextField hotBathTemperature2Field;
+	
+	@FXML
+	private Slider hotBathTemperature3Slider;
+
+	@FXML
+	private TextField hotBathTemperature3Field;
+	
+		
+	
 
 	@FXML
 	private ToggleButton hotBathHeater;
@@ -68,6 +77,8 @@ public class MockSensorsController extends ThermocyclerController {
 	public void bind() {		
 		bind(VirtualSensors.get().hotBathTemperature1, this.hotBathTemperature1Slider, this.hotBathTemperature1Field);
 		bind(VirtualSensors.get().hotBathTemperature2, this.hotBathTemperature2Slider, this.hotBathTemperature2Field);
+		bind(VirtualSensors.get().hotBathTemperatureSafety, this.hotBathTemperature3Slider, this.hotBathTemperature3Field);
+
 		bind(VirtualSwitches.get().hotBathHeater, this.hotBathHeater);
 		VirtualSensors.get().hotBathDistance.bindBidirectional(this.hotBathLevelSlider.valueProperty());
 
