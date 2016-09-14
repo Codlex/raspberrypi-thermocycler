@@ -1,6 +1,7 @@
 package com.codlex.thermocycler.logic.bath.cold;
 
 import com.codlex.thermocycler.logic.Settings;
+import com.codlex.thermocycler.logic.Thermocycler;
 import com.codlex.thermocycler.logic.bath.Bath;
 import com.codlex.thermocycler.logic.bath.sensors.TemperatureSensor;
 
@@ -12,8 +13,8 @@ public class ColdBath extends Bath {
 	private Cooler cooler;
 	private TemperatureSensor antifrizTemperature;
 
-	public ColdBath() {
-		super(Settings.ColdBathTemperatureSensor1,
+	public ColdBath(Thermocycler thermocycler) {
+		super(thermocycler, Settings.ColdBathTemperatureSensor1,
 				Settings.ColdBathTemperatureSensor2,
 				Settings.ColdBathLevelEchoPin, Settings.ColdBathLevelTriggerPin,
 				Settings.ColdBathWaterPump);
@@ -67,6 +68,12 @@ public class ColdBath extends Bath {
 		boolean isValid = super.isValid();
 		isValid &= Settings.ValidationColdTemperatureRange.contains(this.temperature.get());
 		return isValid;
+	}
+	
+	@Override
+	public void clear() {
+		super.clear();
+		this.cooler.turnOff();
 	}
 
 };

@@ -6,7 +6,7 @@ import com.pi4j.io.gpio.RaspiPin;
 
 public class Settings {
 	
-	public static final boolean Production = false;
+	public static final boolean Production = true;
 	public static final boolean FullScreen = true;
 	public static final long TranslationTimeMillis = 1500;
 	
@@ -16,7 +16,7 @@ public class Settings {
 	/**
 	 * Bath.
 	 */
-	public static int BathMinimumLevel = 50;
+	public static int BathMinimumLevel = 60;
 	public static int BathDepth = 20;
 	public static int LevelEpsilon = 1;
 	public static int TemperatureEpsilon = 1;
@@ -30,7 +30,7 @@ public class Settings {
 	public static Pin HotBathWaterPump = RaspiPin.GPIO_27;
 	public static Pin HotBathCirculationWaterPump = RaspiPin.GPIO_25;
 	
-	public static final float HotBathSafetyTemperatureMax = 120;
+
 
 	// indices for one wire
 
@@ -71,4 +71,12 @@ public class Settings {
 	public static Range<Integer> ValidationHotTemperatureRange = Range.closed(20, 100);
 	public static Range<Integer> ValidationColdTemperatureRange = Range.closed(-6, 20);
 	public static Range<Integer> ValidationTimeRange = Range.closed(1, 300);
+	
+	/**
+	 * Safety
+	 */
+	public static final float SafetyHotBathTemperatureMax = 120;
+	public static final int SafetyLevelMin = 30;
+	public static final int SafetyLevelMax = 95;
+	
 }

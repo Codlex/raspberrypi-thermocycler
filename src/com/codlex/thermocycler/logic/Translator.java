@@ -82,4 +82,10 @@ public class Translator {
 			changeState(state);
 		}
 	}
+
+	public void clear() {
+		this.power.turnOff();
+		this.toCold.turnOff();
+		this.pulse.turnOff();
+	}
 }

@@ -1,6 +1,7 @@
 package com.codlex.thermocycler.logic.bath;
 
 import com.codlex.thermocycler.logic.Settings;
+import com.codlex.thermocycler.logic.Thermocycler;
 import com.codlex.thermocycler.logic.bath.sensors.LevelSensor;
 import com.codlex.thermocycler.logic.bath.sensors.TemperatureSensor;
 import com.pi4j.io.gpio.Pin;
@@ -26,9 +27,11 @@ public abstract class Bath {
 
 	protected IntegerProperty temperature = new SimpleIntegerProperty();
 	public IntegerProperty time = new SimpleIntegerProperty();
+	private final Thermocycler thermocycler;
 
-	public Bath(String temperatureSensorIndex1, String temperatureSensorIndex2,
+	public Bath(Thermocycler thermocycler, String temperatureSensorIndex1, String temperatureSensorIndex2,
 			Pin levelEchoPin, Pin levelTriggerPin, Pin waterPumpPin) {
+		this.thermocycler = thermocycler;
 		this.temperatureSensor1 = new TemperatureSensor(temperatureSensorIndex1); 
 		this.temperatureSensor2 = new TemperatureSensor(temperatureSensorIndex2); 
 		this.level = new LevelSensor(levelEchoPin, levelTriggerPin, Settings.BathDepth);
@@ -110,11 +113,27 @@ public abstract class Bath {
 	}
 
 	public boolean performSafetyChecks() {
-		// default bath doesn't have any security checks
-		return true;
+		boolean isOk = true;
+		if (this.thermocycler.isStarted.get()) {
+			isOk &= performLevelSafetyChecks();
+		}
+		return isOk;
+	}
+
+	private boolean performLevelSafetyChecks() {
+		boolean isOk = this.level.getPercentageFilled() > Settings.SafetyLevelMin;
+		isOk &= this.level.getPercentageFilled() < Settings.SafetyLevelMax;
+		if (!isOk) {
+			log.error("Safety check failed: level of liquid dangerous!");
+		}
+		return isOk;
 	}
 
 	public boolean isValid() {
 		return this.isLevelOK() && Settings.ValidationTimeRange.contains(this.time.get());
+	}
+
+	public void clear() {
+		this.pump.turnOff();
 	}
 }

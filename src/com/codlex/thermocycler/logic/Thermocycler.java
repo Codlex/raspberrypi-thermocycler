@@ -6,9 +6,9 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import com.codlex.thermocycler.logic.bath.Bath;
-import com.codlex.thermocycler.logic.bath.BathFactory;
+import com.codlex.thermocycler.logic.bath.cold.ColdBath;
+import com.codlex.thermocycler.logic.bath.hot.HotBath;
 import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.Range;
 
 import javafx.application.Platform;
 import javafx.beans.property.IntegerProperty;
@@ -41,8 +41,8 @@ public class Thermocycler {
 
 	public Thermocycler() {
 		this.stateLogic = new StateLogic(this);
-		this.coldBath = BathFactory.createCold();
-		this.hotBath = BathFactory.createHot();
+		this.coldBath = new ColdBath(this);
+		this.hotBath = new HotBath(this);
 		this.translator = new Translator();
 		
 		if (!this.persister.lastFinishedSuccessfully()) {
@@ -59,6 +59,7 @@ public class Thermocycler {
 	}
 
 	void init() {
+		clear();
 		try {
 			Thread.sleep(1500);
 		} catch (InterruptedException e1) {
@@ -132,6 +133,7 @@ public class Thermocycler {
 			if (this.stateLogic.getCurrentState() == State.Finished) {
 				this.translator.errect(State.ColdBath);
 				this.isStarted.set(false);
+				clear();
 				log.debug(
 						"############################## CYCLING_FINISHED ##############################");
 			}
@@ -182,6 +184,13 @@ public class Thermocycler {
 	}
 
 	private void shutdown() {
+		clear();
 		System.exit(1);
+	}
+	
+	private void clear() {
+		this.translator.clear();
+		this.hotBath.clear();
+		this.coldBath.clear();
 	}
 }
