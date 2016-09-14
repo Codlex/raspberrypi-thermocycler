@@ -61,5 +61,12 @@ public class ColdBath extends Bath {
 				+ this.antifrizTemperature.getTemperature() + ", level="
 				+ this.level.getPercentageFilled() + ")");
 	}
+	
+	@Override
+	public boolean isValid() {
+		boolean isValid = super.isValid();
+		isValid &= Settings.ValidationColdTemperatureRange.contains(this.temperature.get());
+		return isValid;
+	}
 
 };

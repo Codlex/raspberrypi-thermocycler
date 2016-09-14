@@ -8,6 +8,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import com.codlex.thermocycler.logic.bath.Bath;
 import com.codlex.thermocycler.logic.bath.BathFactory;
 import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Range;
 
 import javafx.application.Platform;
 import javafx.beans.property.IntegerProperty;
@@ -102,7 +103,19 @@ public class Thermocycler {
 	}
 
 	public void start() {
-		this.isStarted.set(true);
+		if (validate()) {
+			this.isStarted.set(true);
+		} else {
+			log.error("Starting of thermocycler failed because of bad input.");
+			shutdown();
+		}
+	}
+
+	private boolean validate() {
+		boolean isValid = Settings.ValidationCyclesRange.contains(this.cycles.get());
+		isValid &= this.hotBath.isValid();
+		isValid &= this.coldBath.isValid();
+		return isValid;
 	}
 
 	public void update(long deltaT) {

@@ -31,7 +31,7 @@ abstract class RefreshedSensor<Value extends Number> implements Sensor<Value> {
 	@Override
 	public final Value getValue() {
 		if (this.valueContainer.get() == null) {
-			log.error("Not initialized sensor.");
+			log.error("Not initialized sensor: " + getClass().getName());
 			return getDefaultValue();
 		}
 		return this.valueContainer.get();

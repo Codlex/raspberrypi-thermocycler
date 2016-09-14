@@ -113,4 +113,8 @@ public abstract class Bath {
 		// default bath doesn't have any security checks
 		return true;
 	}
+
+	public boolean isValid() {
+		return this.isLevelOK() && Settings.ValidationTimeRange.contains(this.time.get());
+	}
 }

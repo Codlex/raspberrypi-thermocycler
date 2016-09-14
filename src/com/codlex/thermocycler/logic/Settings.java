@@ -1,5 +1,6 @@
 package com.codlex.thermocycler.logic;
 
+import com.google.common.collect.Range;
 import com.pi4j.io.gpio.Pin;
 import com.pi4j.io.gpio.RaspiPin;
 
@@ -62,5 +63,12 @@ public class Settings {
 	public static String ColdBathTemperatureSensor1 = "28-021502e596ff";
 	public static String ColdBathTemperatureSensor2 = "28-02150310a9ff";
 	public static String ColdBathTemperatureSensorAntifriz = "28-031635f7afff";
-
+	
+	/**
+	 * Validation
+	 */
+	public static Range<Integer> ValidationCyclesRange = Range.closed(1, 999999);
+	public static Range<Integer> ValidationHotTemperatureRange = Range.closed(20, 100);
+	public static Range<Integer> ValidationColdTemperatureRange = Range.closed(-6, 20);
+	public static Range<Integer> ValidationTimeRange = Range.closed(1, 300);
 }

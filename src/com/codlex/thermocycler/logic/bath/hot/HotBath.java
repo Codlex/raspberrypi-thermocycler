@@ -57,4 +57,11 @@ public class HotBath extends Bath {
 		
 		return true;
 	}
+	
+	@Override
+	public boolean isValid() {
+		boolean isValid = super.isValid();
+		isValid &= Settings.ValidationHotTemperatureRange.contains(this.temperature.get());
+		return isValid;
+	}
 }
