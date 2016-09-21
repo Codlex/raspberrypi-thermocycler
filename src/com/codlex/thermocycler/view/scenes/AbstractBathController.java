@@ -8,7 +8,9 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
+import lombok.extern.log4j.Log4j;
 
+@Log4j
 public abstract class AbstractBathController extends ThermocyclerController {
 
 	@FXML
@@ -42,6 +44,7 @@ public abstract class AbstractBathController extends ThermocyclerController {
 		this.bath = getBath();
 		this.temperatureSlider.valueProperty().bindBidirectional(bath.getTemperatureProperty());
 		this.bath.getTemperatureProperty().addListener((newValue) -> {
+
 			IntegerProperty property = (IntegerProperty) newValue;
 			Integer value = property.get();
 			updateTemperature(value);

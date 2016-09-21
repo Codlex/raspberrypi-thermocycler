@@ -12,7 +12,7 @@ public class HardwareProvider {
 	}
 	
 	public Switch getSwitch(Pin pin, boolean inverse) {
-		if (Settings.Production) {
+		if (Settings.get().getProduction()) {
 			return new SimpleSwitch(pin, inverse);
 		} else {
 			return VirtualSwitches.get().getSwitch(pin);
@@ -20,7 +20,7 @@ public class HardwareProvider {
 	}
 	
 	public Switch getSwitch(Pin pin) {
-		if (Settings.Production) {
+		if (Settings.get().getProduction()) {
 			return new SimpleSwitch(pin);
 		} else {
 			return VirtualSwitches.get().getSwitch(pin);
@@ -28,7 +28,7 @@ public class HardwareProvider {
 	}
 	
 	public Sensor<Float> getTemperatureSensor(String sensorId) {
-		if (Settings.Production) {
+		if (Settings.get().getProduction()) {
 			return Sensors.getSensorById(sensorId).get();
 		} else {
 			return VirtualSensors.get().getTemperatureSensorById(sensorId);
@@ -36,7 +36,7 @@ public class HardwareProvider {
 	}
 	
 	public Sensor<Float> getDistanceSensorForPins(Pin echo, Pin trigger) {
-		if (Settings.Production) {
+		if (Settings.get().getProduction()) {
 			return new DistanceMonitorImpl(echo, trigger);
 		} else {
 			return VirtualSensors.get().getDistanceSensor(echo, trigger);
