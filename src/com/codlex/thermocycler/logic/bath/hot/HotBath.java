@@ -1,7 +1,6 @@
 package com.codlex.thermocycler.logic.bath.hot;
 
 import com.codlex.thermocycler.hardware.HardwareProvider;
-import com.codlex.thermocycler.hardware.SimpleSwitch;
 import com.codlex.thermocycler.hardware.Switch;
 import com.codlex.thermocycler.logic.Settings;
 import com.codlex.thermocycler.logic.Thermocycler;
@@ -16,7 +15,7 @@ public class HotBath extends Bath {
 	private final Heater heater;
 	private final Switch circulationWaterPump;
 	private final TemperatureSensor temperatureSensor3;
-	
+
 	public HotBath(Thermocycler thermocycler) {
 		super(thermocycler, Settings.HotBathTemperatureSensor1,
 				Settings.HotBathTemperatureSensor2,
@@ -25,9 +24,25 @@ public class HotBath extends Bath {
 		this.heater = new Heater(Settings.HotBathHeaterPin);
 		this.temperature.set(20);
 		this.time.set(1);
-		this.circulationWaterPump = HardwareProvider.get().getSwitch(Settings.HotBathCirculationWaterPump);
-		this.circulationWaterPump.turnOn();
-		this.temperatureSensor3 = new TemperatureSensor(Settings.HotBathTemperatureSensor3); 
+		this.circulationWaterPump = HardwareProvider.get()
+				.getSwitch(Settings.HotBathCirculationWaterPump);
+		this.temperatureSensor3 = new TemperatureSensor(
+				Settings.HotBathTemperatureSensor3);
+	}
+
+	@Override
+	public void clear() {
+		super.clear();
+		this.heater.turnOff();
+		this.circulationWaterPump.turnOff();
+	}
+
+	@Override
+	public boolean isValid() {
+		boolean isValid = super.isValid();
+		isValid &= Settings.ValidationHotTemperatureRange
+				.contains(this.temperature.get());
+		return isValid;
 	}
 
 	@Override
@@ -47,31 +62,18 @@ public class HotBath extends Bath {
 				+ this.temperatureSensor2.getTemperature() + ", level="
 				+ this.level.getPercentageFilled() + ")");
 	}
-	
-	
+
 	@Override
 	public boolean performSafetyChecks() {
 		boolean isOk = super.performSafetyChecks();
-		if (this.temperatureSensor3.getTemperature() > Settings.SafetyHotBathTemperatureMax) {
-			log.error("Safety check failed: maximum safe temperature exceeded, t = " + this.temperatureSensor3.getTemperature());
+		if (this.temperatureSensor3
+				.getTemperature() > Settings.SafetyHotBathTemperatureMax) {
+			log.error(
+					"Safety check failed: maximum safe temperature exceeded, t = "
+							+ this.temperatureSensor3.getTemperature());
 			isOk &= false;
 		}
-		
+
 		return isOk;
-	}
-	
-	@Override
-	public boolean isValid() {
-		boolean isValid = super.isValid();
-		isValid &= Settings.ValidationHotTemperatureRange.contains(this.temperature.get());
-		return isValid;
-	}
-	
-	
-	@Override
-	public void clear() {
-		super.clear();
-		this.heater.turnOff();
-		this.circulationWaterPump.turnOff();
 	}
 }
