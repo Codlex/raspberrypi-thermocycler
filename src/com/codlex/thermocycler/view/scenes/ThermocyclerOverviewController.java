@@ -101,18 +101,18 @@ public class ThermocyclerOverviewController extends ThermocyclerController {
 				this.title.setText("Thermocycler overview");
 				break;
 			case NotReady:
-				this.title.setText("Thermocycler is warming up...");
+				this.title.setText("Warming up...");
 				onNotReadyUpdateUI(coldBath, hotBath);
 				break;
 			case ColdBath:
-				this.title.setText("Thermocycler is cooling specimen...");
+				this.title.setText("Cooling specimen...");
 				this.coldBathTitle.setStyle(okStyle);
 				this.hotBathTitle.setStyle(neutralStyle);
 				this.coldBathTime.setText(String.format(timeFormat, minutes, seconds));
 				this.cycles.setText(this.thermocycler.getStateLogic().getCurrenCycle() + " / " + this.cycles.getText());
 				break;
 			case HotBath:
-				this.title.setText("Thermocycler is heating specimen...");
+				this.title.setText("Heating specimen...");
 				this.coldBathTitle.setStyle(neutralStyle);
 				this.hotBathTitle.setStyle(okStyle);
 				this.hotBathTime.setText(String.format(timeFormat, minutes, seconds));
@@ -122,7 +122,7 @@ public class ThermocyclerOverviewController extends ThermocyclerController {
 				this.title.setText("Cycling completed click finish.");
 				break;
 			case UnexpectedShutdown:
-				this.title.setText("Thermocycler shutdown unepectedly do you wish to continue?");
+				this.title.setText("Shutdown unepectedly do you wish to continue?");
 				this.cycles.setText(this.thermocycler.getStateLogic().getCurrenCycle() + " / " + this.cycles.getText());
 				break;
 		}

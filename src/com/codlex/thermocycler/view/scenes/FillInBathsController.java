@@ -70,4 +70,10 @@ public class FillInBathsController extends ThermocyclerController {
 			progress.setStyle(INVALID_PROGRESS_STYLE);
 		}
 	}
+	
+	@Override
+	protected boolean backValidation() {
+		return false;
+	}
+	
 }

@@ -72,7 +72,7 @@ public class ThermocyclerGUI extends Application {
 				setScene(ThermocyclerScene.ThermocyclerOverview);
 			}
 			
-			this.rootLayout.setRight(ThermocyclerScene.MockSensors.load(this.thermocycler, this));
+			// this.rootLayout.setRight(ThermocyclerScene.MockSensors.load(this.thermocycler, this));
 
 			
 

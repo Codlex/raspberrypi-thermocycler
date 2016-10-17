@@ -23,10 +23,6 @@ public abstract class ThermocyclerController {
 		return "Next";
 	}
 
-	public String getTitle() {
-		return "Codlex's Thermocycler";
-	}
-
 	protected boolean isRoot() {
 		return false;
 	}

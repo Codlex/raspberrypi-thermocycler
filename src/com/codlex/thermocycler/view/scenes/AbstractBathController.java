@@ -44,6 +44,7 @@ public abstract class AbstractBathController extends ThermocyclerController {
 		this.bath = getBath();
 		this.temperatureSlider.valueProperty().bindBidirectional(bath.getTemperatureProperty());
 		this.bath.getTemperatureProperty().addListener((newValue) -> {
+			log.debug("temp change");
 
 			IntegerProperty property = (IntegerProperty) newValue;
 			Integer value = property.get();
@@ -94,6 +95,7 @@ public abstract class AbstractBathController extends ThermocyclerController {
 	
 	@FXML
 	private void onMinusOneSecondClick() {
+		log.debug("minus clicked");
 		decrement(this.bath.getTimeProperty());
 	}
 

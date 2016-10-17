@@ -14,7 +14,11 @@ public class ShutdownController extends ThermocyclerController {
 	
 	@Override
 	protected String getNextLabel() {
-		return "Shutdown";
+		if (this.alreadyClicked) {
+			return "Shutdown";
+		} else {
+			return "Next";
+		}
 	}
 	
 	@Override
@@ -25,6 +29,7 @@ public class ShutdownController extends ThermocyclerController {
 		this.thermocycler.lowerTranslator();
 		this.message.setText("You may now shutdown Thermocycler.");
 		this.alreadyClicked = true;
+		updateUI();
 	}
 	
 	@Override
@@ -34,11 +39,6 @@ public class ShutdownController extends ThermocyclerController {
 
 	@Override
 	protected boolean validation() {
-		return false;
-	}
-	
-	@Override
-	protected String getBackLabel() {
-		return "";
+		return true;
 	}
 }

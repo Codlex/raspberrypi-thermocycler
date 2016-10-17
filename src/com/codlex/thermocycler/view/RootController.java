@@ -9,9 +9,6 @@ import lombok.extern.log4j.Log4j;
 public class RootController extends ThermocyclerController {
 	
 	@FXML
-	protected Label title;
-	
-	@FXML
 	protected Button nextButton;
 	
 	@FXML
@@ -34,13 +31,11 @@ public class RootController extends ThermocyclerController {
 	
 	@Override
 	protected void onUpdateUI() {
-		final String VALID_BUTTON_STYLE = "-fx-background-color: green";
-		final String INVALID_BUTTON_STYLE = "-fx-background-color: gray";
+		final String VALID_BUTTON_STYLE = "-fx-background-color: green; -fx-text-fill: white";
+		final String INVALID_BUTTON_STYLE = "-fx-background-color: gray; -fx-text-fill: white";
 		
 		final ThermocyclerController controller = getController();
-		
-		this.title.setText(controller.getTitle());
-		
+				
 		boolean isNextValid = controller.validation();
 		this.nextButton.setStyle(isNextValid ? VALID_BUTTON_STYLE : INVALID_BUTTON_STYLE);
 		this.nextButton.setDisable(!isNextValid);
