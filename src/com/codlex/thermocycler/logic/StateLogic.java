@@ -178,4 +178,8 @@ public class StateLogic {
 		
 		return hotTimeLeft + coldTimeLeft + translatingTime - this.calculateImmersionTime();
 	}
+	
+	public long getCyclesLeft() {
+		return this.thermocycler.cycles.get() - this.hotBathImmersionCount;
+	}
 }

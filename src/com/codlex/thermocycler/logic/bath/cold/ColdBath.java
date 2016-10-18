@@ -4,6 +4,7 @@ import com.codlex.thermocycler.logic.Settings;
 import com.codlex.thermocycler.logic.Thermocycler;
 import com.codlex.thermocycler.logic.bath.Bath;
 import com.codlex.thermocycler.logic.bath.sensors.TemperatureSensor;
+import com.codlex.thermocycler.tracker.Tracker;
 
 import lombok.extern.log4j.Log4j;
 
@@ -56,6 +57,11 @@ public class ColdBath extends Bath {
 
 	@Override
 	public void logStatus() {
+		Tracker.track("cold_bath.temperature1", this.temperatureSensor1.getTemperature());
+		Tracker.track("cold_bath.temperature2", this.temperatureSensor2.getTemperature());
+		Tracker.track("cold_bath.antifrizTemperature", this.antifrizTemperature.getTemperature());
+		Tracker.track("cold_bath.percentageFilled", this.level.getPercentageFilled());
+
 		log.debug("ColdBathStatus(temp1="
 				+ this.temperatureSensor1.getTemperature() + ", temp2="
 				+ this.temperatureSensor2.getTemperature() + ", tempA="
