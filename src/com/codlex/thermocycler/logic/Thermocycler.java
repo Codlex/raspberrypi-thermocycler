@@ -47,7 +47,10 @@ public class Thermocycler {
 		this.translator = new Translator();
 
 		if (!this.persister.lastFinishedSuccessfully()) {
-			this.persister.load(this);
+			boolean succesfullyLoaded = this.persister.load(this);
+			if (!succesfullyLoaded) {
+				reset();
+			}
 		} else {
 			reset();
 		}

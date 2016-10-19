@@ -14,10 +14,11 @@ public class ThermocyclerPersister {
 
 	private static final Object SEPARATOR = "\n";
 	
-	final File backup = new File("ThermocyclerState.bin");
-
+	final File temp = new File("ThermocyclerState.bin.temp");
+	final File finalFile = new File("ThermocyclerState.bin");
+	
 	public boolean lastFinishedSuccessfully() {
-		return !this.backup.exists();
+		return !this.finalFile.exists();
 	}
 
 	public void save(Thermocycler thermocycler) {
@@ -36,16 +37,18 @@ public class ThermocyclerPersister {
 		builder.append(lastCycle).append(SEPARATOR); // last cycle
 		
 		try {
-			Files.write(builder.toString(), this.backup, Charsets.UTF_8);
+			Files.write(builder.toString(), this.temp, Charsets.UTF_8);
+			Files.move(this.temp, this.finalFile);
 		} catch (IOException e) {
 			log.error("Couldn't persist state of thermocycler: ", e);
 		}
+		
 
 	}
 	
-	public void load(Thermocycler thermocycler) {
+	public boolean load(Thermocycler thermocycler) {
 		try {
-			List<String> parameters = Files.readLines(this.backup, Charsets.UTF_8);
+			List<String> parameters = Files.readLines(this.finalFile, Charsets.UTF_8);
 			
 			int i = 0;
 			
@@ -67,18 +70,20 @@ public class ThermocyclerPersister {
 			thermocycler.setCurrentCycle(Integer.parseInt(parameters.get(i)));
 
 			
-		} catch (IOException e) {
-			log.debug("Couldn't load state of thermocycler: ", e);
-			return;
+		} catch (Exception e) {
+			log.error("Couldn't load state of thermocycler: ", e);
+			return false;
 		}
+		
+		return true;
 	}
 	
 	public void delete() {
-		if (!this.backup.exists()) {
+		if (!this.finalFile.exists()) {
 			return;
 		}
 		
-		if(!this.backup.delete()) {
+		if(!this.finalFile.delete()) {
 			throw new RuntimeException("Can't delete persistance file.");
 		}
 	}
