@@ -10,17 +10,17 @@ import lombok.extern.log4j.Log4j;
 
 @Log4j
 public class ScreenAlarmClock {
-	
-	private static final ExecutorService RINGER = Executors.newSingleThreadExecutor();
+
+	private static final ExecutorService RINGER = Executors
+			.newSingleThreadExecutor();
 	private static final long WAKE_UP_TIME = Duration.ofMinutes(1).toMillis();
-	
+
 	private AtomicLong lastTouchEventTime = new AtomicLong();
 
-	
 	public void onTouchEvent() {
 		final long now = System.currentTimeMillis();
 		final long diff = now - this.lastTouchEventTime.getAndSet(now);
-		
+
 		if (diff > WAKE_UP_TIME) {
 			RINGER.submit(() -> {
 				log.debug("Waking up screen.");

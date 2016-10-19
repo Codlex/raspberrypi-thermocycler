@@ -10,23 +10,16 @@ import lombok.extern.log4j.Log4j;
 
 @Log4j
 public enum ThermocyclerScene {
-	MockSensors,
-	FillInBaths, 
-	FillRefillTanks, 
-	PutSpecimen,
-	HotBathConfiguration,
-	ColdBathConfiguration,
-	CyclesConfiguration,
-	ThermocyclerOverview,
-	Shutdown;
-	
+	MockSensors, FillInBaths, FillRefillTanks, PutSpecimen, HotBathConfiguration, ColdBathConfiguration, CyclesConfiguration, ThermocyclerOverview, Shutdown;
+
 	private final FXMLLoader loader;
 	private Pane pane;
 	private ThermocyclerController controller;
-	
+
 	private ThermocyclerScene() {
 		this.loader = new FXMLLoader();
-		this.loader.setLocation(ThermocyclerScene.class.getResource("scenes/" + name() + ".fxml"));
+		this.loader.setLocation(ThermocyclerScene.class
+				.getResource("scenes/" + name() + ".fxml"));
 		try {
 			this.pane = this.loader.load();
 		} catch (IOException e) {
@@ -34,18 +27,24 @@ public enum ThermocyclerScene {
 		}
 		this.controller = this.loader.getController();
 	}
-	
-	
-	public ThermocyclerScene previousScene() {
-		if (!hasPreviousScene()) {
-			throw new RuntimeException(name() + " doesn't have previous scene!");
-		}
-		
-		return values()[ordinal() - 1];
+
+	@SuppressWarnings("unchecked")
+	public <T extends ThermocyclerController> T getController() {
+		return (T) this.loader.getController();
 	}
-	
+
+	public boolean hasNextScene() {
+		return ordinal() != values().length - 1;
+	}
+
 	private boolean hasPreviousScene() {
 		return ordinal() != 0;
+	}
+
+	public Pane load(Thermocycler thermocycler, ThermocyclerGUI gui) {
+		this.controller.setGui(gui);
+		this.controller.setModel(thermocycler);
+		return this.pane;
 	}
 
 	public ThermocyclerScene nextScene() {
@@ -54,19 +53,13 @@ public enum ThermocyclerScene {
 		}
 		return values()[ordinal() + 1];
 	}
-	
-	public boolean hasNextScene() {
-		return ordinal() !=  values().length - 1;
-	}
-	
-	@SuppressWarnings("unchecked")
-	public <T extends ThermocyclerController> T getController() {
-		return (T) this.loader.getController();
-	}
-	
-	public Pane load(Thermocycler thermocycler, ThermocyclerGUI gui) {
-		this.controller.setGui(gui);
-		this.controller.setModel(thermocycler);
-		return this.pane;
+
+	public ThermocyclerScene previousScene() {
+		if (!hasPreviousScene()) {
+			throw new RuntimeException(
+					name() + " doesn't have previous scene!");
+		}
+
+		return values()[ordinal() - 1];
 	}
 }

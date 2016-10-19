@@ -56,6 +56,17 @@ public class Thermocycler {
 		}
 	}
 
+	private void clear() {
+		this.translator.clear();
+		this.hotBath.clear();
+		this.coldBath.clear();
+	}
+
+	public Date getFinishTime() {
+		return new Date(System.currentTimeMillis()
+				+ this.stateLogic.getFullTimeLeftMillis());
+	}
+
 	public int getTimeLeft() {
 		return (int) TimeUnit.MILLISECONDS
 				.toSeconds(this.stateLogic.getTargetImmersionTime()
@@ -65,39 +76,64 @@ public class Thermocycler {
 	void init() {
 		clear();
 		try {
+			log.debug("Checking cold bath...");
 			Thread.sleep(1500);
-		} catch (InterruptedException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		this.translator.goToCold();
-		try {
+			this.translator.goToCold();
+			log.debug("Checking hot bath...");
 			Thread.sleep(2000);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		this.translator.goToHot();
-		try {
+			this.translator.goToHot();
 			Thread.sleep(1500);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			log.debug("Errecting...");
+			this.translator.errect(State.HotBath);
+		} catch (InterruptedException e1) {
+			log.error(e1);
 		}
-		this.translator.errect(State.HotBath);
+	}
+
+	public boolean lastFinishedSuccessfully() {
+		return this.persister.lastFinishedSuccessfully();
 	}
 
 	void logStatus() {
 		Tracker.track("cyclesLeft", this.stateLogic.getCyclesLeft());
-		Tracker.track("timeLeft", this.stateLogic.getFullTimeLeftMillis() / 1000);
+		Tracker.track("timeLeft",
+				this.stateLogic.getFullTimeLeftMillis() / 1000);
 
 		// log.debug("ThermocyclerStatus(state=%s, immersion=%lu ms,
 		// targetImmersion=%lu ms)",
 		// StateToString(this.stateLogic.getCurrentState()),
 		// this.stateLogic.calculateImmersionTime(),
 		// this.stateLogic.getTargetImmersionTime());
-		this.hotBath.logStatus();
-		this.coldBath.logStatus();
+		// this.hotBath.logStatus();
+		// this.coldBath.logStatus();
+	}
+
+	public void lowerTranslator() {
+		this.translator.goToHot();
+	}
+
+	public void onStateChange(State state) {
+		Set<State> saveStates = ImmutableSet.of(State.NotReady, State.HotBath,
+				State.ColdBath);
+		if (saveStates.contains(state)) {
+			this.persister.save(this);
+		}
+
+		Set<State> deleteStates = ImmutableSet.of(State.Finished);
+		if (deleteStates.contains(state)) {
+			this.persister.delete();
+		}
+
+	}
+
+	public void performSafetyChecks() {
+		boolean success = this.hotBath.performSafetyChecks();
+		success &= this.coldBath.performSafetyChecks();
+
+		if (!success) {
+			log.error("Thermocycler safety check failed, shutting down.");
+			shutdown();
+		}
 	}
 
 	public void reset() {
@@ -111,6 +147,16 @@ public class Thermocycler {
 		this.persister.delete();
 	}
 
+	public void setCurrentCycle(int lastCycle) {
+		this.stateLogic.coldBathImmersionCount = lastCycle;
+		this.stateLogic.hotBathImmersionCount = lastCycle;
+	}
+
+	private void shutdown() {
+		clear();
+		System.exit(1);
+	}
+
 	public void start() {
 		if (validate()) {
 			this.isStarted.set(true);
@@ -120,20 +166,8 @@ public class Thermocycler {
 		}
 	}
 
-	private boolean validate() {
-		boolean isValid = Settings.ValidationCyclesRange
-				.contains(this.cycles.get());
-		isValid &= this.hotBath.isValid();
-		isValid &= this.coldBath.isValid();
-		return isValid;
-	}
-
 	public void update(long deltaT) {
 		if (this.isStarted.get()) {
-			log.debug("############################## CYCLE(hot="
-					+ this.stateLogic.hotBathImmersionCount + ", cold="
-					+ this.stateLogic.coldBathImmersionCount + ", total="
-					+ this.cycles + ") ##############################");
 			this.stateLogic.update(deltaT);
 			this.hotBath.update(deltaT);
 			this.coldBath.update(deltaT);
@@ -152,56 +186,11 @@ public class Thermocycler {
 
 	}
 
-	public void lowerTranslator() {
-		this.translator.goToHot();
-	}
-
-	public boolean lastFinishedSuccessfully() {
-		return this.persister.lastFinishedSuccessfully();
-	}
-
-	public void onStateChange(State state) {
-		Set<State> saveStates = ImmutableSet.of(State.NotReady, State.HotBath,
-				State.ColdBath);
-		if (saveStates.contains(state)) {
-			this.persister.save(this);
-		}
-
-		Set<State> deleteStates = ImmutableSet.of(State.Finished);
-		if (deleteStates.contains(state)) {
-			this.persister.delete();
-		}
-
-	}
-
-	public void setCurrentCycle(int lastCycle) {
-		this.stateLogic.coldBathImmersionCount = lastCycle;
-		this.stateLogic.hotBathImmersionCount = lastCycle;
-	}
-
-	public Date getFinishTime() {
-		return new Date(System.currentTimeMillis()
-				+ this.stateLogic.getFullTimeLeftMillis());
-	}
-
-	public void performSafetyChecks() {
-		boolean success = this.hotBath.performSafetyChecks();
-		success &= this.coldBath.performSafetyChecks();
-
-		if (!success) {
-			log.error("Thermocycler safety check failed, shutting down.");
-			shutdown();
-		}
-	}
-
-	private void shutdown() {
-		clear();
-		System.exit(1);
-	}
-
-	private void clear() {
-		this.translator.clear();
-		this.hotBath.clear();
-		this.coldBath.clear();
+	private boolean validate() {
+		boolean isValid = Settings.ValidationCyclesRange
+				.contains(this.cycles.get());
+		isValid &= this.hotBath.isValid();
+		isValid &= this.coldBath.isValid();
+		return isValid;
 	}
 }

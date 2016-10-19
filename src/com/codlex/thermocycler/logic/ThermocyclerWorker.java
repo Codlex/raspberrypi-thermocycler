@@ -16,46 +16,46 @@ public class ThermocyclerWorker implements Runnable {
 
 	private final Thermocycler thermocycler;
 
+	private long lastLoopStart;
+
 	public ThermocyclerWorker(final Thermocycler thermocycler) {
 		this.thermocycler = thermocycler;
 	}
 
-	private long lastLoopStart;
-	
 	private long pollDeltaT() {
 		long currentMillis = System.currentTimeMillis();
-		long deltaT = currentMillis - lastLoopStart;
+		long deltaT = currentMillis - this.lastLoopStart;
 		this.lastLoopStart = System.currentTimeMillis();
 		return deltaT;
 	}
-	
+
 	@Override
 	public void run() {
-		log.debug("Thermocycler worker started");
+
+		Stopwatch logicInitialization = Stopwatch.createStarted();
+		log.debug("Logic initialization...");
 		this.thermocycler.init();
+		log.debug("######## Logic initialized in "
+				+ logicInitialization.elapsed(TimeUnit.MILLISECONDS) + " ms ########");
+
 		this.lastLoopStart = System.currentTimeMillis();
-		
 		while (true) {
 			try {
-				Stopwatch stopwatch = Stopwatch.createStarted();
-				
+				final Stopwatch stopwatch = Stopwatch.createStarted();
+
 				this.thermocycler.update(pollDeltaT());
-				
+
 				long processingTime = stopwatch.elapsed(TimeUnit.MILLISECONDS);
 				if (processingTime > 10) {
 					log.error("Processing done in " + processingTime + " ms");
 				}
-				
+
+				Thread.sleep(500);
+
 			} catch (Exception e) {
 				log.error("Exception happened in themrocycler logic: ", e);
 			} finally {
 				this.thermocycler.performSafetyChecks();
-			}
-
-			try {
-				Thread.sleep(500);
-			} catch (InterruptedException e) {
-				log.error(e);
 			}
 		}
 	}

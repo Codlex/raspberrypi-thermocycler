@@ -1,8 +1,6 @@
 package com.codlex.thermocycler.view;
 
 import java.io.IOException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 import org.apache.log4j.BasicConfigurator;
 
@@ -15,7 +13,6 @@ import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TouchEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
@@ -28,6 +25,7 @@ public class ThermocyclerGUI extends Application {
 
 	public static void main(String[] args) {
 		BasicConfigurator.configure();
+		log.debug("################ Thermocycler is starting ################");
 		launch(new String[0]);
 	}
 
@@ -43,8 +41,7 @@ public class ThermocyclerGUI extends Application {
 	private ThermocyclerController controller;
 
 	private ScreenAlarmClock screenAlarmClock = new ScreenAlarmClock();
-	
-	
+
 	/**
 	 * Returns the main stage.
 	 *
@@ -71,32 +68,41 @@ public class ThermocyclerGUI extends Application {
 			this.primaryStage.setScene(scene);
 			this.primaryStage.show();
 
-			this.primaryStage.addEventFilter(TouchEvent.ANY, new EventHandler<Event>() {
-				public void handle(Event event) {
-					ThermocyclerGUI.this.screenAlarmClock.onTouchEvent();
-				};
-			});
-			
-			
+			this.primaryStage.addEventFilter(TouchEvent.ANY,
+					new EventHandler<Event>() {
+						@Override
+						public void handle(Event event) {
+							ThermocyclerGUI.this.screenAlarmClock
+									.onTouchEvent();
+						};
+					});
+
 			this.controller = loader.getController();
 			this.controller.setGui(this);
 			this.controller.setModel(this.thermocycler);
-			
 
-			if (this.thermocycler.lastFinishedSuccessfully()){
+			if (this.thermocycler.lastFinishedSuccessfully()) {
 				setScene(ThermocyclerScene.FillInBaths);
 			} else {
 				setScene(ThermocyclerScene.ThermocyclerOverview);
 			}
-			
-			// this.rootLayout.setRight(ThermocyclerScene.MockSensors.load(this.thermocycler, this));
-			
+
+			// this.rootLayout.setRight(ThermocyclerScene.MockSensors.load(this.thermocycler,
+			// this));
+
 		} catch (IOException e) {
-			e.printStackTrace();
+			log.error(e);
 		}
 	}
-	
-	
+
+	public void nextScene() {
+		setScene(this.currentScene.nextScene());
+	}
+
+	public void previousScene() {
+		setScene(this.currentScene.previousScene());
+	}
+
 	public void setScene(ThermocyclerScene scene) {
 		this.currentScene = scene;
 		Pane pane = scene.load(this.thermocycler, this);
@@ -105,27 +111,22 @@ public class ThermocyclerGUI extends Application {
 		}
 		this.rootLayout.setCenter(pane);
 	}
-	
-	public void nextScene() {
-		setScene(this.currentScene.nextScene());
-	}
 
 	@Override
 	public void start(Stage primaryStage) {
 		this.thermocycler = new Thermocycler();
-		ThermocyclerWorker.start(thermocycler);
+		ThermocyclerWorker.start(this.thermocycler);
+
+		log.debug("Initializing GUI start");
 		this.primaryStage = primaryStage;
 		this.primaryStage.setTitle("Thermocycler");
 		initRootLayout();
-	}
-
-	public void previousScene() {
-		setScene(this.currentScene.previousScene());
+		log.debug("Initializing GUI end");
 	}
 
 	public void updateUI() {
 		this.controller.onUpdateUI();
-		
+
 	}
 
 }

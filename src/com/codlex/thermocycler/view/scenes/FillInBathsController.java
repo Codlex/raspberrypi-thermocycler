@@ -12,6 +12,10 @@ import lombok.extern.log4j.Log4j;
 @Log4j
 public class FillInBathsController extends ThermocyclerController {
 
+	private static final String INVALID_PROGRESS_STYLE = "-fx-accent : red";
+
+	private static final String VALID_PROGRESS_STYLE = "-fx-accent : green";
+
 	@FXML
 	private Label hotBathLevelLabel;
 
@@ -28,13 +32,9 @@ public class FillInBathsController extends ThermocyclerController {
 	private Button nextButton;
 
 	@Override
-	public void onModelInitialized() {
-		bind(this.thermocycler.getHotBath(), this.hotBathLevelLabel,
-				this.hotBathLevelProgressBar);
-		bind(this.thermocycler.getColdBath(), this.coldBathLevelLabel,
-				this.coldBathLevelProgressBar);
+	protected boolean backValidation() {
+		return false;
 	}
-
 	private void bind(final Bath bath, Label label, ProgressBar progressBar) {
 		bath.getLevelSensor().getProperty().addListener((newValue) -> {
 			IntegerProperty property = (IntegerProperty) newValue;
@@ -45,8 +45,13 @@ public class FillInBathsController extends ThermocyclerController {
 		});
 	}
 
-	private static final String INVALID_PROGRESS_STYLE = "-fx-accent : red";
-	private static final String VALID_PROGRESS_STYLE = "-fx-accent : green";
+	@Override
+	public void onModelInitialized() {
+		bind(this.thermocycler.getHotBath(), this.hotBathLevelLabel,
+				this.hotBathLevelProgressBar);
+		bind(this.thermocycler.getColdBath(), this.coldBathLevelLabel,
+				this.coldBathLevelProgressBar);
+	}
 
 	@Override
 	protected void onUpdateUI() {
@@ -56,13 +61,6 @@ public class FillInBathsController extends ThermocyclerController {
 				this.coldBathLevelProgressBar);
 	}
 
-	@Override
-	protected boolean validation() {
-		boolean isValid = this.thermocycler.getHotBath().isLevelOK();
-		isValid &= this.thermocycler.getColdBath().isLevelOK();
-		return isValid;
-	}
-
 	private void updateBathUI(Bath bath, ProgressBar progress) {
 		if (bath.isLevelOK()) {
 			progress.setStyle(VALID_PROGRESS_STYLE);
@@ -70,10 +68,12 @@ public class FillInBathsController extends ThermocyclerController {
 			progress.setStyle(INVALID_PROGRESS_STYLE);
 		}
 	}
-	
+
 	@Override
-	protected boolean backValidation() {
-		return false;
+	protected boolean validation() {
+		boolean isValid = this.thermocycler.getHotBath().isLevelOK();
+		isValid &= this.thermocycler.getColdBath().isLevelOK();
+		return isValid;
 	}
-	
+
 }

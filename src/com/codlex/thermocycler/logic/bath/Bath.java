@@ -16,7 +16,7 @@ import lombok.extern.log4j.Log4j;
 
 @Log4j
 public abstract class Bath {
-	
+
 	@Getter
 	private FloatProperty currentTemperatureProperty = new SimpleFloatProperty();
 	protected TemperatureSensor temperatureSensor1;
@@ -29,13 +29,21 @@ public abstract class Bath {
 	public IntegerProperty time = new SimpleIntegerProperty();
 	private final Thermocycler thermocycler;
 
-	public Bath(Thermocycler thermocycler, String temperatureSensorIndex1, String temperatureSensorIndex2,
-			Pin levelEchoPin, Pin levelTriggerPin, Pin waterPumpPin) {
+	public Bath(Thermocycler thermocycler, String temperatureSensorIndex1,
+			String temperatureSensorIndex2, Pin levelEchoPin,
+			Pin levelTriggerPin, Pin waterPumpPin) {
 		this.thermocycler = thermocycler;
-		this.temperatureSensor1 = new TemperatureSensor(temperatureSensorIndex1); 
-		this.temperatureSensor2 = new TemperatureSensor(temperatureSensorIndex2); 
-		this.level = new LevelSensor(levelEchoPin, levelTriggerPin, Settings.BathDepth);
+		this.temperatureSensor1 = new TemperatureSensor(
+				temperatureSensorIndex1);
+		this.temperatureSensor2 = new TemperatureSensor(
+				temperatureSensorIndex2);
+		this.level = new LevelSensor(levelEchoPin, levelTriggerPin,
+				Settings.BathDepth);
 		this.pump = new WaterPump(waterPumpPin);
+	}
+
+	public void clear() {
+		this.pump.turnOff();
 	}
 
 	public synchronized float getCurrentTemperature() {
@@ -81,13 +89,16 @@ public abstract class Bath {
 				&& currentTemperature <= maxTemperature;
 	}
 
+	public boolean isValid() {
+		return this.isLevelOK()
+				&& Settings.ValidationTimeRange.contains(this.time.get());
+	}
+
 	public void keepLevel() {
 		int precetage = this.level.getPercentageFilled();
 		if (precetage < Settings.BathMinimumLevel) {
-			log.debug("ukljuceno punjenje! " + precetage);
 			this.pump.turnOn();
 		} else {
-			log.debug("iskljuceno punjenje!" + precetage);
 			this.pump.turnOff();
 		}
 	}
@@ -95,6 +106,24 @@ public abstract class Bath {
 	public abstract void keepTemperature();
 
 	public abstract void logStatus();
+
+	private boolean performLevelSafetyChecks() {
+		boolean isOk = this.level
+				.getPercentageFilled() > Settings.SafetyLevelMin;
+		isOk &= this.level.getPercentageFilled() < Settings.SafetyLevelMax;
+		if (!isOk) {
+			log.error("Safety check failed: level of liquid dangerous!");
+		}
+		return isOk;
+	}
+
+	public boolean performSafetyChecks() {
+		boolean isOk = true;
+		if (this.thermocycler.isStarted.get()) {
+			isOk &= performLevelSafetyChecks();
+		}
+		return isOk;
+	}
 
 	public void reset() {
 		Platform.runLater(() -> {
@@ -109,31 +138,5 @@ public abstract class Bath {
 		getCurrentTemperature();
 		keepTemperature();
 		keepLevel();
-		logStatus();
-	}
-
-	public boolean performSafetyChecks() {
-		boolean isOk = true;
-		if (this.thermocycler.isStarted.get()) {
-			isOk &= performLevelSafetyChecks();
-		}
-		return isOk;
-	}
-
-	private boolean performLevelSafetyChecks() {
-		boolean isOk = this.level.getPercentageFilled() > Settings.SafetyLevelMin;
-		isOk &= this.level.getPercentageFilled() < Settings.SafetyLevelMax;
-		if (!isOk) {
-			log.error("Safety check failed: level of liquid dangerous!");
-		}
-		return isOk;
-	}
-
-	public boolean isValid() {
-		return this.isLevelOK() && Settings.ValidationTimeRange.contains(this.time.get());
-	}
-
-	public void clear() {
-		this.pump.turnOff();
 	}
 }

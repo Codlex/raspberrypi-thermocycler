@@ -13,7 +13,14 @@ import javafx.scene.control.ToggleButton;
 import javafx.util.converter.NumberStringConverter;
 
 public class MockSensorsController extends ThermocyclerController {
-	
+
+	private static void bind(FloatProperty sensor, Slider slider,
+			TextField field) {
+		slider.valueProperty().bindBidirectional(sensor);
+		field.textProperty().bindBidirectional(sensor,
+				new NumberStringConverter());
+	}
+
 	@FXML
 	private Slider hotBathTemperature1Slider;
 
@@ -25,28 +32,25 @@ public class MockSensorsController extends ThermocyclerController {
 
 	@FXML
 	private TextField hotBathTemperature2Field;
-	
+
 	@FXML
 	private Slider hotBathTemperature3Slider;
 
 	@FXML
 	private TextField hotBathTemperature3Field;
-	
-		
-	
 
 	@FXML
 	private ToggleButton hotBathHeater;
 
 	@FXML
 	private Slider coldBathTemperature1Slider;
-	
+
 	@FXML
 	private TextField coldBathTemperature1Field;
-	
+
 	@FXML
 	private Slider coldBathTemperature2Slider;
-	
+
 	@FXML
 	private TextField coldBathTemperature2Field;
 
@@ -58,35 +62,40 @@ public class MockSensorsController extends ThermocyclerController {
 
 	@FXML
 	private ToggleButton coldBathCooler;
-	
+
 	@FXML
 	private Slider hotBathLevelSlider;
-	
+
 	@FXML
 	private Slider coldBathLevelSlider;
 
 	@FXML
 	private TextField cycles;
 
-	
-	@Override
-	protected void onModelInitialized() {
-		bind();
-	}
-	
-	public void bind() {		
-		bind(VirtualSensors.get().hotBathTemperature1, this.hotBathTemperature1Slider, this.hotBathTemperature1Field);
-		bind(VirtualSensors.get().hotBathTemperature2, this.hotBathTemperature2Slider, this.hotBathTemperature2Field);
-		bind(VirtualSensors.get().hotBathTemperatureSafety, this.hotBathTemperature3Slider, this.hotBathTemperature3Field);
+	public void bind() {
+		bind(VirtualSensors.get().hotBathTemperature1,
+				this.hotBathTemperature1Slider, this.hotBathTemperature1Field);
+		bind(VirtualSensors.get().hotBathTemperature2,
+				this.hotBathTemperature2Slider, this.hotBathTemperature2Field);
+		bind(VirtualSensors.get().hotBathTemperatureSafety,
+				this.hotBathTemperature3Slider, this.hotBathTemperature3Field);
 
 		bind(VirtualSwitches.get().hotBathHeater, this.hotBathHeater);
-		VirtualSensors.get().hotBathDistance.bindBidirectional(this.hotBathLevelSlider.valueProperty());
+		VirtualSensors.get().hotBathDistance
+				.bindBidirectional(this.hotBathLevelSlider.valueProperty());
 
-		bind(VirtualSensors.get().coldBathTemperature1, this.coldBathTemperature1Slider, this.coldBathTemperature1Field);
-		bind(VirtualSensors.get().coldBathTemperature2, this.coldBathTemperature2Slider, this.coldBathTemperature2Field);
-		bind(VirtualSensors.get().coldBathTemperatureAntifriz, this.coldBathTemperatureAntifrizSlider, this.coldBathTemperatureAntifrizField);
+		bind(VirtualSensors.get().coldBathTemperature1,
+				this.coldBathTemperature1Slider,
+				this.coldBathTemperature1Field);
+		bind(VirtualSensors.get().coldBathTemperature2,
+				this.coldBathTemperature2Slider,
+				this.coldBathTemperature2Field);
+		bind(VirtualSensors.get().coldBathTemperatureAntifriz,
+				this.coldBathTemperatureAntifrizSlider,
+				this.coldBathTemperatureAntifrizField);
 		bind(VirtualSwitches.get().coldBathCooler, this.coldBathCooler);
-		VirtualSensors.get().coldBathDistance.bindBidirectional(this.coldBathLevelSlider.valueProperty());
+		VirtualSensors.get().coldBathDistance
+				.bindBidirectional(this.coldBathLevelSlider.valueProperty());
 
 	}
 
@@ -94,9 +103,9 @@ public class MockSensorsController extends ThermocyclerController {
 		button.selectedProperty().bindBidirectional(sensor);
 	}
 
-	private static void bind(FloatProperty sensor, Slider slider, TextField field) {
-		slider.valueProperty().bindBidirectional(sensor);
-		field.textProperty().bindBidirectional(sensor, new NumberStringConverter());
+	@Override
+	protected void onModelInitialized() {
+		bind();
 	}
-	
+
 }

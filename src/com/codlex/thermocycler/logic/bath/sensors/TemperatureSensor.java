@@ -11,7 +11,8 @@ public class TemperatureSensor {
 	private final Sensor<Float> sensor;
 
 	public TemperatureSensor(String sensorAddress) {
-		this.sensor = HardwareProvider.get().getTemperatureSensor(sensorAddress);
+		this.sensor = HardwareProvider.get()
+				.getTemperatureSensor(sensorAddress);
 		this.sensor.startMeasuring();
 	}
 

@@ -1,10 +1,8 @@
 package com.codlex.thermocycler.hardware;
 
-import java.io.IOException;
 import java.time.Duration;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.ThreadLocalRandom;
 
 import com.codlex.thermocycler.logic.Settings;
 import com.pi4j.io.gpio.Pin;
@@ -20,7 +18,7 @@ public class VirtualSensors {
 	public static VirtualSensors get() {
 		return INSTANCE;
 	}
-	
+
 	public FloatProperty coldBathTemperature1 = new SimpleFloatProperty(20);
 	public FloatProperty coldBathTemperature2 = new SimpleFloatProperty(20);
 	public FloatProperty coldBathTemperatureAntifriz = new SimpleFloatProperty(
@@ -29,8 +27,7 @@ public class VirtualSensors {
 	public FloatProperty coldBathDistance = new SimpleFloatProperty(3);
 	public FloatProperty hotBathTemperature1 = new SimpleFloatProperty(20);
 	public FloatProperty hotBathTemperature2 = new SimpleFloatProperty(20);
-	public FloatProperty hotBathTemperatureSafety = new SimpleFloatProperty(
-			20);
+	public FloatProperty hotBathTemperatureSafety = new SimpleFloatProperty(20);
 
 	public FloatProperty hotBathDistance = new SimpleFloatProperty(3);
 
@@ -64,7 +61,13 @@ public class VirtualSensors {
 	private void addDistanceMonitor(Pin echo, Pin trigger,
 			FloatProperty distance) {
 		final Pair<Pin, Pin> id = new Pair<>(echo, trigger);
-		this.distanceMonitors.put(id, new RefreshedSensor<Float>(Duration.ofMillis(Settings.DistanceRefreshMillis)) {
+		this.distanceMonitors.put(id, new RefreshedSensor<Float>(
+				Duration.ofMillis(Settings.DistanceRefreshMillis)) {
+
+			@Override
+			protected Float getDefaultValue() {
+				return 0f;
+			}
 
 			@Override
 			public String getID() {
@@ -77,19 +80,20 @@ public class VirtualSensors {
 				// Thread.sleep(ThreadLocalRandom.current().nextLong(1500));
 				return distance.get();
 			}
-			
-			@Override
-			protected Float getDefaultValue() {
-				return 0f;
-			}
-			
+
 		});
 	}
 
 	private void addTemperatureSensor(final String id,
 			final FloatProperty property) {
 
-		this.temperatureSensors.put(id, new RefreshedSensor<Float>(Duration.ofMillis(Settings.TemperatureRefreshMillis)) {
+		this.temperatureSensors.put(id, new RefreshedSensor<Float>(
+				Duration.ofMillis(Settings.TemperatureRefreshMillis)) {
+
+			@Override
+			protected Float getDefaultValue() {
+				return 20f;
+			}
 
 			@Override
 			public String getID() {
@@ -101,11 +105,6 @@ public class VirtualSensors {
 				// simulate duration of measuring
 				// Thread.sleep(ThreadLocalRandom.current().nextLong(1500));
 				return property.get();
-			}
-
-			@Override
-			protected Float getDefaultValue() {
-				return 20f;
 			}
 		});
 

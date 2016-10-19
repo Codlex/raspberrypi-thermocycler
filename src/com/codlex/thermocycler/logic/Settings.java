@@ -84,6 +84,10 @@ public class Settings {
 	public static final Settings get() {
 		return INSTANCE;
 	}
+	public static void main(String[] args) {
+		System.out.println(new Settings().getRacic());
+	}
+
 	public final Properties properties = new Properties();
 
 	private Settings() {
@@ -93,15 +97,11 @@ public class Settings {
 			log.error(e);
 		}
 	}
-	
-	public int getRacic() {
-		return getValue(Integer.class);
-	}
-	
+
 	public boolean getFullScreen() {
 		return getValue(Boolean.class);
 	}
-	
+
 	private String getMethodName() {
 		final int depth = 3;
 		return Thread.currentThread().getStackTrace()[depth].getMethodName()
@@ -110,6 +110,10 @@ public class Settings {
 
 	public boolean getProduction() {
 		return getValue(Boolean.class);
+	}
+
+	public int getRacic() {
+		return getValue(Integer.class);
 	}
 
 	/**
@@ -129,10 +133,6 @@ public class Settings {
 		}
 
 		return null;
-	}
-	
-	public static void main(String[] args) {
-		System.out.println(new Settings().getRacic());
 	}
 
 }

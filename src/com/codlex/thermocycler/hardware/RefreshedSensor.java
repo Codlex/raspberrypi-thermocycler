@@ -28,6 +28,8 @@ abstract class RefreshedSensor<Value extends Number> implements Sensor<Value> {
 		this.refreshInterval = refreshInterval;
 	}
 
+	protected abstract Value getDefaultValue();
+
 	@Override
 	public final Value getValue() {
 		if (this.valueContainer.get() == null) {
@@ -36,8 +38,6 @@ abstract class RefreshedSensor<Value extends Number> implements Sensor<Value> {
 		}
 		return this.valueContainer.get();
 	}
-
-	protected abstract Value getDefaultValue();
 
 	protected abstract Value recalculateValue() throws Exception;
 
@@ -53,16 +53,13 @@ abstract class RefreshedSensor<Value extends Number> implements Sensor<Value> {
 			}
 
 		} catch (Exception e) {
-			log.error(getClass().getSimpleName() + " failed to recalculate value: ",
-					e);
+			log.error(getClass().getSimpleName()
+					+ " failed to recalculate value: ", e);
 		}
 	}
 
 	@Override
 	public final void startMeasuring() {
-		log.debug(getClass().getSimpleName()
-				+ " started measuring periodically every "
-				+ this.refreshInterval.toMillis() + " ms");
 		this.measuringTask = this.worker.scheduleAtFixedRate(this::refreshValue,
 				0, this.refreshInterval.toMillis(), TimeUnit.MILLISECONDS);
 	}

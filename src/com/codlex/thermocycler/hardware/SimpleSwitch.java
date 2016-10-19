@@ -6,6 +6,9 @@ import com.pi4j.io.gpio.GpioPinDigitalOutput;
 import com.pi4j.io.gpio.Pin;
 import com.pi4j.io.gpio.PinState;
 
+import lombok.extern.log4j.Log4j;
+
+@Log4j
 public class SimpleSwitch implements Switch {
 
 	private enum SwitchState {
@@ -19,12 +22,13 @@ public class SimpleSwitch implements Switch {
 	private GpioPinDigitalOutput pin;
 	private PinState onCurrent;
 	private PinState offCurrent;
+	private final String name;
+	
+	SimpleSwitch(Pin pinNumber, String name) {
+		this(pinNumber, name, true);
+	}
 
-	SimpleSwitch(Pin pinNumber) {
-		this(pinNumber, true);
-	};
-
-	public SimpleSwitch(Pin pinNumber, boolean inverse) {
+	public SimpleSwitch(Pin pinNumber, String name, boolean inverse) {
 		final GpioController gpio = GpioFactory.getInstance();
 
 		if (inverse) {
@@ -37,19 +41,26 @@ public class SimpleSwitch implements Switch {
 
 		this.pin = gpio.provisionDigitalOutputPin(pinNumber,
 				getClass().getSimpleName(), this.offCurrent);
-	};
+		
+		// default name
+		this.name = name;
+	}
 
+	@Override
 	public void turnOff() {
 		if (this.state != SwitchState.Off) {
 			this.state = SwitchState.Off;
 			this.pin.setState(this.offCurrent);
+			log.debug(this.name + " turned off.");
 		}
 	}
 
+	@Override
 	public void turnOn() {
 		if (this.state != SwitchState.On) {
 			this.state = SwitchState.On;
 			this.pin.setState(this.onCurrent);
+			log.debug(this.name + " turned on.");
 		}
 	}
 }

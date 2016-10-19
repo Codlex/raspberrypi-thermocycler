@@ -28,6 +28,20 @@ public class ColdBath extends Bath {
 	}
 
 	@Override
+	public void clear() {
+		super.clear();
+		this.cooler.turnOff();
+	}
+
+	@Override
+	public boolean isValid() {
+		boolean isValid = super.isValid();
+		isValid &= Settings.ValidationColdTemperatureRange
+				.contains(this.temperature.get());
+		return isValid;
+	}
+
+	@Override
 	public void keepTemperature() {
 		if (isTemperatureOK()) {
 			this.cooler.turnOff();
@@ -57,29 +71,20 @@ public class ColdBath extends Bath {
 
 	@Override
 	public void logStatus() {
-		Tracker.track("cold_bath.temperature1", this.temperatureSensor1.getTemperature());
-		Tracker.track("cold_bath.temperature2", this.temperatureSensor2.getTemperature());
-		Tracker.track("cold_bath.antifrizTemperature", this.antifrizTemperature.getTemperature());
-		Tracker.track("cold_bath.percentageFilled", this.level.getPercentageFilled());
+		Tracker.track("cold_bath.temperature1",
+				this.temperatureSensor1.getTemperature());
+		Tracker.track("cold_bath.temperature2",
+				this.temperatureSensor2.getTemperature());
+		Tracker.track("cold_bath.antifrizTemperature",
+				this.antifrizTemperature.getTemperature());
+		Tracker.track("cold_bath.percentageFilled",
+				this.level.getPercentageFilled());
 
 		log.debug("ColdBathStatus(temp1="
 				+ this.temperatureSensor1.getTemperature() + ", temp2="
 				+ this.temperatureSensor2.getTemperature() + ", tempA="
 				+ this.antifrizTemperature.getTemperature() + ", level="
 				+ this.level.getPercentageFilled() + ")");
-	}
-	
-	@Override
-	public boolean isValid() {
-		boolean isValid = super.isValid();
-		isValid &= Settings.ValidationColdTemperatureRange.contains(this.temperature.get());
-		return isValid;
-	}
-	
-	@Override
-	public void clear() {
-		super.clear();
-		this.cooler.turnOff();
 	}
 
 };

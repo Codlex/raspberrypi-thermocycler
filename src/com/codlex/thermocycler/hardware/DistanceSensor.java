@@ -21,11 +21,10 @@ import com.pi4j.io.gpio.GpioPinDigitalOutput;
 import com.pi4j.io.gpio.Pin;
 
 import javafx.util.Pair;
-import lombok.core.Main;
 import lombok.extern.log4j.Log4j;
 
 @Log4j
-public class DistanceMonitorImpl extends RefreshedSensor<Float> {
+public class DistanceSensor extends RefreshedSensor<Float> {
 
 	/**
 	 * Exception thrown when timeout occurs
@@ -47,9 +46,6 @@ public class DistanceMonitorImpl extends RefreshedSensor<Float> {
 	private final static float SOUND_SPEED = 343.2f; // speed of sound in m/s
 	private final static int TRIG_DURATION_IN_MICROS = 10; // trigger duration
 															// of 10 micro s
-
-	private final static int WAIT_DURATION_IN_MILLIS = 60; // wait 60 milli s
-
 	private final static int TIMEOUT = 2100;
 
 	private final static GpioController gpio = GpioFactory.getInstance();
@@ -58,11 +54,16 @@ public class DistanceMonitorImpl extends RefreshedSensor<Float> {
 
 	private final GpioPinDigitalOutput trigPin;
 
-	DistanceMonitorImpl(Pin echoPin, Pin trigPin) {
+	DistanceSensor(Pin echoPin, Pin trigPin) {
 		super(Duration.ofMillis(Settings.DistanceRefreshMillis));
 		this.echoPin = gpio.provisionDigitalInputPin(echoPin);
 		this.trigPin = gpio.provisionDigitalOutputPin(trigPin);
 		this.trigPin.low();
+	}
+
+	@Override
+	protected Float getDefaultValue() {
+		return 0.0f;
 	}
 
 	@Override
@@ -74,7 +75,7 @@ public class DistanceMonitorImpl extends RefreshedSensor<Float> {
 
 	/**
 	 * @return the duration of the signal in micro seconds
-	 * @throws DistanceMonitorImpl.TimeoutException
+	 * @throws DistanceSensor.TimeoutException
 	 *             if no low appears in time
 	 */
 	private long measureSignal() throws TimeoutException {
@@ -119,7 +120,7 @@ public class DistanceMonitorImpl extends RefreshedSensor<Float> {
 	/**
 	 * Wait for a high on the echo pin
 	 *
-	 * @throws DistanceMonitorImpl.TimeoutException
+	 * @throws DistanceSensor.TimeoutException
 	 *             if no high appears in time
 	 */
 	private void waitForSignal() throws TimeoutException {
@@ -131,11 +132,6 @@ public class DistanceMonitorImpl extends RefreshedSensor<Float> {
 		if (countdown <= 0) {
 			throw new TimeoutException("Timeout waiting for signal start");
 		}
-	}
-
-	@Override
-	protected Float getDefaultValue() {
-		return 0.0f;
 	}
 
 }

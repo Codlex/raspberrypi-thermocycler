@@ -43,7 +43,7 @@ public class LevelSensor {
 			this.doubleProperty.set(integerValue / 100.0);
 		});
 
-		return this.property.get();
+		return integerValue;
 	}
 
 	public IntegerProperty getProperty() {

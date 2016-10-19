@@ -5,13 +5,17 @@ import com.codlex.thermocycler.view.ThermocyclerController;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 
-public class ShutdownController extends ThermocyclerController {	
-	
-	
+public class ShutdownController extends ThermocyclerController {
+
 	@FXML
 	private Label message;
 	private boolean alreadyClicked;
-	
+
+	@Override
+	protected boolean backValidation() {
+		return false;
+	}
+
 	@Override
 	protected String getNextLabel() {
 		if (this.alreadyClicked) {
@@ -20,7 +24,7 @@ public class ShutdownController extends ThermocyclerController {
 			return "Next";
 		}
 	}
-	
+
 	@Override
 	protected void onNextClick() {
 		if (this.alreadyClicked) {
@@ -30,11 +34,6 @@ public class ShutdownController extends ThermocyclerController {
 		this.message.setText("You may now shutdown Thermocycler.");
 		this.alreadyClicked = true;
 		updateUI();
-	}
-	
-	@Override
-	protected boolean backValidation() {
-		return false;
 	}
 
 	@Override

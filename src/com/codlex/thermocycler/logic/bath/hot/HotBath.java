@@ -26,7 +26,7 @@ public class HotBath extends Bath {
 		this.temperature.set(20);
 		this.time.set(1);
 		this.circulationWaterPump = HardwareProvider.get()
-				.getSwitch(Settings.HotBathCirculationWaterPump);
+				.getSwitch(Settings.HotBathCirculationWaterPump, "HotBathCirculationWaterPump");
 		this.temperatureSensor3 = new TemperatureSensor(
 				Settings.HotBathTemperatureSensor3);
 	}
@@ -58,10 +58,13 @@ public class HotBath extends Bath {
 
 	@Override
 	public void logStatus() {
-		Tracker.track("hot_bath.temperature1", this.temperatureSensor1.getTemperature());
-		Tracker.track("hot_bath.temperature2", this.temperatureSensor2.getTemperature());
-		Tracker.track("cold_bath.percentageFilled", this.level.getPercentageFilled());
-		
+		Tracker.track("hot_bath.temperature1",
+				this.temperatureSensor1.getTemperature());
+		Tracker.track("hot_bath.temperature2",
+				this.temperatureSensor2.getTemperature());
+		Tracker.track("cold_bath.percentageFilled",
+				this.level.getPercentageFilled());
+
 		log.debug("HotBathStatus(temp1="
 				+ this.temperatureSensor1.getTemperature() + ", temp2="
 				+ this.temperatureSensor2.getTemperature() + ", level="

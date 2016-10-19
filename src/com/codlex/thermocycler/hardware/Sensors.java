@@ -32,7 +32,7 @@ class Sensors {
 			if (f.getName().startsWith("w1_bus_master")) {
 				continue;
 			}
-			DallasSensorDS18B20 sensor = new DallasSensorDS18B20(f);
+			DallasTemperatureSensor sensor = new DallasTemperatureSensor(f);
 			sensors.add(sensor);
 		}
 	}
