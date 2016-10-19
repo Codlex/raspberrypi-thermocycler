@@ -1,6 +1,8 @@
 package com.codlex.thermocycler.view;
 
 import java.io.IOException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import org.apache.log4j.BasicConfigurator;
 
@@ -9,13 +11,19 @@ import com.codlex.thermocycler.logic.Thermocycler;
 import com.codlex.thermocycler.logic.ThermocyclerWorker;
 
 import javafx.application.Application;
+import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.input.TouchEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import lombok.Getter;
+import lombok.extern.log4j.Log4j;
 
+@Log4j
 public class ThermocyclerGUI extends Application {
 
 	public static void main(String[] args) {
@@ -34,6 +42,9 @@ public class ThermocyclerGUI extends Application {
 
 	private ThermocyclerController controller;
 
+	private ScreenAlarmClock screenAlarmClock = new ScreenAlarmClock();
+	
+	
 	/**
 	 * Returns the main stage.
 	 *
@@ -60,6 +71,12 @@ public class ThermocyclerGUI extends Application {
 			this.primaryStage.setScene(scene);
 			this.primaryStage.show();
 
+			this.primaryStage.addEventFilter(TouchEvent.ANY, new EventHandler<Event>() {
+				public void handle(Event event) {
+					ThermocyclerGUI.this.screenAlarmClock.onTouchEvent();
+				};
+			});
+			
 			
 			this.controller = loader.getController();
 			this.controller.setGui(this);
