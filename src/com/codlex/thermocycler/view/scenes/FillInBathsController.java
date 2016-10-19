@@ -39,7 +39,7 @@ public class FillInBathsController extends ThermocyclerController {
 		bath.getLevelSensor().getProperty().addListener((newValue) -> {
 			IntegerProperty property = (IntegerProperty) newValue;
 			Integer value = property.getValue();
-			label.textProperty().set(value.toString());
+			label.textProperty().set(value.toString() + "%");
 			progressBar.progressProperty().set(value / 100.0);
 			updateUI();
 		});
