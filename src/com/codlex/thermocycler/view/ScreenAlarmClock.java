@@ -13,9 +13,9 @@ public class ScreenAlarmClock {
 
 	private static final ExecutorService RINGER = Executors
 			.newSingleThreadExecutor();
-	private static final long WAKE_UP_TIME = Duration.ofMinutes(1).toMillis();
+	private static final long WAKE_UP_TIME = Duration.ofMinutes(9).toMillis();
 
-	private AtomicLong lastTouchEventTime = new AtomicLong();
+	private AtomicLong lastTouchEventTime = new AtomicLong(System.currentTimeMillis());
 
 	public void onTouchEvent() {
 		final long now = System.currentTimeMillis();
