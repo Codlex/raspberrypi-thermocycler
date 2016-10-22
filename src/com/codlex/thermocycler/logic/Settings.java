@@ -36,26 +36,26 @@ public class Settings {
 	public static Pin HotBathLevelEchoPin = RaspiPin.GPIO_01;
 
 	public static Pin HotBathLevelTriggerPin = RaspiPin.GPIO_00;
-	public static Pin HotBathHeaterPin = RaspiPin.GPIO_29;
-	public static Pin HotBathWaterPump = RaspiPin.GPIO_27;
-	public static Pin HotBathCirculationWaterPump = RaspiPin.GPIO_25;
+	public static Pin HotBathHeaterPin = RaspiPin.GPIO_29; 
+	public static Pin HotBathWaterPump = RaspiPin.GPIO_27; 
+	public static Pin HotBathCirculationWaterPump = RaspiPin.GPIO_28;
 
 	/**
 	 * ColdBath.
 	 */
 	public static Pin ColdBathLevelEchoPin = RaspiPin.GPIO_04;
 	public static Pin ColdBathLevelTriggerPin = RaspiPin.GPIO_03;
-	public static Pin ColdBathCoolerPin = RaspiPin.GPIO_21;
-	public static Pin ColdBathWaterPump = RaspiPin.GPIO_23;
+	public static Pin ColdBathCoolerPin = RaspiPin.GPIO_21; 
+	public static Pin ColdBathWaterPump = RaspiPin.GPIO_25;
 	/**
 	 * Translator
 	 */
-	public static Pin TranslatorPowerPin = RaspiPin.GPIO_28;
+	public static Pin TranslatorPowerPin = RaspiPin.GPIO_24;
 
 	// indices for one wire
 
 	public static Pin TranslatorPulsePin = RaspiPin.GPIO_22;
-	public static Pin TranslatorToColdDirection = RaspiPin.GPIO_24;
+	public static Pin TranslatorToColdDirection = RaspiPin.GPIO_23;
 	public static String HotBathTemperatureSensor1 = "28-000006cc1f5e";
 	public static String HotBathTemperatureSensor2 = "28-0215030e8cff";
 
