@@ -1,8 +1,10 @@
 package com.codlex.thermocycler.hardware;
 
 import java.time.Duration;
+import java.util.concurrent.TimeUnit;
 
 import com.codlex.thermocycler.logic.Settings;
+import com.google.common.base.Stopwatch;
 
 /**
  * Class to monitor distance measured by an HC-SR04 distance sensor on a
@@ -107,14 +109,12 @@ public class DistanceSensor extends RefreshedSensor<Float> {
 	 * Put a high on the trig pin for TRIG_DURATION_IN_MICROS
 	 */
 	private void triggerSensor() {
-		try {
-			this.trigPin.high();
-			Thread.sleep(0, TRIG_DURATION_IN_MICROS * 1000);
-			this.trigPin.low();
-		} catch (InterruptedException ex) {
-			System.err.println("Interrupt during trigger");
-
+		this.trigPin.high();
+		Stopwatch stopwatch = Stopwatch.createStarted();
+		while (stopwatch.elapsed(TimeUnit.MICROSECONDS) < TRIG_DURATION_IN_MICROS) {
+			// wait
 		}
+		this.trigPin.low();
 	}
 
 	/**

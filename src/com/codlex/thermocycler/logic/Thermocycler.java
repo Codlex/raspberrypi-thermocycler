@@ -181,7 +181,14 @@ public class Thermocycler {
 						"############################## CYCLING_FINISHED ##############################");
 			}
 		}
-
+		
+		// touch to recalculate
+		this.hotBath.getCurrentTemperature();
+		this.hotBath.getLevelSensor().getPercentageFilled();
+		
+		this.coldBath.getCurrentTemperature();
+		this.coldBath.getLevelSensor().getPercentageFilled();
+		
 		logStatus();
 
 	}
