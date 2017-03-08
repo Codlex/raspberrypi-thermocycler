@@ -51,10 +51,10 @@ public class VirtualSensors {
 		addTemperatureSensor(Settings.HotBathTemperatureSensor3,
 				this.hotBathTemperatureSafety);
 
-		addDistanceMonitor(Settings.ColdBathLevelEchoPin,
-				Settings.ColdBathLevelTriggerPin, this.coldBathDistance);
-		addDistanceMonitor(Settings.HotBathLevelEchoPin,
-				Settings.HotBathLevelTriggerPin, this.hotBathDistance);
+		addDistanceMonitor(Settings.get().getColdBathLevelEchoPin(),
+				Settings.get().getColdBathLevelTriggerPin(), this.coldBathDistance);
+		addDistanceMonitor(Settings.get().getHotBathLevelEchoPin(),
+				Settings.get().getHotBathLevelTriggerPin(), this.hotBathDistance);
 
 	}
 

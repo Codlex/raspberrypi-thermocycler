@@ -31,15 +31,15 @@ public class VirtualSwitches {
 	private final Map<Pin, Switch> switches = new HashMap<>();
 
 	private VirtualSwitches() {
-		addSwitch(Settings.ColdBathCoolerPin, this.coldBathCooler, "Cooler");
-		addSwitch(Settings.ColdBathWaterPump, this.coldBathWaterPump, "ColdBathWaterPump");
-		addSwitch(Settings.HotBathCirculationWaterPump,
+		addSwitch(Settings.get().getColdBathCoolerPin(), this.coldBathCooler, "Cooler");
+		addSwitch(Settings.get().getColdBathWaterPump(), this.coldBathWaterPump, "ColdBathWaterPump");
+		addSwitch(Settings.get().getHotBathCirculationWaterPump(),
 				this.hotBathCirculationWaterPump, "HotBathCircularPump");
-		addSwitch(Settings.HotBathHeaterPin, this.hotBathHeater, "Heater");
-		addSwitch(Settings.HotBathWaterPump, this.hotBathWaterPump, "HotBathWaterPump");
-		addSwitch(Settings.TranslatorPowerPin, this.translatorPower, "TranslatorPower");
-		addSwitch(Settings.TranslatorPulsePin, this.translatorPulse, "TranslatorPulse");
-		addSwitch(Settings.TranslatorToColdDirection, this.translatorToCold, "TranslatorToCold");
+		addSwitch(Settings.get().getHotBathHeaterPin(), this.hotBathHeater, "Heater");
+		addSwitch(Settings.get().getHotBathWaterPump(), this.hotBathWaterPump, "HotBathWaterPump");
+		addSwitch(Settings.get().getTranslatorPowerPin(), this.translatorPower, "TranslatorPower");
+		addSwitch(Settings.get().getTranslatorPulsePin(), this.translatorPulse, "TranslatorPulse");
+		addSwitch(Settings.get().getTranslatorToColdDirection(), this.translatorToCold, "TranslatorToCold");
 	}
 
 	private void addSwitch(Pin pin, BooleanProperty property, String name) {

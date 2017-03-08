@@ -49,36 +49,66 @@ public class Settings {
 	/**
 	 * Hot Bath.
 	 */
-	public static Pin HotBathLevelEchoPin = RaspiPin.GPIO_01;
-	public static Pin HotBathLevelTriggerPin = RaspiPin.GPIO_00;
-	public static Pin HotBathHeaterPin = RaspiPin.GPIO_29; 
-	public static Pin HotBathWaterPump = RaspiPin.GPIO_27; 
-	public static Pin HotBathCirculationWaterPump = RaspiPin.GPIO_28;
-
+	
+	public Pin getHotBathLevelEchoPin() {
+		return getValue(Pin.class);		
+	}
+	
+	public Pin getHotBathLevelTriggerPin() {
+		return getValue(Pin.class);		
+	}
+	
+	public Pin getHotBathHeaterPin() {
+		return getValue(Pin.class);		
+	}
+	
+	public Pin getHotBathWaterPump() {
+		return getValue(Pin.class);		
+	}
+	
+	public Pin getHotBathCirculationWaterPump() {
+		return getValue(Pin.class);		
+	}
+	
 	/**
 	 * ColdBath.
 	 */
-	public static Pin ColdBathLevelEchoPin = RaspiPin.GPIO_04;
-	public static Pin ColdBathLevelTriggerPin = RaspiPin.GPIO_03;
-	public static Pin ColdBathCoolerPin = RaspiPin.GPIO_21; 
-	public static Pin ColdBathWaterPump = RaspiPin.GPIO_25;
+	public Pin getColdBathLevelEchoPin() {
+		return getValue(Pin.class);		
+	}
 	
+	public Pin getColdBathLevelTriggerPin() {
+		return getValue(Pin.class);		
+	}
+	
+	public Pin getColdBathCoolerPin() {
+		return getValue(Pin.class);		
+	}
+	
+	public Pin getColdBathWaterPump() {
+		return getValue(Pin.class);		
+	}
+		
 	/**
 	 * Translator
 	 */
-	public static Pin TranslatorPowerPin = RaspiPin.GPIO_24;
+	public Pin getTranslatorPowerPin() {
+		return getValue(Pin.class);		
+	}
 
-	// indices for one wire
-
-	public static Pin TranslatorPulsePin = RaspiPin.GPIO_22;
-	public static Pin TranslatorToColdDirection = RaspiPin.GPIO_26;
+	public Pin getTranslatorPulsePin() {
+		return getValue(Pin.class);		
+	}
+	
+	public Pin getTranslatorToColdDirection() {
+		return getValue(Pin.class);		
+	}
+	
 	public static String HotBathTemperatureSensor1 = "28-000006cc1f5e";
 	public static String HotBathTemperatureSensor2 = "28-0215030e8cff";
-
 	public static String HotBathTemperatureSensor3 = "28-031504074bff";
 	public static String ColdBathTemperatureSensor1 = "28-021502e596ff";
 	public static String ColdBathTemperatureSensor2 = "28-02150310a9ff";
-
 	public static String ColdBathTemperatureSensorAntifriz = "28-031635f7afff";
 	
 	/**
@@ -159,6 +189,8 @@ public class Settings {
 				return expectedClass.cast(Float.parseFloat(textValue));
 			case "Long" :
 				return expectedClass.cast(Long.parseLong(textValue));
+			case "Pin" :
+				return expectedClass.cast(RaspiPin.getPinByAddress(Integer.parseInt(textValue)));
 		}
 
 		return null;

@@ -17,9 +17,9 @@ public class ColdBath extends Bath {
 	public ColdBath(Thermocycler thermocycler) {
 		super(thermocycler, Settings.ColdBathTemperatureSensor1,
 				Settings.ColdBathTemperatureSensor2,
-				Settings.ColdBathLevelEchoPin, Settings.ColdBathLevelTriggerPin,
-				Settings.ColdBathWaterPump);
-		this.cooler = new Cooler(Settings.ColdBathCoolerPin);
+				Settings.get().getColdBathLevelEchoPin(), Settings.get().getColdBathLevelTriggerPin(),
+				Settings.get().getColdBathWaterPump());
+		this.cooler = new Cooler(Settings.get().getColdBathCoolerPin());
 		this.antifrizTemperature = new TemperatureSensor(
 				Settings.ColdBathTemperatureSensorAntifriz);
 

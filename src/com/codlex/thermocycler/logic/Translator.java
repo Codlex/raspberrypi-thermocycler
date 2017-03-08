@@ -5,12 +5,12 @@ import com.codlex.thermocycler.hardware.Switch;
 
 public class Translator {
 
-	Switch power = HardwareProvider.get().getSwitch(Settings.TranslatorPowerPin, "TranslatorPower",
+	Switch power = HardwareProvider.get().getSwitch(Settings.get().getTranslatorPowerPin(), "TranslatorPower",
 			false);
 	Switch toCold = HardwareProvider.get()
-			.getSwitch(Settings.TranslatorToColdDirection, "TranslatorToColdSwitch");
+			.getSwitch(Settings.get().getTranslatorToColdDirection(), "TranslatorToColdSwitch");
 	Switch pulse = HardwareProvider.get()
-			.getSwitch(Settings.TranslatorPulsePin, "TranslatorPulse");
+			.getSwitch(Settings.get().getTranslatorPulsePin(), "TranslatorPulse");
 
 	State currentState = State.NotReady;
 

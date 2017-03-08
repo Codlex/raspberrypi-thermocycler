@@ -20,13 +20,13 @@ public class HotBath extends Bath {
 	public HotBath(Thermocycler thermocycler) {
 		super(thermocycler, Settings.HotBathTemperatureSensor1,
 				Settings.HotBathTemperatureSensor2,
-				Settings.HotBathLevelEchoPin, Settings.HotBathLevelTriggerPin,
-				Settings.HotBathWaterPump);
-		this.heater = new Heater(Settings.HotBathHeaterPin);
+				Settings.get().getHotBathLevelEchoPin(), Settings.get().getHotBathLevelTriggerPin(),
+				Settings.get().getHotBathWaterPump());
+		this.heater = new Heater(Settings.get().getHotBathHeaterPin());
 		this.temperature.set(20);
 		this.time.set(1);
 		this.circulationWaterPump = HardwareProvider.get()
-				.getSwitch(Settings.HotBathCirculationWaterPump, "HotBathCirculationWaterPump");
+				.getSwitch(Settings.get().getHotBathCirculationWaterPump(), "HotBathCirculationWaterPump");
 		this.temperatureSensor3 = new TemperatureSensor(
 				Settings.HotBathTemperatureSensor3);
 	}
