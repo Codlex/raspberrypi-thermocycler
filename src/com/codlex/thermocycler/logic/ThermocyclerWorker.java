@@ -56,7 +56,9 @@ public class ThermocyclerWorker implements Runnable {
 				log.error("Exception happened in themrocycler logic: ", e);
 			} finally {
 				// disabled
-				// this.thermocycler.performSafetyChecks();
+				if (Settings.get().getSafety()) {
+					this.thermocycler.performSafetyChecks();
+				}
 			}
 		}
 	}

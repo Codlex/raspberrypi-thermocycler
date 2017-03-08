@@ -96,6 +96,10 @@ public class Settings {
 	 * Safety
 	 */
 	
+	public boolean getSafety() {
+		return getValue(Boolean.class);
+	}
+	
 	public float getSafetyHotBathTemperatureMax() {
 		return getValue(Float.class);
 	}
