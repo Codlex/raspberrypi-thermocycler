@@ -57,7 +57,7 @@ public class DistanceSensor extends RefreshedSensor<Float> {
 	private final GpioPinDigitalOutput trigPin;
 
 	DistanceSensor(Pin echoPin, Pin trigPin) {
-		super(Duration.ofMillis(Settings.DistanceRefreshMillis));
+		super(Duration.ofMillis(Settings.get().getDistanceRefreshMillis()));
 		this.echoPin = gpio.provisionDigitalInputPin(echoPin);
 		this.trigPin = gpio.provisionDigitalOutputPin(trigPin);
 		this.trigPin.low();

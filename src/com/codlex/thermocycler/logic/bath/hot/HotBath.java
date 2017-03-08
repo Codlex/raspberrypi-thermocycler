@@ -75,7 +75,7 @@ public class HotBath extends Bath {
 	public boolean performSafetyChecks() {
 		boolean isOk = super.performSafetyChecks();
 		if (this.temperatureSensor3
-				.getTemperature() > Settings.SafetyHotBathTemperatureMax) {
+				.getTemperature() > Settings.get().getSafetyHotBathTemperatureMax()) {
 			log.error(
 					"Safety check failed: maximum safe temperature exceeded, t = "
 							+ this.temperatureSensor3.getTemperature());

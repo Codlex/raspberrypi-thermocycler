@@ -33,7 +33,7 @@ public class StateLogic {
 
 	public long calculateImmersionTime() {
 		return Math.max(this.time - this.immersionStart
-				- Settings.TranslationTimeMillis, 0);
+				- Settings.get().getTranslationTimeMillis(), 0);
 	}
 
 	void changeState(final State state) {
@@ -107,7 +107,7 @@ public class StateLogic {
 				coldCyclesLeft * this.thermocycler.getColdBath().time.get());
 
 		long translatingTime = 2
-				* (hotCyclesLeft * Settings.TranslationTimeMillis);
+				* (hotCyclesLeft * Settings.get().getTranslationTimeMillis());
 
 		return hotTimeLeft + coldTimeLeft + translatingTime
 				- this.calculateImmersionTime();

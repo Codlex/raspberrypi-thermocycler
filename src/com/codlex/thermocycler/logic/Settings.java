@@ -15,26 +15,41 @@ public class Settings {
 
 	private static final Settings INSTANCE = new Settings();
 
-	public static final long TranslationTimeMillis = 1500;
+	public long getTranslationTimeMillis() {
+		return getValue(Long.class);
+	}
+	
+	public int getDistanceRefreshMillis() {
+		return getValue(Integer.class);
+	}
 
-	public static int DistanceRefreshMillis = 1000;
-
-	public static int TemperatureRefreshMillis = 1000;
-
+	public int getTemperatureRefreshMillis() {
+		return getValue(Integer.class);
+	}
+	
 	/**
 	 * Bath.
 	 */
-	public static int BathMinimumLevel = 60;
+	public int getBathMinimumLevel() {
+		return getValue(Integer.class);
+	}
 
-	public static int BathDepth = 20;
-
-	public static int LevelEpsilon = 1;
-	public static int TemperatureEpsilon = 1;
+	public int getBathDepth() {
+		return getValue(Integer.class);
+	}
+	
+	public int getLevelEpsilon() {
+		return getValue(Integer.class);
+	}
+	
+	public int getTemperatureEpsilon() {
+		return getValue(Integer.class);
+	}
+	
 	/**
 	 * Hot Bath.
 	 */
 	public static Pin HotBathLevelEchoPin = RaspiPin.GPIO_01;
-
 	public static Pin HotBathLevelTriggerPin = RaspiPin.GPIO_00;
 	public static Pin HotBathHeaterPin = RaspiPin.GPIO_29; 
 	public static Pin HotBathWaterPump = RaspiPin.GPIO_27; 
@@ -47,6 +62,7 @@ public class Settings {
 	public static Pin ColdBathLevelTriggerPin = RaspiPin.GPIO_03;
 	public static Pin ColdBathCoolerPin = RaspiPin.GPIO_21; 
 	public static Pin ColdBathWaterPump = RaspiPin.GPIO_25;
+	
 	/**
 	 * Translator
 	 */
@@ -64,6 +80,7 @@ public class Settings {
 	public static String ColdBathTemperatureSensor2 = "28-02150310a9ff";
 
 	public static String ColdBathTemperatureSensorAntifriz = "28-031635f7afff";
+	
 	/**
 	 * Validation
 	 */
@@ -74,19 +91,27 @@ public class Settings {
 	public static Range<Integer> ValidationColdTemperatureRange = Range
 			.closed(-6, 20);
 	public static Range<Integer> ValidationTimeRange = Range.closed(1, 300);
+	
 	/**
 	 * Safety
 	 */
-	public static final float SafetyHotBathTemperatureMax = 120;
-
-	public static final int SafetyLevelMin = 30;
-	public static final int SafetyLevelMax = 95;
+	
+	public float getSafetyHotBathTemperatureMax() {
+		return getValue(Float.class);
+	}
+	
+	public int getSafetyLevelMin() {
+		return getValue(Integer.class);
+	}
+	
+	public int getSafetyLevelMax() {
+		return getValue(Integer.class);
+	}
+	
 	public static final Settings get() {
 		return INSTANCE;
 	}
-	public static void main(String[] args) {
-		System.out.println(new Settings().getRacic());
-	}
+	
 
 	public final Properties properties = new Properties();
 
@@ -112,10 +137,6 @@ public class Settings {
 		return getValue(Boolean.class);
 	}
 
-	public int getRacic() {
-		return getValue(Integer.class);
-	}
-
 	/**
 	 * This method takes name of calling method and by it gets value from
 	 * properties file.
@@ -130,6 +151,10 @@ public class Settings {
 				return expectedClass.cast(Integer.parseInt(textValue));
 			case "Boolean" :
 				return expectedClass.cast(Boolean.parseBoolean(textValue));
+			case "Float" :
+				return expectedClass.cast(Float.parseFloat(textValue));
+			case "Long" :
+				return expectedClass.cast(Long.parseLong(textValue));
 		}
 
 		return null;

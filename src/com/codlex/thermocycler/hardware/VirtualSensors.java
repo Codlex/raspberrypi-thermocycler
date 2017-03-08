@@ -62,7 +62,7 @@ public class VirtualSensors {
 			FloatProperty distance) {
 		final Pair<Pin, Pin> id = new Pair<>(echo, trigger);
 		this.distanceMonitors.put(id, new RefreshedSensor<Float>(
-				Duration.ofMillis(Settings.DistanceRefreshMillis)) {
+				Duration.ofMillis(Settings.get().getDistanceRefreshMillis())) {
 
 			@Override
 			protected Float getDefaultValue() {
@@ -88,7 +88,7 @@ public class VirtualSensors {
 			final FloatProperty property) {
 
 		this.temperatureSensors.put(id, new RefreshedSensor<Float>(
-				Duration.ofMillis(Settings.TemperatureRefreshMillis)) {
+				Duration.ofMillis(Settings.get().getTemperatureRefreshMillis())) {
 
 			@Override
 			protected Float getDefaultValue() {

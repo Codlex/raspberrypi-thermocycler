@@ -38,7 +38,7 @@ public abstract class Bath {
 		this.temperatureSensor2 = new TemperatureSensor(
 				temperatureSensorIndex2);
 		this.level = new LevelSensor(levelEchoPin, levelTriggerPin,
-				Settings.BathDepth);
+				Settings.get().getBathDepth());
 		this.pump = new WaterPump(waterPumpPin);
 	}
 
@@ -71,7 +71,7 @@ public abstract class Bath {
 	}
 
 	public boolean isLevelOK() {
-		int minimumLevel = Settings.BathMinimumLevel - Settings.LevelEpsilon;
+		int minimumLevel = Settings.get().getBathMinimumLevel() - Settings.get().getLevelEpsilon();
 		return this.level.getPercentageFilled() > minimumLevel;
 	}
 
@@ -81,9 +81,9 @@ public abstract class Bath {
 
 	public boolean isTemperatureOK() {
 		float minTemperature = this.temperature.get()
-				- Settings.TemperatureEpsilon;
+				- Settings.get().getTemperatureEpsilon();
 		float maxTemperature = this.temperature.get()
-				+ Settings.TemperatureEpsilon;
+				+ Settings.get().getTemperatureEpsilon();
 		float currentTemperature = getCurrentTemperature();
 		return minTemperature <= currentTemperature
 				&& currentTemperature <= maxTemperature;
@@ -96,7 +96,7 @@ public abstract class Bath {
 
 	public void keepLevel() {
 		int precetage = this.level.getPercentageFilled();
-		if (precetage < Settings.BathMinimumLevel) {
+		if (precetage < Settings.get().getBathMinimumLevel()) {
 			this.pump.turnOn();
 		} else {
 			this.pump.turnOff();
@@ -109,8 +109,8 @@ public abstract class Bath {
 
 	private boolean performLevelSafetyChecks() {
 		boolean isOk = this.level
-				.getPercentageFilled() > Settings.SafetyLevelMin;
-		isOk &= this.level.getPercentageFilled() < Settings.SafetyLevelMax;
+				.getPercentageFilled() > Settings.get().getSafetyLevelMin();
+		isOk &= this.level.getPercentageFilled() < Settings.get().getSafetyLevelMax();
 		if (!isOk) {
 			log.error("Safety check failed: level of liquid dangerous!");
 		}
