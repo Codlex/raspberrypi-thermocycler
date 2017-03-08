@@ -91,7 +91,7 @@ public abstract class Bath {
 
 	public boolean isValid() {
 		return this.isLevelOK()
-				&& Settings.ValidationTimeRange.contains(this.time.get());
+				&& Settings.get().getValidationTimeRange().contains(this.time.get());
 	}
 
 	public void keepLevel() {

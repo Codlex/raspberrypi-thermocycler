@@ -114,14 +114,26 @@ public class Settings {
 	/**
 	 * Validation
 	 */
-	public static Range<Integer> ValidationCyclesRange = Range.closed(1,
-			999999);
-	public static Range<Integer> ValidationHotTemperatureRange = Range
-			.closed(20, 100);
-	public static Range<Integer> ValidationColdTemperatureRange = Range
-			.closed(-6, 20);
-	public static Range<Integer> ValidationTimeRange = Range.closed(1, 300);
+	@SuppressWarnings("unchecked")
+	public Range<Integer> getValidationCyclesRange() {
+		return getValue(Range.class);		
+	}
 	
+	@SuppressWarnings("unchecked")
+	public Range<Integer> getValidationHotTemperatureRange() {
+		return getValue(Range.class);		
+	}
+	
+	@SuppressWarnings("unchecked")
+	public Range<Integer> getValidationColdTemperatureRange() {
+		return getValue(Range.class);		
+	}
+
+	@SuppressWarnings("unchecked")
+	public Range<Integer> getValidationTimeRange() {
+		return getValue(Range.class);		
+	}
+		
 	/**
 	 * Safety
 	 */
@@ -191,6 +203,9 @@ public class Settings {
 				return expectedClass.cast(Long.parseLong(textValue));
 			case "Pin" :
 				return expectedClass.cast(RaspiPin.getPinByAddress(Integer.parseInt(textValue)));
+			case "Range": 
+				String[] splitted = textValue.split(",");
+				return expectedClass.cast(Range.closed(splitted[0], splitted[1]));
 		}
 
 		return null;

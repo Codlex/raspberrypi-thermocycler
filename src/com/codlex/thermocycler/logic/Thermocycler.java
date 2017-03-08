@@ -195,7 +195,7 @@ public class Thermocycler {
 	}
 
 	private boolean validate() {
-		boolean isValid = Settings.ValidationCyclesRange
+		boolean isValid = Settings.get().getValidationCyclesRange()
 				.contains(this.cycles.get());
 		isValid &= this.hotBath.isValid();
 		isValid &= this.coldBath.isValid();
