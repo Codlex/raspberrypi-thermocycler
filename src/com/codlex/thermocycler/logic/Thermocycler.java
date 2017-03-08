@@ -99,13 +99,14 @@ public class Thermocycler {
 		Tracker.track("timeLeft",
 				this.stateLogic.getFullTimeLeftMillis() / 1000);
 
-		// log.debug("ThermocyclerStatus(state=%s, immersion=%lu ms,
-		// targetImmersion=%lu ms)",
-		// StateToString(this.stateLogic.getCurrentState()),
-		// this.stateLogic.calculateImmersionTime(),
-		// this.stateLogic.getTargetImmersionTime());
-		// this.hotBath.logStatus();
-		// this.coldBath.logStatus();
+		log.debug("ThermocyclerStatus(state="
+				+ this.stateLogic.getCurrentState() + ", immersion="
+				+ this.stateLogic.calculateImmersionTime()
+				+ " ms, targetImmersion="
+				+ this.stateLogic.getTargetImmersionTime() + " ms)");
+
+		this.hotBath.logStatus();
+		this.coldBath.logStatus();
 	}
 
 	public void lowerTranslator() {
@@ -181,14 +182,14 @@ public class Thermocycler {
 						"############################## CYCLING_FINISHED ##############################");
 			}
 		}
-		
+
 		// touch to recalculate
 		this.hotBath.getCurrentTemperature();
 		this.hotBath.getLevelSensor().getPercentageFilled();
-		
+
 		this.coldBath.getCurrentTemperature();
 		this.coldBath.getLevelSensor().getPercentageFilled();
-		
+
 		logStatus();
 
 	}

@@ -55,7 +55,7 @@ public class Settings {
 	// indices for one wire
 
 	public static Pin TranslatorPulsePin = RaspiPin.GPIO_22;
-	public static Pin TranslatorToColdDirection = RaspiPin.GPIO_23;
+	public static Pin TranslatorToColdDirection = RaspiPin.GPIO_26;
 	public static String HotBathTemperatureSensor1 = "28-000006cc1f5e";
 	public static String HotBathTemperatureSensor2 = "28-0215030e8cff";
 
