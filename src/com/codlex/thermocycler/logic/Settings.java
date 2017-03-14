@@ -18,7 +18,7 @@ public class Settings {
 	public long getTranslationTimeMillis() {
 		return getValue(Long.class);
 	}
-	
+
 	public int getDistanceRefreshMillis() {
 		return getValue(Integer.class);
 	}
@@ -26,7 +26,7 @@ public class Settings {
 	public int getTemperatureRefreshMillis() {
 		return getValue(Integer.class);
 	}
-	
+
 	/**
 	 * Bath.
 	 */
@@ -37,127 +37,126 @@ public class Settings {
 	public int getBathDepth() {
 		return getValue(Integer.class);
 	}
-	
+
 	public int getLevelEpsilon() {
 		return getValue(Integer.class);
 	}
-	
+
 	public int getTemperatureEpsilon() {
 		return getValue(Integer.class);
 	}
-	
+
 	/**
 	 * Hot Bath.
 	 */
-	
+
 	public Pin getHotBathLevelEchoPin() {
-		return getValue(Pin.class);		
+		return getValue(Pin.class);
 	}
-	
+
 	public Pin getHotBathLevelTriggerPin() {
-		return getValue(Pin.class);		
+		return getValue(Pin.class);
 	}
-	
+
 	public Pin getHotBathHeaterPin() {
-		return getValue(Pin.class);		
+		return getValue(Pin.class);
 	}
-	
+
 	public Pin getHotBathWaterPump() {
-		return getValue(Pin.class);		
+		return getValue(Pin.class);
 	}
-	
+
 	public Pin getHotBathCirculationWaterPump() {
-		return getValue(Pin.class);		
+		return getValue(Pin.class);
 	}
-	
+
 	/**
 	 * ColdBath.
 	 */
 	public Pin getColdBathLevelEchoPin() {
-		return getValue(Pin.class);		
+		return getValue(Pin.class);
 	}
-	
+
 	public Pin getColdBathLevelTriggerPin() {
-		return getValue(Pin.class);		
+		return getValue(Pin.class);
 	}
-	
+
 	public Pin getColdBathCoolerPin() {
-		return getValue(Pin.class);		
+		return getValue(Pin.class);
 	}
-	
+
 	public Pin getColdBathWaterPump() {
-		return getValue(Pin.class);		
+		return getValue(Pin.class);
 	}
-		
+
 	/**
 	 * Translator
 	 */
 	public Pin getTranslatorPowerPin() {
-		return getValue(Pin.class);		
+		return getValue(Pin.class);
 	}
 
 	public Pin getTranslatorPulsePin() {
-		return getValue(Pin.class);		
+		return getValue(Pin.class);
 	}
-	
+
 	public Pin getTranslatorToColdDirection() {
-		return getValue(Pin.class);		
+		return getValue(Pin.class);
 	}
-	
+
 	public static String HotBathTemperatureSensor1 = "28-000006cc1f5e";
 	public static String HotBathTemperatureSensor2 = "28-0215030e8cff";
 	public static String HotBathTemperatureSensor3 = "28-031504074bff";
 	public static String ColdBathTemperatureSensor1 = "28-021502e596ff";
 	public static String ColdBathTemperatureSensor2 = "28-02150310a9ff";
 	public static String ColdBathTemperatureSensorAntifriz = "28-031635f7afff";
-	
+
 	/**
 	 * Validation
 	 */
 	@SuppressWarnings("unchecked")
 	public Range<Integer> getValidationCyclesRange() {
-		return getValue(Range.class);		
+		return getValue(Range.class);
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	public Range<Integer> getValidationHotTemperatureRange() {
-		return getValue(Range.class);		
+		return getValue(Range.class);
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	public Range<Integer> getValidationColdTemperatureRange() {
-		return getValue(Range.class);		
+		return getValue(Range.class);
 	}
 
 	@SuppressWarnings("unchecked")
 	public Range<Integer> getValidationTimeRange() {
-		return getValue(Range.class);		
+		return getValue(Range.class);
 	}
-		
+
 	/**
 	 * Safety
 	 */
-	
+
 	public boolean getSafety() {
 		return getValue(Boolean.class);
 	}
-	
+
 	public float getSafetyHotBathTemperatureMax() {
 		return getValue(Float.class);
 	}
-	
+
 	public int getSafetyLevelMin() {
 		return getValue(Integer.class);
 	}
-	
+
 	public int getSafetyLevelMax() {
 		return getValue(Integer.class);
 	}
-	
+
 	public static final Settings get() {
 		return INSTANCE;
 	}
-	
 
 	public final Properties properties = new Properties();
 
@@ -175,8 +174,9 @@ public class Settings {
 
 	private String getMethodName() {
 		final int depth = 3;
-		return Thread.currentThread().getStackTrace()[depth].getMethodName()
-				.replace("get", ""); // delete get part
+		return Thread.currentThread().getStackTrace()[depth].getMethodName().replace("get", ""); // delete
+																									// get
+																									// part
 	}
 
 	public boolean getProduction() {
@@ -193,19 +193,19 @@ public class Settings {
 
 		// casting
 		switch (expectedClass.getSimpleName()) {
-			case "Integer" :
-				return expectedClass.cast(Integer.parseInt(textValue));
-			case "Boolean" :
-				return expectedClass.cast(Boolean.parseBoolean(textValue));
-			case "Float" :
-				return expectedClass.cast(Float.parseFloat(textValue));
-			case "Long" :
-				return expectedClass.cast(Long.parseLong(textValue));
-			case "Pin" :
-				return expectedClass.cast(RaspiPin.getPinByAddress(Integer.parseInt(textValue)));
-			case "Range": 
-				String[] splitted = textValue.split(",");
-				return expectedClass.cast(Range.closed(splitted[0], splitted[1]));
+		case "Integer":
+			return expectedClass.cast(Integer.parseInt(textValue));
+		case "Boolean":
+			return expectedClass.cast(Boolean.parseBoolean(textValue));
+		case "Float":
+			return expectedClass.cast(Float.parseFloat(textValue));
+		case "Long":
+			return expectedClass.cast(Long.parseLong(textValue));
+		case "Pin":
+			return expectedClass.cast(RaspiPin.getPinByAddress(Integer.parseInt(textValue)));
+		case "Range":
+			String[] splitted = textValue.split(",");
+			return expectedClass.cast(Range.closed(Integer.parseInt(splitted[0].trim()), Integer.parseInt(splitted[1].trim())));
 		}
 
 		return null;
