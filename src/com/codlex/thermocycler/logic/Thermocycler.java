@@ -5,6 +5,8 @@ import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import org.apache.log4j.LogManager;
+
 import com.codlex.thermocycler.logic.bath.Bath;
 import com.codlex.thermocycler.logic.bath.cold.ColdBath;
 import com.codlex.thermocycler.logic.bath.hot.HotBath;
@@ -154,6 +156,7 @@ public class Thermocycler {
 	}
 
 	private void shutdown() {
+		LogManager.shutdown();
 		clear();
 		System.exit(1);
 	}

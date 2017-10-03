@@ -52,8 +52,8 @@ public class ColdBath extends Bath {
 		// (wanted_temperature - epsOn)
 		float epsOn = 1;
 		boolean turnOn = this.antifrizTemperature
-				.getTemperature() > this.temperature.get() - epsOn;
-
+				.getTemperature() > this.temperature.get() - epsOn 
+				|| getCurrentTemperature() > this.temperature.get() - epsOn;
 		if (turnOn) {
 			this.cooler.turnOn();
 		}
