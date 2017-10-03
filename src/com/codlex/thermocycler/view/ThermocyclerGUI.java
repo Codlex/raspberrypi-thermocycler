@@ -3,6 +3,7 @@ package com.codlex.thermocycler.view;
 import java.io.IOException;
 
 import org.apache.log4j.BasicConfigurator;
+import org.apache.log4j.PropertyConfigurator;
 
 import com.codlex.thermocycler.logic.Settings;
 import com.codlex.thermocycler.logic.Thermocycler;
@@ -23,8 +24,8 @@ import lombok.extern.log4j.Log4j;
 @Log4j
 public class ThermocyclerGUI extends Application {
 
-	public static void main(String[] args) {
-		BasicConfigurator.configure();
+	public static void main(String[] args) {		
+		PropertyConfigurator.configure("log4j.properties");
 		log.debug("################ Thermocycler is starting ################");
 		launch(new String[0]);
 	}
