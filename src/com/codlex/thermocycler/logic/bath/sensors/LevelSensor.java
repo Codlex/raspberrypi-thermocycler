@@ -38,12 +38,16 @@ public class LevelSensor {
 		float filledCM = this.emptyDistance - distanceFromWater;
 		int integerValue = (int) ((filledCM / this.emptyDistance) * 100);
 
-		Platform.runLater(() -> {
-			this.property.set(integerValue);
-			this.doubleProperty.set(integerValue / 100.0);
-		});
+		if (0 <= integerValue && integerValue <= 100) {
+			Platform.runLater(() -> {
+				this.property.set(integerValue);
+				this.doubleProperty.set(integerValue / 100.0);
+			});
+		} else {
+			log.error("Ignoring value: " + integerValue);
+		}
 
-		return integerValue;
+		return this.property.get();
 	}
 
 	public IntegerProperty getProperty() {

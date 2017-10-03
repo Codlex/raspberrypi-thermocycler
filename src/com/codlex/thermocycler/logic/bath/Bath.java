@@ -29,16 +29,12 @@ public abstract class Bath {
 	public IntegerProperty time = new SimpleIntegerProperty();
 	private final Thermocycler thermocycler;
 
-	public Bath(Thermocycler thermocycler, String temperatureSensorIndex1,
-			String temperatureSensorIndex2, Pin levelEchoPin,
-			Pin levelTriggerPin, Pin waterPumpPin) {
+	public Bath(Thermocycler thermocycler, String temperatureSensorIndex1, String temperatureSensorIndex2,
+			Pin levelEchoPin, Pin levelTriggerPin, Pin waterPumpPin) {
 		this.thermocycler = thermocycler;
-		this.temperatureSensor1 = new TemperatureSensor(
-				temperatureSensorIndex1);
-		this.temperatureSensor2 = new TemperatureSensor(
-				temperatureSensorIndex2);
-		this.level = new LevelSensor(levelEchoPin, levelTriggerPin,
-				Settings.get().getBathDepth());
+		this.temperatureSensor1 = new TemperatureSensor(temperatureSensorIndex1);
+		this.temperatureSensor2 = new TemperatureSensor(temperatureSensorIndex2);
+		this.level = new LevelSensor(levelEchoPin, levelTriggerPin, Settings.get().getBathDepth());
 		this.pump = new WaterPump(waterPumpPin);
 	}
 
@@ -80,18 +76,14 @@ public abstract class Bath {
 	}
 
 	public boolean isTemperatureOK() {
-		float minTemperature = this.temperature.get()
-				- Settings.get().getTemperatureEpsilon();
-		float maxTemperature = this.temperature.get()
-				+ Settings.get().getTemperatureEpsilon();
+		float minTemperature = this.temperature.get() - Settings.get().getTemperatureEpsilon();
+		float maxTemperature = this.temperature.get() + Settings.get().getTemperatureEpsilon();
 		float currentTemperature = getCurrentTemperature();
-		return minTemperature <= currentTemperature
-				&& currentTemperature <= maxTemperature;
+		return minTemperature <= currentTemperature && currentTemperature <= maxTemperature;
 	}
 
 	public boolean isValid() {
-		return this.isLevelOK()
-				&& Settings.get().getValidationTimeRange().contains(this.time.get());
+		return this.isLevelOK() && Settings.get().getValidationTimeRange().contains(this.time.get());
 	}
 
 	public void keepLevel() {
@@ -108,11 +100,16 @@ public abstract class Bath {
 	public abstract void logStatus();
 
 	private boolean performLevelSafetyChecks() {
-		boolean isOk = this.level
-				.getPercentageFilled() > Settings.get().getSafetyLevelMin();
-		isOk &= this.level.getPercentageFilled() < Settings.get().getSafetyLevelMax();
+		int level = this.level.getPercentageFilled();
+		int minLevel = Settings.get().getSafetyLevelMin();
+		int maxLevel = Settings.get().getSafetyLevelMax();
+
+		boolean isOk = level > minLevel;
+		isOk &= level < maxLevel;
+
 		if (!isOk) {
-			log.error("Safety check failed: level of liquid dangerous!");
+			log.error(getClass().getSimpleName() + " safety check failed: level of liquid dangerous! " + minLevel
+					+ " < " + level + " < " + maxLevel);
 		}
 		return isOk;
 	}

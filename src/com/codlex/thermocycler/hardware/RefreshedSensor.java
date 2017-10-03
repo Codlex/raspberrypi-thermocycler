@@ -53,7 +53,7 @@ abstract class RefreshedSensor<Value extends Number> implements Sensor<Value> {
 			}
 
 		} catch (Exception e) {
-			log.error(getClass().getSimpleName()
+			log.error(this
 					+ " failed to recalculate value: ", e);
 		}
 	}

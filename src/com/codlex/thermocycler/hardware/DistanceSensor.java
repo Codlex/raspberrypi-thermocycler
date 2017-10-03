@@ -71,8 +71,7 @@ public class DistanceSensor extends RefreshedSensor<Float> {
 	@Override
 	public String getID() {
 		// TODO: this is dummy implementations
-		return new Pair(this.echoPin.getPin(), this.trigPin.getPin())
-				.toString();
+		return new Pair(this.echoPin.getPin(), this.trigPin.getPin()).toString();
 	}
 
 	/**
@@ -102,7 +101,8 @@ public class DistanceSensor extends RefreshedSensor<Float> {
 		long duration = this.measureSignal();
 		float seconds = (float) (1e-6 * duration);
 		float meters = (float) ((seconds * SOUND_SPEED) / 2.0);
-		return meters * 100;
+		float distanceInCm = meters * 100;
+		return distanceInCm;
 	}
 
 	/**
@@ -134,4 +134,8 @@ public class DistanceSensor extends RefreshedSensor<Float> {
 		}
 	}
 
+	@Override
+	public String toString() {
+		return getClass().getSimpleName() + "(pins = " + this.echoPin.getName() + ", " + this.trigPin.getName() + ")";
+	}
 }
