@@ -46,7 +46,7 @@ public class Translator {
 		}
 		this.pulse.turnOn();
 		try {
-			Thread.sleep(750);
+			Thread.sleep(450);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
@@ -60,7 +60,7 @@ public class Translator {
 		this.toCold.turnOn();
 		this.pulse.turnOn();
 		try {
-			Thread.sleep(500);
+			Thread.sleep(1000);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -73,7 +73,7 @@ public class Translator {
 		this.toCold.turnOff();
 		this.pulse.turnOn();
 		try {
-			Thread.sleep(500);
+			Thread.sleep(1000);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
