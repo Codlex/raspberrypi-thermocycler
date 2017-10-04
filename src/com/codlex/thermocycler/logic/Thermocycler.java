@@ -59,6 +59,7 @@ public class Thermocycler {
 	}
 
 	private void clear() {
+		log.debug("Clearning thermocycler.");
 		this.translator.clear();
 		this.hotBath.clear();
 		this.coldBath.clear();

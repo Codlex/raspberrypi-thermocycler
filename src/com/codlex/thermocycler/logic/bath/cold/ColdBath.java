@@ -29,6 +29,7 @@ public class ColdBath extends Bath {
 
 	@Override
 	public void clear() {
+		log.debug("Clearning ColdBath.");
 		super.clear();
 		this.cooler.turnOff();
 	}

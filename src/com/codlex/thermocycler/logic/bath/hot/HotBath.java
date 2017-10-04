@@ -33,6 +33,7 @@ public class HotBath extends Bath {
 
 	@Override
 	public void clear() {
+		log.debug("Clearning HotBath.");
 		super.clear();
 		this.heater.turnOff();
 		this.circulationWaterPump.turnOff();
