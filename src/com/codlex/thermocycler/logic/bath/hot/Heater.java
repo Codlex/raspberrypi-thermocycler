@@ -7,9 +7,7 @@ import lombok.extern.log4j.Log4j;
 
 @Log4j
 public class Heater extends OnOffDevice {
-
 	public Heater(Pin pin) {
 		super(pin, Heater.class.getSimpleName());
 	}
-
 }

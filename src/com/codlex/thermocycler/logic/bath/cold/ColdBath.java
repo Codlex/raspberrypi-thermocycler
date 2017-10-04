@@ -79,6 +79,7 @@ public class ColdBath extends Bath {
 				this.antifrizTemperature.getTemperature());
 		Tracker.track("cold_bath.percentageFilled",
 				this.level.getPercentageFilled());
+		Tracker.track("cold_bath.average", getCurrentTemperature());
 
 		log.debug("ColdBathStatus(temp1="
 				+ this.temperatureSensor1.getTemperature() + ", temp2="

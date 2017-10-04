@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.codlex.thermocycler.logic.Settings;
+import com.codlex.thermocycler.tracker.Tracker;
 import com.pi4j.io.gpio.Pin;
 
 import javafx.beans.property.BooleanProperty;
@@ -48,6 +49,7 @@ public class VirtualSwitches {
 			public void turnOff() {
 				if (property.get()) {
 					log.debug(name + " turned off.");
+					Tracker.track("switch." + name, 0);
 				}
 				property.set(false);
 			}
@@ -56,6 +58,7 @@ public class VirtualSwitches {
 			public void turnOn() {
 				if (!property.get()) {
 					log.debug(name + " turned on.");
+					Tracker.track("switch." + name, 1);
 				}
 				property.set(true);
 			}
