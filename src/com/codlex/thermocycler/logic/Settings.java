@@ -211,4 +211,12 @@ public class Settings {
 		return null;
 	}
 
+	public float getColdBathEpsOn() {
+		return getValue(Float.class);
+	}
+
+	public float getColdBathEpsOff() {
+		return getValue(Float.class);
+	}
+
 }

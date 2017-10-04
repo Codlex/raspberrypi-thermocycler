@@ -50,7 +50,7 @@ public class ColdBath extends Bath {
 
 		// cooler turned on when antifriz temperature goes over
 		// (wanted_temperature - epsOn)
-		float epsOn = 1;
+		float epsOn = Settings.get().getColdBathEpsOn();
 		boolean turnOn = this.antifrizTemperature
 				.getTemperature() > this.temperature.get() - epsOn 
 				|| getCurrentTemperature() > this.temperature.get() - epsOn;
@@ -60,7 +60,7 @@ public class ColdBath extends Bath {
 
 		// cooler turned off when temperature in bath reaches wanted temperature
 		// OR antifriz temperature goes below (wanted_temperature - epsOff)
-		float epsOff = 4;
+		float epsOff = Settings.get().getColdBathEpsOff();
 		boolean turnOff = this.antifrizTemperature
 				.getTemperature() < this.temperature.get() - epsOff;
 

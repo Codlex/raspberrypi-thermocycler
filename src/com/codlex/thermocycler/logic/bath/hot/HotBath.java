@@ -62,7 +62,9 @@ public class HotBath extends Bath {
 				this.temperatureSensor1.getTemperature());
 		Tracker.track("hot_bath.temperature2",
 				this.temperatureSensor2.getTemperature());
-		Tracker.track("cold_bath.percentageFilled",
+		Tracker.track("hot_bath.temperature3",
+				this.temperatureSensor3.getTemperature());
+		Tracker.track("hot_bath.percentageFilled",
 				this.level.getPercentageFilled());
 
 		log.debug("HotBathStatus(temp1="

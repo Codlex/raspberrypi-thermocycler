@@ -19,6 +19,7 @@ public class LevelSensor {
 
 	private IntegerProperty property = new SimpleIntegerProperty();
 	private DoubleProperty doubleProperty = new SimpleDoubleProperty();
+	private boolean isFirstTime = true;
 
 	public LevelSensor(Pin echoPin, Pin triggerPin, int emptyDistance) {
 		this.distanceMonitor = HardwareProvider.get()
@@ -38,7 +39,9 @@ public class LevelSensor {
 		float filledCM = this.emptyDistance - distanceFromWater;
 		int integerValue = (int) ((filledCM / this.emptyDistance) * 100);
 
-		if (0 <= integerValue && integerValue <= 100) {
+		int diff = this.isFirstTime ? 0 : Math.abs(this.property.get() - integerValue);
+		
+		if (0 <= integerValue && integerValue <= 100 && diff < 10) {
 			Platform.runLater(() -> {
 				this.property.set(integerValue);
 				this.doubleProperty.set(integerValue / 100.0);
@@ -46,7 +49,9 @@ public class LevelSensor {
 		} else {
 			log.error("Ignoring value: " + integerValue);
 		}
-
+		
+		this.isFirstTime  = false;
+		
 		return this.property.get();
 	}
 
