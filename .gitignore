@@ -7,3 +7,6 @@
 *.ear
 
 hs_err_pid*
+log/
+target/
+
