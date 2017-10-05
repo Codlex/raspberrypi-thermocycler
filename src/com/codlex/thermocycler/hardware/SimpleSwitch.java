@@ -1,5 +1,6 @@
 package com.codlex.thermocycler.hardware;
 
+import com.codlex.thermocycler.tracker.Tracker;
 import com.pi4j.io.gpio.GpioController;
 import com.pi4j.io.gpio.GpioFactory;
 import com.pi4j.io.gpio.GpioPinDigitalOutput;
@@ -51,6 +52,7 @@ public class SimpleSwitch implements Switch {
 		if (this.state != SwitchState.Off) {
 			this.state = SwitchState.Off;
 			this.pin.setState(this.offCurrent);
+			Tracker.track("switch." + this.name, 0);
 			log.debug(this.name + " turned off.");
 		}
 	}
@@ -60,6 +62,7 @@ public class SimpleSwitch implements Switch {
 		if (this.state != SwitchState.On) {
 			this.state = SwitchState.On;
 			this.pin.setState(this.onCurrent);
+			Tracker.track("switch." + this.name, 100);
 			log.debug(this.name + " turned on.");
 		}
 	}

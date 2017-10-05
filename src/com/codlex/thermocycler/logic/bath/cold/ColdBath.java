@@ -44,11 +44,7 @@ public class ColdBath extends Bath {
 
 	@Override
 	public void keepTemperature() {
-		if (isTemperatureOK()) {
-			this.cooler.turnOff();
-			return;
-		}
-
+		
 		// cooler turned on when antifriz temperature goes over
 		// (wanted_temperature - epsOn)
 		float epsOn = Settings.get().getColdBathEpsOn();
@@ -68,6 +64,12 @@ public class ColdBath extends Bath {
 		if (turnOff) {
 			this.cooler.turnOff();
 		}
+		
+//		if (isTemperatureOK()) {
+//			this.cooler.turnOff();
+//			return;
+//		}
+
 	}
 
 	@Override
