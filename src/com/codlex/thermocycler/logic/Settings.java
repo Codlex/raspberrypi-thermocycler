@@ -104,12 +104,12 @@ public class Settings {
 		return getValue(Pin.class);
 	}
 
-	public static String HotBathTemperatureSensor1 = "28-000006cc1f5e";
-	public static String HotBathTemperatureSensor2 = "28-0215030e8cff";
-	public static String HotBathTemperatureSensor3 = "28-031504074bff";
-	public static String ColdBathTemperatureSensor1 = "28-021502e596ff";
-	public static String ColdBathTemperatureSensor2 = "28-02150310a9ff";
-	public static String ColdBathTemperatureSensorAntifriz = "28-031635f7afff";
+	public static String HotBathTemperatureSensor1 = "28-0417838278ff";
+	public static String HotBathTemperatureSensor2 = "28-051790ae46ff";
+	public static String HotBathTemperatureSensor3 = "28-0417838287ff";
+	public static String ColdBathTemperatureSensor1 = "28-04178380a8ff";
+	public static String ColdBathTemperatureSensor2 = "28-0517907c6dff";
+	public static String ColdBathTemperatureSensorAntifriz = "28-0417837701ff";
 
 	/**
 	 * Validation
