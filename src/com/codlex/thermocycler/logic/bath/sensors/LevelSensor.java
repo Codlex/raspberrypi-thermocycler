@@ -41,14 +41,14 @@ public class LevelSensor {
 
 		int diff = this.isFirstTime ? 0 : Math.abs(this.property.get() - integerValue);
 		
-		if (0 <= integerValue && integerValue <= 100 && diff < 10) {
-			Platform.runLater(() -> {
-				this.property.set(integerValue);
-				this.doubleProperty.set(integerValue / 100.0);
-			});
-		} else {
-			log.error("Ignoring value: " + integerValue);
-		}
+//		if (0 <= integerValue && integerValue <= 100 && diff < 10) {
+		Platform.runLater(() -> {
+			this.property.set(integerValue);
+			this.doubleProperty.set(integerValue / 100.0);
+		});
+//		} else {
+//			log.error("Ignoring value: " + integerValue);
+//		}
 		
 		this.isFirstTime  = false;
 		

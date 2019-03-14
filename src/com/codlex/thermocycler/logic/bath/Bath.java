@@ -1,5 +1,7 @@
 package com.codlex.thermocycler.logic.bath;
 
+import java.util.concurrent.atomic.AtomicBoolean;
+
 import com.codlex.thermocycler.logic.Settings;
 import com.codlex.thermocycler.logic.Thermocycler;
 import com.codlex.thermocycler.logic.bath.sensors.LevelSensor;
@@ -7,6 +9,7 @@ import com.codlex.thermocycler.logic.bath.sensors.TemperatureSensor;
 import com.pi4j.io.gpio.Pin;
 
 import javafx.application.Platform;
+import javafx.beans.Observable;
 import javafx.beans.property.FloatProperty;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleFloatProperty;
@@ -28,6 +31,7 @@ public abstract class Bath {
 	protected IntegerProperty temperature = new SimpleIntegerProperty();
 	public IntegerProperty time = new SimpleIntegerProperty();
 	private final Thermocycler thermocycler;
+	private AtomicBoolean logicOn = new AtomicBoolean(true);
 
 	public Bath(Thermocycler thermocycler, String temperatureSensorIndex1, String temperatureSensorIndex2,
 			Pin levelEchoPin, Pin levelTriggerPin, Pin waterPumpPin) {
@@ -67,6 +71,10 @@ public abstract class Bath {
 	}
 
 	public boolean isLevelOK() {
+		if (!Settings.get().getKeepLevelOn()) {
+			return true;
+		}
+		
 		int minimumLevel = Settings.get().getBathMinimumLevel() - Settings.get().getLevelEpsilon();
 		return this.level.getPercentageFilled() > minimumLevel;
 	}
@@ -76,6 +84,10 @@ public abstract class Bath {
 	}
 
 	public boolean isTemperatureOK() {
+		if (!this.logicOn.get()) {
+			return true;
+		}
+		
 		float minTemperature = this.temperature.get() - Settings.get().getTemperatureEpsilon();
 		float maxTemperature = this.temperature.get() + Settings.get().getTemperatureEpsilon();
 		float currentTemperature = getCurrentTemperature();
@@ -87,6 +99,10 @@ public abstract class Bath {
 	}
 
 	public void keepLevel() {
+		if (!Settings.get().getKeepLevelOn()) {
+			return;
+		}
+		
 		int precetage = this.level.getPercentageFilled();
 		if (precetage < Settings.get().getBathMinimumLevel()) {
 			this.pump.turnOn();
@@ -100,6 +116,7 @@ public abstract class Bath {
 	public abstract void logStatus();
 
 	private boolean performLevelSafetyChecks() {
+		
 		int level = this.level.getPercentageFilled();
 		int minLevel = Settings.get().getSafetyLevelMin();
 		int maxLevel = Settings.get().getSafetyLevelMax();
@@ -117,23 +134,34 @@ public abstract class Bath {
 	public boolean performSafetyChecks() {
 		boolean isOk = true;
 		if (this.thermocycler.isStarted.get()) {
-			isOk &= performLevelSafetyChecks();
+			if (Settings.get().getKeepLevelOn()) {
+				isOk &= performLevelSafetyChecks();
+			}
 		}
 		return isOk;
 	}
 
 	public void reset() {
 		Platform.runLater(() -> {
-			this.temperature.set(20);
+			this.temperature.set(getInitialTemperature());
 			this.time.set(10);
 		});
-
+	}
+	
+	private int getInitialTemperature() {
+		return (int) getCurrentTemperature();
 	}
 
 	public void update(long deltaT) {
 		// TODO: fix this, this is to initialize values
 		getCurrentTemperature();
-		keepTemperature();
+		if (this.logicOn.get()) {
+			keepTemperature();
+		}
 		keepLevel();
+	}
+
+	public void setLogicOn(boolean newValue) {
+		this.logicOn.set(newValue);
 	}
 }

@@ -96,6 +96,7 @@ public class StateLogic {
 	}
 
 	public long getFullTimeLeftMillis() {
+		
 		int hotCyclesLeft = (int) (this.thermocycler.cycles.get()
 				- this.hotBathImmersionCount);
 		long hotTimeLeft = TimeUnit.SECONDS.toMillis(

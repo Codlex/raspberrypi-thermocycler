@@ -19,15 +19,14 @@ public class VirtualSensors {
 		return INSTANCE;
 	}
 
-	public FloatProperty coldBathTemperature1 = new SimpleFloatProperty(20);
-	public FloatProperty coldBathTemperature2 = new SimpleFloatProperty(20);
-	public FloatProperty coldBathTemperatureAntifriz = new SimpleFloatProperty(
-			20);
+	public FloatProperty coldBathTemperature1 = new SimpleFloatProperty(10);
+	public FloatProperty coldBathTemperature2 = new SimpleFloatProperty(10);
+	public FloatProperty coldBathTemperatureAntifriz = new SimpleFloatProperty(10);
 
 	public FloatProperty coldBathDistance = new SimpleFloatProperty(3);
-	public FloatProperty hotBathTemperature1 = new SimpleFloatProperty(20);
-	public FloatProperty hotBathTemperature2 = new SimpleFloatProperty(20);
-	public FloatProperty hotBathTemperatureSafety = new SimpleFloatProperty(20);
+	public FloatProperty hotBathTemperature1 = new SimpleFloatProperty(10);
+	public FloatProperty hotBathTemperature2 = new SimpleFloatProperty(10);
+	public FloatProperty hotBathTemperatureSafety = new SimpleFloatProperty(10);
 
 	public FloatProperty hotBathDistance = new SimpleFloatProperty(3);
 
@@ -37,76 +36,68 @@ public class VirtualSensors {
 
 	private VirtualSensors() {
 
-		addTemperatureSensor(Settings.ColdBathTemperatureSensor1,
-				this.coldBathTemperature1);
-		addTemperatureSensor(Settings.ColdBathTemperatureSensor2,
-				this.coldBathTemperature2);
-		addTemperatureSensor(Settings.ColdBathTemperatureSensorAntifriz,
-				this.coldBathTemperatureAntifriz);
+		addTemperatureSensor(Settings.ColdBathTemperatureSensor1, this.coldBathTemperature1);
+		addTemperatureSensor(Settings.ColdBathTemperatureSensor2, this.coldBathTemperature2);
+		addTemperatureSensor(Settings.ColdBathTemperatureSensorAntifriz, this.coldBathTemperatureAntifriz);
 
-		addTemperatureSensor(Settings.HotBathTemperatureSensor1,
-				this.hotBathTemperature1);
-		addTemperatureSensor(Settings.HotBathTemperatureSensor2,
-				this.hotBathTemperature2);
-		addTemperatureSensor(Settings.HotBathTemperatureSensor3,
-				this.hotBathTemperatureSafety);
+		addTemperatureSensor(Settings.HotBathTemperatureSensor1, this.hotBathTemperature1);
+		addTemperatureSensor(Settings.HotBathTemperatureSensor2, this.hotBathTemperature2);
+		addTemperatureSensor(Settings.HotBathTemperatureSensor3, this.hotBathTemperatureSafety);
 
-		addDistanceMonitor(Settings.get().getColdBathLevelEchoPin(),
-				Settings.get().getColdBathLevelTriggerPin(), this.coldBathDistance);
-		addDistanceMonitor(Settings.get().getHotBathLevelEchoPin(),
-				Settings.get().getHotBathLevelTriggerPin(), this.hotBathDistance);
+		addDistanceMonitor(Settings.get().getColdBathLevelEchoPin(), Settings.get().getColdBathLevelTriggerPin(),
+				this.coldBathDistance);
+		addDistanceMonitor(Settings.get().getHotBathLevelEchoPin(), Settings.get().getHotBathLevelTriggerPin(),
+				this.hotBathDistance);
 
 	}
 
-	private void addDistanceMonitor(Pin echo, Pin trigger,
-			FloatProperty distance) {
+	private void addDistanceMonitor(Pin echo, Pin trigger, FloatProperty distance) {
 		final Pair<Pin, Pin> id = new Pair<>(echo, trigger);
-		this.distanceMonitors.put(id, new RefreshedSensor<Float>(
-				Duration.ofMillis(Settings.get().getDistanceRefreshMillis())) {
+		this.distanceMonitors.put(id,
+				new RefreshedSensor<Float>(Duration.ofMillis(Settings.get().getDistanceRefreshMillis())) {
 
-			@Override
-			protected Float getDefaultValue() {
-				return 0f;
-			}
+					@Override
+					protected Float getDefaultValue() {
+						return 0f;
+					}
 
-			@Override
-			public String getID() {
-				return id.toString();
-			}
+					@Override
+					public String getID() {
+						return id.toString();
+					}
 
-			@Override
-			protected Float recalculateValue() throws Exception {
-				// simulate duration of measuring
-				// Thread.sleep(ThreadLocalRandom.current().nextLong(1500));
-				return distance.get();
-			}
+					@Override
+					protected Float recalculateValue() throws Exception {
+						// simulate duration of measuring
+						// Thread.sleep(ThreadLocalRandom.current().nextLong(1500));
+						return distance.get();
+					}
 
-		});
+				});
 	}
 
-	private void addTemperatureSensor(final String id,
-			final FloatProperty property) {
+	private void addTemperatureSensor(final String id, final FloatProperty property) {
 
-		this.temperatureSensors.put(id, new RefreshedSensor<Float>(
-				Duration.ofMillis(Settings.get().getTemperatureRefreshMillis())) {
+		this.temperatureSensors.put(id,
+				new RefreshedSensor<Float>(Duration.ofMillis(Settings.get().getTemperatureRefreshMillis())) {
 
-			@Override
-			protected Float getDefaultValue() {
-				return 20f;
-			}
+					@Override
+					protected Float getDefaultValue() {
+						return 20f;
+					}
 
-			@Override
-			public String getID() {
-				return id;
-			}
+					@Override
+					public String getID() {
+						return id;
+					}
 
-			@Override
-			protected Float recalculateValue() throws Exception {
-				// simulate duration of measuring
-				// Thread.sleep(ThreadLocalRandom.current().nextLong(1500));
-				return property.get();
-			}
-		});
+					@Override
+					protected Float recalculateValue() throws Exception {
+						// simulate duration of measuring
+						// Thread.sleep(ThreadLocalRandom.current().nextLong(1500));
+						return property.get();
+					}
+				});
 
 	}
 

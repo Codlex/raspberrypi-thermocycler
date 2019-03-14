@@ -66,14 +66,12 @@ public class Thermocycler {
 	}
 
 	public Date getFinishTime() {
-		return new Date(System.currentTimeMillis()
-				+ this.stateLogic.getFullTimeLeftMillis());
+		return new Date(System.currentTimeMillis() + this.stateLogic.getFullTimeLeftMillis());
 	}
 
 	public int getTimeLeft() {
 		return (int) TimeUnit.MILLISECONDS
-				.toSeconds(this.stateLogic.getTargetImmersionTime()
-						- this.stateLogic.calculateImmersionTime());
+				.toSeconds(this.stateLogic.getTargetImmersionTime() - this.stateLogic.calculateImmersionTime());
 	}
 
 	void init() {
@@ -99,13 +97,10 @@ public class Thermocycler {
 
 	void logStatus() {
 		Tracker.track("cyclesLeft", this.stateLogic.getCyclesLeft());
-		Tracker.track("timeLeft",
-				this.stateLogic.getFullTimeLeftMillis() / 1000);
+		Tracker.track("timeLeft", this.stateLogic.getFullTimeLeftMillis() / 1000);
 
-		log.debug("ThermocyclerStatus(state="
-				+ this.stateLogic.getCurrentState() + ", immersion="
-				+ this.stateLogic.calculateImmersionTime()
-				+ " ms, targetImmersion="
+		log.debug("ThermocyclerStatus(state=" + this.stateLogic.getCurrentState() + ", immersion="
+				+ this.stateLogic.calculateImmersionTime() + " ms, targetImmersion="
 				+ this.stateLogic.getTargetImmersionTime() + " ms)");
 
 		this.hotBath.logStatus();
@@ -117,8 +112,7 @@ public class Thermocycler {
 	}
 
 	public void onStateChange(State state) {
-		Set<State> saveStates = ImmutableSet.of(State.NotReady, State.HotBath,
-				State.ColdBath);
+		Set<State> saveStates = ImmutableSet.of(State.NotReady, State.HotBath, State.ColdBath);
 		if (saveStates.contains(state)) {
 			this.persister.save(this);
 		}
@@ -182,8 +176,7 @@ public class Thermocycler {
 				this.translator.errect(State.ColdBath);
 				this.isStarted.set(false);
 				clear();
-				log.debug(
-						"############################## CYCLING_FINISHED ##############################");
+				log.debug("############################## CYCLING_FINISHED ##############################");
 			}
 		}
 
@@ -199,8 +192,7 @@ public class Thermocycler {
 	}
 
 	private boolean validate() {
-		boolean isValid = Settings.get().getValidationCyclesRange()
-				.contains(this.cycles.get());
+		boolean isValid = Settings.get().getValidationCyclesRange().contains(this.cycles.get());
 		isValid &= this.hotBath.isValid();
 		isValid &= this.coldBath.isValid();
 		return isValid;

@@ -15,6 +15,10 @@ public class Settings {
 
 	private static final Settings INSTANCE = new Settings();
 
+	public boolean getTrackingOn() {
+		return getValue(Boolean.class);
+	}
+	
 	public long getTranslationTimeMillis() {
 		return getValue(Long.class);
 	}
@@ -217,6 +221,14 @@ public class Settings {
 
 	public float getColdBathEpsOff() {
 		return getValue(Float.class);
+	}
+
+	public boolean getCirculationPumpOn() {
+		return getValue(Boolean.class);
+	}
+
+	public boolean getKeepLevelOn() {
+		return getValue(Boolean.class);
 	}
 
 }

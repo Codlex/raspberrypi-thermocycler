@@ -23,7 +23,6 @@ public class HotBath extends Bath {
 				Settings.get().getHotBathLevelEchoPin(), Settings.get().getHotBathLevelTriggerPin(),
 				Settings.get().getHotBathWaterPump());
 		this.heater = new Heater(Settings.get().getHotBathHeaterPin());
-		this.temperature.set(20);
 		this.time.set(1);
 		this.circulationWaterPump = HardwareProvider.get()
 				.getSwitch(Settings.get().getHotBathCirculationWaterPump(), "HotBathCirculationWaterPump");
@@ -49,7 +48,13 @@ public class HotBath extends Bath {
 
 	@Override
 	public void keepTemperature() {
-		this.circulationWaterPump.turnOn();
+		
+		if (Settings.get().getCirculationPumpOn()) {
+			this.circulationWaterPump.turnOn();
+		} else {
+			this.circulationWaterPump.turnOff();
+		}
+		
 		if (getCurrentTemperature() < this.temperature.get()) {
 			this.heater.turnOn();
 		} else {

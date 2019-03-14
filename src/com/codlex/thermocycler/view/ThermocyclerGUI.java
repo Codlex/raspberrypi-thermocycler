@@ -24,7 +24,7 @@ import lombok.extern.log4j.Log4j;
 @Log4j
 public class ThermocyclerGUI extends Application {
 
-	public static void main(String[] args) {		
+	public static void main(String[] args) {
 		PropertyConfigurator.configure("log4j.properties");
 		log.debug("################ Thermocycler is starting ################");
 		launch(new String[0]);
@@ -59,8 +59,7 @@ public class ThermocyclerGUI extends Application {
 		try {
 			// Load root layout from fxml file.
 			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(
-					ThermocyclerGUI.class.getResource("RootScene.fxml"));
+			loader.setLocation(ThermocyclerGUI.class.getResource("RootScene.fxml"));
 			this.rootLayout = loader.load();
 
 			// Show the scene containing the root layout.
@@ -69,14 +68,12 @@ public class ThermocyclerGUI extends Application {
 			this.primaryStage.setScene(scene);
 			this.primaryStage.show();
 
-			this.primaryStage.addEventFilter(TouchEvent.ANY,
-					new EventHandler<Event>() {
-						@Override
-						public void handle(Event event) {
-							ThermocyclerGUI.this.screenAlarmClock
-									.onTouchEvent();
-						};
-					});
+			this.primaryStage.addEventFilter(TouchEvent.ANY, new EventHandler<Event>() {
+				@Override
+				public void handle(Event event) {
+					ThermocyclerGUI.this.screenAlarmClock.onTouchEvent();
+				};
+			});
 
 			this.controller = loader.getController();
 			this.controller.setGui(this);
@@ -88,8 +85,9 @@ public class ThermocyclerGUI extends Application {
 				setScene(ThermocyclerScene.ThermocyclerOverview);
 			}
 
-			// this.rootLayout.setRight(ThermocyclerScene.MockSensors.load(this.thermocycler,
-			// this));
+			if (!Settings.get().getProduction()) {
+				this.rootLayout.setRight(ThermocyclerScene.MockSensors.load(this.thermocycler, this));
+			}
 
 		} catch (IOException e) {
 			log.error(e);

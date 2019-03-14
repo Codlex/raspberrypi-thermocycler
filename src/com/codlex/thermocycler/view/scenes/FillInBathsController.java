@@ -1,5 +1,6 @@
 package com.codlex.thermocycler.view.scenes;
 
+import com.codlex.thermocycler.logic.Settings;
 import com.codlex.thermocycler.logic.bath.Bath;
 import com.codlex.thermocycler.view.ThermocyclerController;
 
@@ -35,6 +36,7 @@ public class FillInBathsController extends ThermocyclerController {
 	protected boolean backValidation() {
 		return false;
 	}
+	
 	private void bind(final Bath bath, Label label, ProgressBar progressBar) {
 		bath.getLevelSensor().getProperty().addListener((newValue) -> {
 			IntegerProperty property = (IntegerProperty) newValue;
@@ -71,6 +73,9 @@ public class FillInBathsController extends ThermocyclerController {
 
 	@Override
 	protected boolean validation() {
+		if (!Settings.get().getKeepLevelOn()) {
+			
+		}
 		boolean isValid = this.thermocycler.getHotBath().isLevelOK();
 		isValid &= this.thermocycler.getColdBath().isLevelOK();
 		return isValid;

@@ -4,10 +4,13 @@ import com.codlex.thermocycler.logic.bath.Bath;
 import com.codlex.thermocycler.view.ThermocyclerController;
 
 import javafx.beans.property.IntegerProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
+import javafx.scene.control.ToggleButton;
 import lombok.extern.log4j.Log4j;
 
 @Log4j
@@ -21,6 +24,9 @@ public abstract class AbstractBathController extends ThermocyclerController {
 		property.set(property.get() + 1);
 	}
 
+	@FXML 
+	private ToggleButton logicOn;
+	
 	@FXML
 	private Slider temperatureSlider;
 
@@ -82,6 +88,13 @@ public abstract class AbstractBathController extends ThermocyclerController {
 			updateUI();
 		});
 		updateTime(this.bath.getTimeProperty().get());
+		this.logicOn.selectedProperty().set(true);
+		this.logicOn.selectedProperty().addListener(new ChangeListener<Boolean>() {
+			@Override
+			public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+				AbstractBathController.this.bath.setLogicOn(newValue);
+			}
+		});
 	}
 
 	@FXML
