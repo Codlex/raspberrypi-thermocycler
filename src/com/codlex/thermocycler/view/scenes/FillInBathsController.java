@@ -73,9 +73,6 @@ public class FillInBathsController extends ThermocyclerController {
 
 	@Override
 	protected boolean validation() {
-		if (!Settings.get().getKeepLevelOn()) {
-			
-		}
 		boolean isValid = this.thermocycler.getHotBath().isLevelOK();
 		isValid &= this.thermocycler.getColdBath().isLevelOK();
 		return isValid;
