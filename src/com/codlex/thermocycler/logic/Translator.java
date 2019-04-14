@@ -28,6 +28,12 @@ public class Translator {
 			case HotBath :
 				goToHot();
 				break;
+			case ToHotBathPause:
+				errect(State.ColdBath);
+				break;
+			case ToColdBathPause:
+				errect(State.HotBath);
+				break;
 		}
 	}
 
@@ -84,8 +90,8 @@ public class Translator {
 	void update(State state) {
 
 		// not_ready . hot_bath
-		// hot_bath . cold_bath
-		// cold_bath . hot_bath
+		// hot_bath . cold_bath if there is pause, it will go to to_cold_bath_pause
+		// cold_bath . hot_bath if there is pause, it will go to to_hot_bath_pause
 		// cold_bath . finished
 		if (state != this.currentState) {
 			changeState(state);

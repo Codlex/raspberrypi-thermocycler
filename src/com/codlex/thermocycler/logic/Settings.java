@@ -73,6 +73,10 @@ public class Settings {
 	public Pin getHotBathCirculationWaterPump() {
 		return getValue(Pin.class);
 	}
+	
+	public long getFromHotBathPause() {
+		return getValue(Long.class);
+	}
 
 	/**
 	 * ColdBath.
@@ -91,6 +95,10 @@ public class Settings {
 
 	public Pin getColdBathWaterPump() {
 		return getValue(Pin.class);
+	}
+	
+	public long getFromColdBathPause() {
+		return getValue(Long.class);
 	}
 
 	/**

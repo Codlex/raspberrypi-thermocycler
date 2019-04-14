@@ -71,7 +71,7 @@ public class Thermocycler {
 
 	public int getTimeLeft() {
 		return (int) TimeUnit.MILLISECONDS
-				.toSeconds(this.stateLogic.getTargetImmersionTime() - this.stateLogic.calculateImmersionTime());
+				.toSeconds(this.stateLogic.getTargetTimeInState() - this.stateLogic.calculateTimeInState());
 	}
 
 	void init() {
@@ -99,9 +99,9 @@ public class Thermocycler {
 		Tracker.track("cyclesLeft", this.stateLogic.getCyclesLeft());
 		Tracker.track("timeLeft", this.stateLogic.getFullTimeLeftMillis() / 1000);
 
-		log.debug("ThermocyclerStatus(state=" + this.stateLogic.getCurrentState() + ", immersion="
-				+ this.stateLogic.calculateImmersionTime() + " ms, targetImmersion="
-				+ this.stateLogic.getTargetImmersionTime() + " ms)");
+		log.debug("ThermocyclerStatus(state=" + this.stateLogic.getCurrentState() + ", timeInState="
+				+ this.stateLogic.calculateTimeInState() + " ms, targetTimeInState="
+				+ this.stateLogic.getTargetTimeInState() + " ms)");
 
 		this.hotBath.logStatus();
 		this.coldBath.logStatus();

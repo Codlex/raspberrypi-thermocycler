@@ -66,7 +66,9 @@ public class ThermocyclerOverviewController extends ThermocyclerController {
 		PauseTransition wait = new PauseTransition(Duration.seconds(1));
 		wait.setOnFinished((e) -> {
 			if (this.currentState == State.ColdBath
-					|| this.currentState == State.HotBath) {
+					|| this.currentState == State.HotBath
+					|| this.currentState == State.ToColdBathPause
+					|| this.currentState == State.ToHotBathPause) {
 				// because of immersion time calculation
 				updateUI();
 
@@ -227,6 +229,19 @@ public class ThermocyclerOverviewController extends ThermocyclerController {
 						this.thermocycler.getStateLogic().getCurrenCycle()
 								+ " / " + this.cycles.getText());
 				break;
+				
+			case ToHotBathPause:
+				this.coldBathTitle.setStyle(this.neutralStyle);
+				this.hotBathTitle.setStyle(this.neutralStyle);
+				this.title.setText("Pausing for: " + String.format(timeFormat, minutes, seconds));
+				break;
+				
+			case ToColdBathPause:
+				this.coldBathTitle.setStyle(this.neutralStyle);
+				this.hotBathTitle.setStyle(this.neutralStyle);
+				this.title.setText("Pausing for: " + String.format(timeFormat, minutes, seconds));
+				break;
+				
 			case HotBath :
 				this.title.setText("Heating specimen...");
 				this.coldBathTitle.setStyle(this.neutralStyle);
@@ -237,6 +252,7 @@ public class ThermocyclerOverviewController extends ThermocyclerController {
 						this.thermocycler.getStateLogic().getCurrenCycle()
 								+ " / " + this.cycles.getText());
 				break;
+			
 			case Finished :
 				this.title.setText("Cycling completed click finish.");
 				break;

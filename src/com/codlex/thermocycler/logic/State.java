@@ -1,5 +1,5 @@
 package com.codlex.thermocycler.logic;
 
 public enum State {
-	NotStarted, NotReady, HotBath, ColdBath, Finished, UnexpectedShutdown;
+	NotStarted, NotReady, HotBath, ColdBath, ToColdBathPause, ToHotBathPause, Finished, UnexpectedShutdown;
 }

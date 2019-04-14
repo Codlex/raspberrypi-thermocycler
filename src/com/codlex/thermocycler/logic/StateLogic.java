@@ -13,8 +13,8 @@ public class StateLogic {
 
 	Thermocycler thermocycler;
 	State currentState = State.NotStarted;
-	long time = 0;
-	long immersionStart = 0;
+	long currentTime = 0;
+	long stateStartTime = 0;
 	long hotBathImmersionCount = 0;
 	long coldBathImmersionCount = 0;
 
@@ -31,9 +31,18 @@ public class StateLogic {
 		}
 	}
 
-	public long calculateImmersionTime() {
-		return Math.max(this.time - this.immersionStart
-				- Settings.get().getTranslationTimeMillis(), 0);
+	public long calculateTimeInState() {
+		long translationChange = 0;
+		
+		if (this.currentState == State.ColdBath || this.currentState == State.HotBath) {
+			translationChange = Settings.get().getTranslationTimeMillis(); // time of translation
+		}
+		
+		if (this.currentState == State.ToColdBathPause || this.currentState == State.ToHotBathPause) {
+			translationChange = 450; // time of errection
+		}
+		
+		return Math.max(this.currentTime - this.stateStartTime - translationChange, 0);
 	}
 
 	void changeState(final State state) {
@@ -45,8 +54,13 @@ public class StateLogic {
 				+ this.thermocycler.cycles.get() + ") ####");
 		
 		this.thermocycler.onStateChange(state);
-		this.currentState = state;
 
+		this.currentState = state;
+		
+		// reset start time
+		this.stateStartTime = this.currentTime;
+		
+		
 		Platform.runLater(() -> {
 			this.stateProperty.set(state);
 		});
@@ -58,6 +72,11 @@ public class StateLogic {
 			case ColdBath :
 				this.coldBathImmersionCount++;
 				break;
+			case ToColdBathPause:
+			case ToHotBathPause:
+				log.debug("Pausing...");
+				break;
+				
 			case UnexpectedShutdown :
 				log.debug("Thermocycler had unexpected shutdown last time.");
 				break;
@@ -72,15 +91,20 @@ public class StateLogic {
 		}
 	}
 
+	void doErrect() {
+		if (this.currentState == State.ColdBath) {
+			changeState(State.ToHotBathPause);
+		} else {
+			changeState(State.ToColdBathPause);
+		}
+	}
+	
 	void doCycle() {
 		if (this.currentState == State.ColdBath) {
 			changeState(State.HotBath);
 		} else {
 			changeState(State.ColdBath);
 		}
-
-		// reset start time
-		this.immersionStart = this.time;
 	}
 
 	public int getCurrenCycle() {
@@ -109,20 +133,28 @@ public class StateLogic {
 
 		long translatingTime = 2
 				* (hotCyclesLeft * Settings.get().getTranslationTimeMillis());
-
-		return hotTimeLeft + coldTimeLeft + translatingTime
-				- this.calculateImmersionTime();
+		
+		long pauseTime = Settings.get().getFromColdBathPause() * coldCyclesLeft
+				+ Settings.get().getFromHotBathPause() * hotCyclesLeft;
+		
+		return hotTimeLeft + coldTimeLeft + translatingTime + pauseTime
+				- this.calculateTimeInState();
 	}
 
-	long getTargetImmersionTime() {
+	long getTargetTimeInState() {
 		// ASSERT state in (ColdBath, HotBath)
 		if (this.currentState == State.ColdBath) {
 			return TimeUnit.SECONDS
 					.toMillis(this.thermocycler.getColdBath().time.get());
-		} else { // this.currentState == HotBath
+		} else if (this.currentState == State.HotBath) { // this.currentState == HotBath
 			return TimeUnit.SECONDS
 					.toMillis(this.thermocycler.getHotBath().time.get());
-		}
+		} else if (this.currentState == State.ToHotBathPause || this.currentState == State.ToColdBathPause) {
+			return getPauseTime();
+		} 
+		
+//		log.error("This state doesn't have time associated with it: " + this.currentState); 
+		return 0;
 	}
 
 	boolean isLastCycle() {
@@ -132,16 +164,49 @@ public class StateLogic {
 		return hotFinished && coldFinished;
 	}
 
-	void processCycling() {
+	void processPauseTo(State to) {
 		// ASSERT state in (ColdBath, HotBath)
-		long currentImmersionTime = calculateImmersionTime();
-		if (currentImmersionTime > getTargetImmersionTime()) {
+		long currentStateTime = calculateTimeInState();
+		if (currentStateTime > getPauseTime()) {
 			if (!isLastCycle()) {
 				// reset start time
-				this.immersionStart = this.time;
+				this.stateStartTime = this.currentTime;
+				
+				if (this.currentState == State.ToColdBathPause) {
+					changeState(State.ColdBath);
+				} else {
+					changeState(State.HotBath);
+				}
+				
+			} else {
+				changeState(State.Finished);
+			}
+		}
+	}
+	
+	private long getPauseTime() {
+		if (this.currentState == State.HotBath || this.currentState == State.ToColdBathPause) {
+			return Settings.get().getFromHotBathPause();
+		} else if (this.currentState == State.ColdBath || this.currentState == State.ToHotBathPause) {
+			return Settings.get().getFromColdBathPause();
+		}
+		
+		throw new RuntimeException("Getting pause time when not in valid state: " + this.currentState);
+	}
+	
 
+	void processCycling() {
+		// ASSERT state in (ColdBath, HotBath)
+		long currentImmersionTime = calculateTimeInState();
+		if (currentImmersionTime > getTargetTimeInState()) {
+			if (!isLastCycle()) {
 				// invert state
-				doCycle();
+				if (getPauseTime() != 0) {
+					doErrect();
+				} else {
+					doCycle();
+				}
+				
 			} else {
 				changeState(State.Finished);
 			}
@@ -152,7 +217,7 @@ public class StateLogic {
 		boolean hotBathReady = this.thermocycler.getHotBath().isReady();
 		boolean coldBathReady = this.thermocycler.getColdBath().isReady();
 		if (hotBathReady && coldBathReady) {
-			this.immersionStart = this.time;
+			this.stateStartTime = this.currentTime;
 			changeState(State.HotBath);
 		} 
 	}
@@ -164,15 +229,15 @@ public class StateLogic {
 	}
 
 	public void reset() {
-		this.time = 0;
-		this.immersionStart = 0;
+		this.currentTime = 0;
+		this.stateStartTime = 0;
 		changeState(State.NotStarted);
 		this.hotBathImmersionCount = 0;
 		this.coldBathImmersionCount = 0;
 	}
 
 	void update(long delta) {
-		this.time += delta;
+		this.currentTime += delta;
 
 		switch (this.currentState) {
 			case NotStarted :
@@ -189,6 +254,12 @@ public class StateLogic {
 				break;
 			case ColdBath :
 				processCycling();
+				break;
+			case ToColdBathPause:
+				processPauseTo(State.ColdBath);
+				break;
+			case ToHotBathPause:
+				processPauseTo(State.HotBath);
 				break;
 			case Finished :
 				break;
