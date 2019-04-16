@@ -1,1 +1,1 @@
-ssh pi@pi "cd tc2 && ./start.sh"
+ssh pi@pi "cd tc3 && ./start.sh"
