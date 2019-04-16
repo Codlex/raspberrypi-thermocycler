@@ -23,5 +23,4 @@ echo "Log4 updated!"
 
 mkdir log
 
-
 echo "Thermocycler update complete!"

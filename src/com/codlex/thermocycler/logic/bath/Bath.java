@@ -33,6 +33,11 @@ public abstract class Bath {
 	private final Thermocycler thermocycler;
 	private AtomicBoolean logicOn = new AtomicBoolean(true);
 
+	
+	public boolean getIsLogicOn() {
+		return logicOn.get();
+	}
+	
 	public Bath(Thermocycler thermocycler, String temperatureSensorIndex1, String temperatureSensorIndex2,
 			Pin levelEchoPin, Pin levelTriggerPin, Pin waterPumpPin) {
 		this.thermocycler = thermocycler;

@@ -58,6 +58,15 @@ public class ThermocyclerPersister {
 			i++;
 
 			thermocycler.setCurrentCycle(Integer.parseInt(parameters.get(i)));
+			i++;
+			
+			thermocycler.getHotBath().setLogicOn(Boolean.parseBoolean(parameters.get(i)));
+			i++;
+			
+			thermocycler.getColdBath().setLogicOn(Boolean.parseBoolean(parameters.get(i)));
+			i++;
+			
+			
 
 		} catch (Exception e) {
 			log.error("Couldn't load state of thermocycler: ", e);
@@ -86,6 +95,9 @@ public class ThermocyclerPersister {
 
 		int lastCycle = thermocycler.getStateLogic().getCurrenCycle();
 		builder.append(lastCycle).append(SEPARATOR); // last cycle
+
+		builder.append(thermocycler.getHotBath().getIsLogicOn()).append(SEPARATOR);
+		builder.append(thermocycler.getColdBath().getIsLogicOn()).append(SEPARATOR);
 
 		try {
 			Files.write(builder.toString(), this.temp, Charsets.UTF_8);
