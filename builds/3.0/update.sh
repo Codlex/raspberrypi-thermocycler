@@ -21,4 +21,5 @@ rm -f log4j.properties
 wget https://raw.githubusercontent.com/Codlex/raspberrypi-thermocycler/master/builds/3.0/log4j.properties
 echo "Log4 updated!"
 
+
 echo "Thermocycler update complete!"
