@@ -8,6 +8,7 @@ import com.codlex.thermocycler.logic.bath.Bath;
 import com.codlex.thermocycler.logic.bath.sensors.TemperatureSensor;
 import com.codlex.thermocycler.tracker.Tracker;
 
+import javafx.application.Platform;
 import lombok.extern.log4j.Log4j;
 
 @Log4j
@@ -92,5 +93,17 @@ public class HotBath extends Bath {
 		}
 
 		return isOk;
+	}
+	
+	@Override
+	public synchronized float getCurrentTemperature() {
+		float sum = this.temperatureSensor1.getTemperature();
+		float averageTemp = sum;
+
+		Platform.runLater(() -> {
+			this.currentTemperatureProperty.setValue(averageTemp);
+		});
+
+		return averageTemp;
 	}
 }

@@ -21,7 +21,7 @@ import lombok.extern.log4j.Log4j;
 public abstract class Bath {
 
 	@Getter
-	private FloatProperty currentTemperatureProperty = new SimpleFloatProperty();
+	protected FloatProperty currentTemperatureProperty = new SimpleFloatProperty();
 	protected TemperatureSensor temperatureSensor1;
 	protected TemperatureSensor temperatureSensor2;
 
