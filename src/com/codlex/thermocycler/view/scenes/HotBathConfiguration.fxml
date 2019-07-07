@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.codlex.thermocycler.view.scenes.HotBathConfigurationController">
+   <children>
+      <Label alignment="CENTER" contentDisplay="CENTER" maxWidth="1.7976931348623157E308" prefHeight="80.0" text="Hot Bath" textAlignment="CENTER" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <font>
+            <Font size="36.0" />
+         </font>
+      </Label>
+      
+      <VBox alignment="CENTER" prefHeight="200.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="80.0">
+         <children>     
+            <ToggleButton fx:id="logicOn" mnemonicParsing="false" text="Heating" /> 
+            <Label alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="16.0" prefWidth="600.0" text="Temperature" textAlignment="CENTER">
+               <font>
+                  <Font size="24.0" />
+               </font>
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
+            </Label>
+            <Label fx:id="temperatureLabel" alignment="CENTER" contentDisplay="CENTER" maxWidth="1.7976931348623157E308" prefHeight="44.0" prefWidth="622.0" text="105 C" textAlignment="CENTER">
+               <font>
+                  <Font size="36.0" />
+               </font>
+               <opaqueInsets>
+                  <Insets bottom="-10.0" />
+               </opaqueInsets>
+            </Label>
+            <HBox alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="54.0" prefWidth="600.0">
+               <children>
+                  <Button fx:id="minusOneCelzius" mnemonicParsing="false" onMouseClicked="#onMinusOneCelziusClick" text="-1">
+                     <font>
+                        <Font size="36.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                  </Button>
+                  <Slider fx:id="temperatureSlider" blockIncrement="1.0" majorTickUnit="10.0" min="10.0" minorTickCount="1" prefHeight="67.0" prefWidth="272.0" showTickLabels="true" showTickMarks="true">
+                     <HBox.margin>
+                        <Insets left="20.0" right="20.0" />
+                     </HBox.margin>
+                  </Slider>
+                  <Button fx:id="plusOneCelzius" mnemonicParsing="false" onMouseClicked="#onPlusOneCelziusClick" text="+1">
+                     <font>
+                        <Font size="36.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                  </Button>
+               </children>
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+               <VBox.margin>
+                  <Insets bottom="20.0" top="-15.0" />
+               </VBox.margin>
+            </HBox>
+            <Label alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="16.0" prefWidth="600.0" text="Time" textAlignment="CENTER">
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </Label>
+            <Label fx:id="timeLabel" alignment="CENTER" contentDisplay="CENTER" maxWidth="1.7976931348623157E308" prefHeight="44.0" prefWidth="622.0" text="10:00" textAlignment="CENTER">
+               <font>
+                  <Font size="36.0" />
+               </font>
+               <opaqueInsets>
+                  <Insets bottom="-10.0" />
+               </opaqueInsets>
+            </Label>
+            <HBox alignment="CENTER" prefHeight="54.0" prefWidth="600.0">
+               <children>
+                  <Button fx:id="minusOneSecond" mnemonicParsing="false" onMouseClicked="#onMinusOneSecondClick" text="-1">
+                     <font>
+                        <Font size="36.0" />
+                     </font>
+                  </Button>
+                  <Slider fx:id="timeSlider" blockIncrement="1.0" majorTickUnit="30.0" max="1800.0" min="1.0" minorTickCount="1" prefHeight="67.0" prefWidth="272.0" showTickLabels="true" showTickMarks="true" value="90.0">
+                     <HBox.margin>
+                        <Insets left="20.0" right="20.0" />
+                     </HBox.margin>
+                  </Slider>
+                  <Button fx:id="plusOneSecond" mnemonicParsing="false" onMouseClicked="#onPlusOneSecondClick" text="+1">
+                     <font>
+                        <Font size="36.0" />
+                     </font>
+                  </Button>
+               </children>
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+               <padding>
+                  <Insets top="-15.0" />
+               </padding>
+            </HBox>
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>

@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<VBox alignment="TOP_CENTER" minHeight="0.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.codlex.thermocycler.view.scenes.MockSensorsController">
+   <children>
+      <Label text="HotBath">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Separator prefWidth="200.0" />
+      <Label text="Temperature1">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <HBox alignment="CENTER" prefHeight="40.0" prefWidth="200.0">
+         <children>
+            <Slider fx:id="hotBathTemperature1Slider" blockIncrement="1.0" max="150.0" min="-10.0" showTickLabels="true" showTickMarks="true" value="20.0" />
+            <TextField fx:id="hotBathTemperature1Field" prefColumnCount="3" text="20">
+               <HBox.margin>
+                  <Insets />
+               </HBox.margin>
+            </TextField>
+            <Label contentDisplay="CENTER" text="C" />
+         </children>
+      </HBox>
+      <Label text="Temperature2">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <HBox alignment="CENTER" prefHeight="40.0" prefWidth="200.0">
+         <children>
+            <Slider fx:id="hotBathTemperature2Slider" blockIncrement="1.0" max="150.0" min="-10.0" showTickLabels="true" showTickMarks="true" value="20.0" />
+            <TextField fx:id="hotBathTemperature2Field" prefColumnCount="3" text="20">
+               <HBox.margin>
+                  <Insets />
+               </HBox.margin>
+            </TextField>
+            <Label contentDisplay="CENTER" text="C" />
+         </children>
+      </HBox>
+      <Label text="Temperature Safety">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <HBox alignment="CENTER" prefHeight="40.0" prefWidth="200.0">
+         <children>
+            <Slider fx:id="hotBathTemperature3Slider" blockIncrement="1.0" max="150.0" min="-10.0" showTickLabels="true" showTickMarks="true" value="20.0" />
+            <TextField fx:id="hotBathTemperature3Field" prefColumnCount="3" text="20">
+               <HBox.margin>
+                  <Insets />
+               </HBox.margin>
+            </TextField>
+            <Label contentDisplay="CENTER" text="C" />
+         </children>
+      </HBox>
+      <ToggleButton fx:id="hotBathHeater" mnemonicParsing="false" text="Heater" />
+      <Slider fx:id="hotBathLevelSlider" blockIncrement="1.0" max="25.0" showTickLabels="true" showTickMarks="true" value="1.0" />
+      <Separator prefWidth="200.0" />
+      <Label text="ColdBath">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Label text="Temperature1">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <HBox alignment="CENTER" prefHeight="40.0" prefWidth="200.0">
+         <children>
+            <Slider fx:id="coldBathTemperature1Slider" blockIncrement="1.0" max="150.0" min="-10.0" showTickLabels="true" showTickMarks="true" value="20.0" />
+            <TextField fx:id="coldBathTemperature1Field" prefColumnCount="3" text="20">
+               <HBox.margin>
+                  <Insets />
+               </HBox.margin>
+            </TextField>
+            <Label contentDisplay="CENTER" text="C" />
+         </children>
+      </HBox>
+      <Label text="Temperature2">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <HBox alignment="CENTER" prefHeight="40.0" prefWidth="200.0">
+         <children>
+            <Slider fx:id="coldBathTemperature2Slider" blockIncrement="1.0" max="150.0" min="-10.0" showTickLabels="true" showTickMarks="true" value="20.0" />
+            <TextField fx:id="coldBathTemperature2Field" prefColumnCount="3" text="20">
+               <HBox.margin>
+                  <Insets />
+               </HBox.margin>
+            </TextField>
+            <Label contentDisplay="CENTER" text="C" />
+         </children>
+      </HBox>
+      <Label text="TemperatureAntifriz">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <HBox alignment="CENTER" prefHeight="40.0" prefWidth="200.0">
+         <children>
+            <Slider fx:id="coldBathTemperatureAntifrizSlider" blockIncrement="1.0" max="150.0" min="-10.0" showTickLabels="true" showTickMarks="true" value="20.0" />
+            <TextField fx:id="coldBathTemperatureAntifrizField" prefColumnCount="3" text="20">
+               <HBox.margin>
+                  <Insets />
+               </HBox.margin>
+            </TextField>
+            <Label contentDisplay="CENTER" text="C" />
+         </children>
+      </HBox>
+      <ToggleButton fx:id="coldBathCooler" mnemonicParsing="false" text="Cooler" />
+      <Slider fx:id="coldBathLevelSlider" blockIncrement="1.0" max="25.0" showTickLabels="true" showTickMarks="true" value="1.0" />
+   </children>
+</VBox>
