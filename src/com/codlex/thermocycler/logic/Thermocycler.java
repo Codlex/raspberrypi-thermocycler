@@ -85,7 +85,7 @@ public class Thermocycler {
 			this.translator.goToHot();
 			Thread.sleep(1500);
 			log.debug("Errecting...");
-			this.translator.errect(State.HotBath);
+			this.translator.errectFrom(State.HotBath);
 		} catch (InterruptedException e1) {
 			log.error(e1);
 		}
@@ -173,7 +173,7 @@ public class Thermocycler {
 			this.translator.update(this.stateLogic.getCurrentState());
 
 			if (this.stateLogic.getCurrentState() == State.Finished) {
-				this.translator.errect(State.ColdBath);
+				this.translator.errectFrom(State.ColdBath);
 				this.isStarted.set(false);
 				clear();
 				log.debug("############################## CYCLING_FINISHED ##############################");

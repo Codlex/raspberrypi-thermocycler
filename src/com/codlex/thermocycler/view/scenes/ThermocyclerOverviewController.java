@@ -68,7 +68,9 @@ public class ThermocyclerOverviewController extends ThermocyclerController {
 			if (this.currentState == State.ColdBath
 					|| this.currentState == State.HotBath
 					|| this.currentState == State.ToColdBathPause
-					|| this.currentState == State.ToHotBathPause) {
+					|| this.currentState == State.ToHotBathPause
+					|| this.currentState == State.ToHotBathMiddlePause
+					|| this.currentState == State.ToColdBathMiddlePause) {
 				// because of immersion time calculation
 				updateUI();
 
@@ -240,6 +242,18 @@ public class ThermocyclerOverviewController extends ThermocyclerController {
 				this.coldBathTitle.setStyle(this.neutralStyle);
 				this.hotBathTitle.setStyle(this.neutralStyle);
 				this.title.setText("Pausing for: " + String.format(timeFormat, minutes, seconds));
+				break;
+				
+			case ToHotBathMiddlePause:
+				this.coldBathTitle.setStyle(this.neutralStyle);
+				this.hotBathTitle.setStyle(this.neutralStyle);
+				this.title.setText("Pausing (m) for: " + String.format(timeFormat, minutes, seconds));
+				break;
+				
+			case ToColdBathMiddlePause:
+				this.coldBathTitle.setStyle(this.neutralStyle);
+				this.hotBathTitle.setStyle(this.neutralStyle);
+				this.title.setText("Pausing (m) for: " + String.format(timeFormat, minutes, seconds));
 				break;
 				
 			case HotBath :

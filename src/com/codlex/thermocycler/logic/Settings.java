@@ -239,4 +239,21 @@ public class Settings {
 		return getValue(Boolean.class);
 	}
 
+	public long getMiddlePausePulseDurationFromHot() {
+		return getValue(Long.class);
+	}
+
+	public long getMiddlePausePulseDurationFromCold() {
+		return getValue(Long.class);
+	}
+
+	public long getFromColdBathMiddlePause() {
+		return getValue(Long.class);
+	}
+	
+	public long getFromHotBathMiddlePause() {
+		return getValue(Long.class);
+	}
+
+
 }

@@ -29,10 +29,16 @@ public class Translator {
 				goToHot();
 				break;
 			case ToHotBathPause:
-				errect(State.ColdBath);
+				errectFrom(State.ColdBath);
 				break;
 			case ToColdBathPause:
-				errect(State.HotBath);
+				errectFrom(State.HotBath);
+				break;
+			case ToHotBathMiddlePause:
+				errectToMiddleFrom(State.ColdBath);
+				break;
+			case ToColdBathMiddlePause:
+				errectToMiddleFrom(State.HotBath);
 				break;
 		}
 	}
@@ -43,7 +49,28 @@ public class Translator {
 		this.pulse.turnOff();
 	}
 
-	public void errect(State from) {
+	public void errectToMiddleFrom(State from) {
+		this.power.turnOn();
+		if (State.HotBath.equals(from)) {
+			this.toCold.turnOn();
+		} else {
+			this.toCold.turnOff();
+		}
+		this.pulse.turnOn();
+		try {
+			if (State.HotBath.equals(from)) {
+				Thread.sleep(Settings.get().getMiddlePausePulseDurationFromHot());
+			} else {
+				Thread.sleep(Settings.get().getMiddlePausePulseDurationFromCold());
+			}
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		this.pulse.turnOff();
+		this.power.turnOff();
+	}
+	
+	public void errectFrom(State from) {
 		this.power.turnOn();
 		if (State.HotBath.equals(from)) {
 			this.toCold.turnOn();
@@ -58,7 +85,6 @@ public class Translator {
 		}
 		this.pulse.turnOff();
 		this.power.turnOff();
-
 	}
 
 	void goToCold() {
