@@ -36,13 +36,13 @@ public class VirtualSensors {
 
 	private VirtualSensors() {
 
-		addTemperatureSensor(Settings.ColdBathTemperatureSensor1, this.coldBathTemperature1);
-		addTemperatureSensor(Settings.ColdBathTemperatureSensor2, this.coldBathTemperature2);
-		addTemperatureSensor(Settings.ColdBathTemperatureSensorAntifriz, this.coldBathTemperatureAntifriz);
+		addTemperatureSensor(Settings.get().getColdBathTemperatureSensor1(), this.coldBathTemperature1);
+		addTemperatureSensor(Settings.get().getColdBathTemperatureSensor2(), this.coldBathTemperature2);
+		addTemperatureSensor(Settings.get().getColdBathTemperatureSensorAntifriz(), this.coldBathTemperatureAntifriz);
 
-		addTemperatureSensor(Settings.HotBathTemperatureSensor1, this.hotBathTemperature1);
-		addTemperatureSensor(Settings.HotBathTemperatureSensor2, this.hotBathTemperature2);
-		addTemperatureSensor(Settings.HotBathTemperatureSensor3, this.hotBathTemperatureSafety);
+		addTemperatureSensor(Settings.get().getHotBathTemperatureSensor1(), this.hotBathTemperature1);
+		addTemperatureSensor(Settings.get().getHotBathTemperatureSensor2(), this.hotBathTemperature2);
+		addTemperatureSensor(Settings.get().getHotBathTemperatureSensor3(), this.hotBathTemperatureSafety);
 
 		addDistanceMonitor(Settings.get().getColdBathLevelEchoPin(), Settings.get().getColdBathLevelTriggerPin(),
 				this.coldBathDistance);

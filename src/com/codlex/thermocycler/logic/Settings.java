@@ -15,6 +15,30 @@ public class Settings {
 
 	private static final Settings INSTANCE = new Settings();
 
+	public String getHotBathTemperatureSensor1() {
+		return HotBathTemperatureSensor1;
+	}
+
+	public String getHotBathTemperatureSensor2() {
+		return HotBathTemperatureSensor2;
+	}
+
+	public String getHotBathTemperatureSensor3() {
+		return HotBathTemperatureSensor3;
+	}
+
+	public String getColdBathTemperatureSensor1() {
+		return ColdBathTemperatureSensor1;
+	}
+
+	public String getColdBathTemperatureSensor2() {
+		return ColdBathTemperatureSensor2;
+	}
+
+	public String getColdBathTemperatureSensorAntifriz() {
+		return ColdBathTemperatureSensorAntifriz;
+	}
+
 	public boolean getTrackingOn() {
 		return getValue(Boolean.class);
 	}
@@ -116,12 +140,12 @@ public class Settings {
 		return getValue(Pin.class);
 	}
 
-	public static String HotBathTemperatureSensor1 = "28-0417838278ff";
-	public static String HotBathTemperatureSensor2 = "28-051790ae46ff";
-	public static String HotBathTemperatureSensor3 = "28-0417838287ff";
-	public static String ColdBathTemperatureSensor1 = "28-04178380a8ff";
-	public static String ColdBathTemperatureSensor2 = "28-0517907c6dff";
-	public static String ColdBathTemperatureSensorAntifriz = "28-0417837701ff";
+	private static String HotBathTemperatureSensor1 = "28-0417838278ff";
+	private static String HotBathTemperatureSensor2 = "28-051790ae46ff";
+	private static String HotBathTemperatureSensor3 = "28-0417838287ff";
+	private static String ColdBathTemperatureSensor1 = "28-04178380a8ff";
+	private static String ColdBathTemperatureSensor2 = "28-0517907c6dff";
+	private static String ColdBathTemperatureSensorAntifriz = "28-0417837701ff";
 
 	/**
 	 * Validation

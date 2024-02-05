@@ -15,13 +15,11 @@ public class ColdBath extends Bath {
 	private TemperatureSensor antifrizTemperature;
 
 	public ColdBath(Thermocycler thermocycler) {
-		super(thermocycler, Settings.ColdBathTemperatureSensor1,
-				Settings.ColdBathTemperatureSensor2,
+		super(thermocycler, Settings.get().getColdBathTemperatureSensor1(), Settings.get().getColdBathTemperatureSensor2(),
 				Settings.get().getColdBathLevelEchoPin(), Settings.get().getColdBathLevelTriggerPin(),
 				Settings.get().getColdBathWaterPump());
 		this.cooler = new Cooler(Settings.get().getColdBathCoolerPin());
-		this.antifrizTemperature = new TemperatureSensor(
-				Settings.ColdBathTemperatureSensorAntifriz);
+		this.antifrizTemperature = new TemperatureSensor(Settings.get().getColdBathTemperatureSensorAntifriz());
 
 		this.time.set(1);
 	}
