@@ -235,6 +235,8 @@ public class Settings {
 		case "Range":
 			String[] splitted = textValue.split(",");
 			return expectedClass.cast(Range.closed(Integer.parseInt(splitted[0].trim()), Integer.parseInt(splitted[1].trim())));
+		case "String":
+			return expectedClass.cast(textValue);
 		}
 
 		return null;
